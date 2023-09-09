@@ -1,0 +1,138 @@
+
+
+.class-action{
+    background-color: rgb(0, 98, 255);
+    float: right;
+    border-radius: 5px;
+    font-size:small;
+    
+}
+#btn-create{
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 4px;
+    color: white;
+    text-decoration: none;
+}
+.header-b{
+    margin-top: 15px;
+    background-color: antiquewhite;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+.header-b h5{
+    margin-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+
+}
+div.dataTables_length select {
+    font-size: 1em;
+    background-color: rgb(207, 219, 209) !important;
+    width: 60px !important;
+    border-radius: 5px !important;
+   
+}
+
+#trstyle{
+    background-color: rgb(12, 12, 217) ;
+    height: 40px !important;
+    
+}
+#trhead{
+    background-color:hsl(240, 83%, 65%);
+    height: 20px !important;
+    color: white;
+    font-size: smaller;
+}
+
+.login-form{
+    width: 400px !important;
+    height: auto;
+    margin-top: 50px;
+    background-color: rgb(199, 246, 230) !important;
+    border-radius: 5px;
+ 
+}
+#email_address{
+    margin-top: 40px;
+}
+#password{
+    margin-top: 20px;
+}
+#logo{
+    margin-left: 110px;
+}
+.forget-pw{
+    margin-top: 20px;
+    margin-left: 130px;
+}
+.btn-login{
+    margin-top: 30px;
+    margin-left: 140px;
+
+}
+.sidebar{
+    background-color:rgb(227, 225, 243);
+}
+.link-border{
+    /* padding: auto; */
+    margin: 3px;
+    border-radius: 4px;
+    background:#a5acc7;
+    color: black;
+}
+.link-text{
+    margin: -15px;
+}
+.bg-navbar{
+    background-color:#a5acc7;
+}
+.nav-row{
+    color: black !important;
+    /* margin-top: 10px !important; */
+}
+.logo-brand{
+    
+    /* background-image: url("../assets/img/logo.png"); */
+    background-image: url("../assets/img/logo.png");
+    background-size: cover;
+    background-position: center;
+    /* background-color: #cccccc; */
+    width: 90px;
+    height: 70px;
+    border-radius: 4px;
+    /* 
+    margin-right: -12px;
+     */
+    margin-left: 65px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    /* padding-top: 20px; */
+}
+.link-service{
+    border-radius: 2px;
+    height: 35px;
+
+
+}
+.bg-link{
+    /* margin-top: -3px; */
+    background-color: #bbbbfa;
+    margin-right: 3px;
+}
+.title-form{
+    /* background-color: rgb(184, 165, 250); */
+    border-radius: 4px;
+    margin-left: 40px;
+    margin-right: 40px;
+    /* margin: auto; */
+}
+.forlabel{
+    margin-left: 10px;
+    
+}
+.bg-form{
+    background-color: #dedfe0;
+}
