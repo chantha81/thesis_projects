@@ -51,9 +51,10 @@
 			processing: true,
 			serverSide: true,
 			// responsive: true,
-			// columnDefs: [
-			// 	{ width: 10, targets: 0 }
-			// ],
+			columnDefs: [
+				{targets: [3, 4],
+            	render: DataTable.render.datetime('Do MMM YYYY')}
+			],
 			// $(row).find('td:eq(2)').css('background-color', 'red');
 			ajax: "{{ url('all_booking') }}",
 			columns: [

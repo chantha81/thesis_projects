@@ -10,3 +10,9 @@ $(function () {
         }
     }); 
 });
+$(function () {
+    $('#myModal').on('btn-add_room', function () {
+        $('#myInput').trigger('focus')
+    })
+})
+

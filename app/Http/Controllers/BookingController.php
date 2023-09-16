@@ -36,9 +36,10 @@ class BookingController extends Controller
     }
     public function create()
     {
+        // $arr_room = Room::all();
         $rooms = array();
     	foreach (Room::all() as $room) {
-    		$rooms[$room->id] = $room->room_name;
+    		$rooms = $room->all();
     	}
         return view('booking.create')->with('rooms', $rooms);
     }
