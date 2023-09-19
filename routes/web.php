@@ -81,6 +81,7 @@ Route::put('/rooms/{rooms}',[RoomController::class,'update'])->name('rooms.updat
 Route::get('all_booking',[BookingController::class,'index']);
 Route::get('/create_booking', [BookingController::class,'create']);
 Route::post('/booking_store', [BookingController::class,'store']);
+Route::get('/select-room/{$room_id}', [BookingController::class,'getRoomByID']);
 
 // Route::resource('create', RoomController::class);
 // Route::get('/all_room',' RoomController@index ')->name('rooms.index');

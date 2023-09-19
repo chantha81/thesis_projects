@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Booked_Package;
 use App\Models\Room;
 use App\Models\Accessories;
@@ -43,7 +44,16 @@ class BookingController extends Controller
     	}
         return view('booking.create')->with('rooms', $rooms);
     }
-    
+    public function getRoomByID($room_id)
+    {
+        if ($room_id) {
+            $rooms = DB::table('room')
+                ->whereIn('id', $room_id)
+                ->get();
+        }
+       
+        // return response()->json($rooms->room_name);
+    }
     public function store(Request $request)
     {
         // dd($request->all());

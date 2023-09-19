@@ -95,6 +95,12 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td>123</td>
+                                    <td>321</td>
+                                    <td>213</td>
+                                    <td>231</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -134,7 +140,7 @@
                         <tbody>
                             <tr>
                             
-                                <td><input type="checkbox" value="{{$room->id}}" class="form-check-input" id="check_10" style="width:20px; height: 20px;"></td>
+                                <td><input type="checkbox" data-room="{{$room->id}}" class="form-check-input clickBox" style="width:20px; height: 20px;"></td>
                                 <td>{{$room->room_number}}</td>
                                 <td>{{$room->room_name}}</td>
                                 <td>{{$room->price}}</td>
@@ -148,16 +154,46 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Add Room</button>
+                <button type="submit" class="btn btn-primary addRoom">Add Room</button>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
    $(document).ready(function(){
-    $("#test").click(function(){
-    alert('123');
-  }); 
+    var room_id_arr = [];
+    $(".clickBox").click(function(){
+        var room_id = $(this).attr('data-room');
+        if($(this).is(":checked") == true){
+           room_id_arr.push(room_id);
+        } 
+        if ($(this).is(":checked") == false) {
+            var indexuncheck = room_id_arr.findIndex(indexUncheck);
+            function indexUncheck(roomId){
+                return roomId == room_id;
+            }
+            room_id_arr.splice(indexuncheck,1);
+        }
+        console.log(room_id_arr);
+        // $(".addRoom").click(function(){
+        //     $.ajax({
+        //         type: "GET",
+        //         url: '/select-room',
+        //         data: room_id,
+        //         success: function(data, status){
+        //             alert("Data: " + data + "\nStatus: " + status);
+        //         }
+        //     });
+        // });
+    });
+    console.log(room_id_arr);
+    
+    // console.log(room_id_arr);
+//   function clickBox(){
+//     var room_id = $(this).attr('data-room');
+//     console.log(room_id);
+//   }
+    
 });
 </script>
 @endsection
