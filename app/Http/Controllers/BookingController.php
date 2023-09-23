@@ -56,6 +56,7 @@ class BookingController extends Controller
     }
     public function store(Request $request)
     {
+        
         // dd($request->all());
         // request()->validate([
         //     'name' => 'required',
@@ -66,13 +67,15 @@ class BookingController extends Controller
     
         // return redirect()->route('products.index')
         //     ->with('success','Product created successfully.');
+
         $bookings = New Booked_Package;
         $bookings->name = $request->name;
         $bookings->phone = $request->phone;
         $bookings->email = $request->email;
         $bookings->arrival_date = $request->arrival_date;
         $bookings->depature_date = $request->depature_date;
-        $bookings->room_id = $request->room_id;
+        $room_id_str = implode(',', $request->room_ids);
+        $bookings->room_ids = $room_id_str;
         $bookings->tent_id = $request->tent_id;
         $bookings->total_price = $request->total_price;
         $bookings->status = $request->status;

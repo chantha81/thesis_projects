@@ -45,7 +45,7 @@
                                 <div class="form-group">
                                     <label>Depature Date</label>
                                     <div class="cal-icon">
-                                        <input type="text" class="form-control datetimepicker" name = "depature_date" placeholder="Check Out"> 
+                                        <input type="text" class="form-control datetimepicker" name = "depature_date" placeholder="Check Out">
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +84,7 @@
                         </div>
                     </div>
                     <div class= "col-md-6">
-                        <button type="button" class="btn btn-primary btn-add_room" data-toggle="modal" data-target="#exampleModal" style= "margin-bottom:10px; margin-top:-20px;">Add Room</button>
+                        <button type="button" class="btn btn-primary btn-add_room" data-toggle="modal" data-target="#exampleModal">Add Room</button>
                         <table id="room" class="table table-bordered table-hover table-room">
                             <thead style="background-color: #eeaf70; border-radius: 5px !important;">
                                 <tr>
@@ -99,7 +99,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div>    
+                </div>
                 </form>
             </div>
         </div>
@@ -111,7 +111,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">All Room Active</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -136,7 +136,7 @@
                             </tr>
                         </tbody>
                     @endforeach
-                </table> 
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -146,13 +146,14 @@
     </div>
 </div>
 <script type="text/javascript">
+    var room_data = [];
    $(document).ready(function(){
     var room_id_arr = [];
     $(".clickBox").click(function(){
         var room_id = $(this).attr('data-room');
         if($(this).is(":checked") == true){
            room_id_arr.push(room_id);
-        } 
+        }
         if ($(this).is(":checked") == false) {
             var indexuncheck = room_id_arr.findIndex(indexUncheck);
             function indexUncheck(roomId){
@@ -160,43 +161,55 @@
             }
             room_id_arr.splice(indexuncheck,1);
         }
-        console.log(room_id_arr);
-        
     });
-    console.log(room_id_arr);
+
     $(".addRoom").click(function(){
-            var tboby = $('#room tbody');
-            tboby.empty();
-            $.ajax({
-                type: "GET",
-                url: '/select-room?room=' + room_id_arr,
-                data: room_id_arr,
-                success: function(data, status){
-                    $(data).each(function () {
-                        // var icon = 
-                        var tr = $('<tr></tr>')
-                        tr.append('<td>' + this.id + '</td>')
-                        tr.append('<td>' + this.room_number + '</td>')
-                        tr.append('<td>' + this.room_name + '</td>')
-                        tr.append('<td>' + this.price + '</td>')
-                        tr.append('<td>' + '<i class="fa-solid fa-trash remove_room_from_append" style="cursor:pointer;"></i>' + '</td>')
-                        tboby.append(tr);
-                        $(".remove_room_from_append").click(function () {
-                            // var room_id = $(this).attr('data-room');
-                            var row = $(this).closest('tr');
-                            row.remove();
-                            // var indexuncheck = room_id_arr.findIndex(indexUncheck);
-                            // function indexUncheck(roomId){
-                            //     return roomId == room_id;
-                            // }
-                            // room_id_arr.splice(indexuncheck,1);
-                        })
+        // console.log(room_data);
+        $.ajax({
+            type: "GET",
+            url: '/select-room?room=' + room_id_arr,
+            data: room_id_arr,
+            success: function(data, status){
+                // console.log("data",data);
+                data.forEach(function (element) {
+                    var indexuncheck = room_data.findIndex(function (room) {
+                        return element.id == room.id;
                     });
-                }
-            });
+                    console.log('123', room);
+                    if (indexuncheck < 0) {
+                        // console.log(indexuncheck);
+                        room_data.push(element);
+                    }
+                });
+                console.log('room-data', room_data);
+                render_room_table(room_data);
+            }
+        });
         $('#exampleModal').modal('toggle');
     });
-    
 });
+function remove_room(room_id) {
+    var index = room_data.findIndex(function (room){
+        return room_id ==room.id
+    });
+    room_data.splice(index,1);
+    render_room_table(room_data);
+}
+function render_room_table (room_data_render){
+    var tboby = $('#room tbody');
+    tboby.empty();
+    room_data_render.forEach(function (element) {
+        // console.log("each",room_data_render);
+        var tr =
+            `<tr>
+                <td>${element.id} <input type="hidden" name="room_ids[]" value="${element.id}"/></td>
+                <td> ${element.room_number}</td>
+                <td> ${element.room_name} </td>
+                <td> ${element.price} </td>
+                <td> <i class="fa-solid fa-trash remove_room_from_append" style="cursor:pointer;" onclick="remove_room(${element.id})"></i></td>
+             </tr>`
+        tboby.append(tr);
+    });
+}
 </script>
 @endsection
