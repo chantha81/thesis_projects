@@ -85,32 +85,21 @@
                     </div>
                     <div class= "col-md-6">
                         <button type="button" class="btn btn-primary btn-add_room" data-toggle="modal" data-target="#exampleModal" style= "margin-bottom:10px; margin-top:-20px;">Add Room</button>
-                        <table class="table">
-                            <thead>
+                        <table id="room" class="table table-bordered table-hover table-room">
+                            <thead style="background-color: #eeaf70; border-radius: 5px !important;">
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Room</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Price</th>
+                                    <th scope="col" style="width: 20px"><i class="fa-solid fa-trash"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>123</td>
-                                    <td>321</td>
-                                    <td>213</td>
-                                    <td>231</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>    
-                    <!-- <div class="col-md-4">
-                        <div class="form-group">
-                            {!! Form::label('room_id', 'Room') !!}
-                            {!! Form::select('room_id', $rooms,null , array('class'=>'form-select', 'class'=>'form-control')) !!}
-                        </div>
-                    </div> -->  
                 </form>
             </div>
         </div>
@@ -139,15 +128,12 @@
                     @foreach($rooms as $room)
                         <tbody>
                             <tr>
-                            
                                 <td><input type="checkbox" data-room="{{$room->id}}" class="form-check-input clickBox" style="width:20px; height: 20px;"></td>
                                 <td>{{$room->room_number}}</td>
                                 <td>{{$room->room_name}}</td>
                                 <td>{{$room->price}}</td>
                                 <td>{{$room->status}}</td>
-                                
                             </tr>
-                            
                         </tbody>
                     @endforeach
                 </table> 
@@ -175,24 +161,41 @@
             room_id_arr.splice(indexuncheck,1);
         }
         console.log(room_id_arr);
-        // $(".addRoom").click(function(){
-        //     $.ajax({
-        //         type: "GET",
-        //         url: '/select-room',
-        //         data: room_id,
-        //         success: function(data, status){
-        //             alert("Data: " + data + "\nStatus: " + status);
-        //         }
-        //     });
-        // });
+        
     });
     console.log(room_id_arr);
-    
-    // console.log(room_id_arr);
-//   function clickBox(){
-//     var room_id = $(this).attr('data-room');
-//     console.log(room_id);
-//   }
+    $(".addRoom").click(function(){
+            var tboby = $('#room tbody');
+            tboby.empty();
+            $.ajax({
+                type: "GET",
+                url: '/select-room?room=' + room_id_arr,
+                data: room_id_arr,
+                success: function(data, status){
+                    $(data).each(function () {
+                        // var icon = 
+                        var tr = $('<tr></tr>')
+                        tr.append('<td>' + this.id + '</td>')
+                        tr.append('<td>' + this.room_number + '</td>')
+                        tr.append('<td>' + this.room_name + '</td>')
+                        tr.append('<td>' + this.price + '</td>')
+                        tr.append('<td>' + '<i class="fa-solid fa-trash remove_room_from_append" style="cursor:pointer;"></i>' + '</td>')
+                        tboby.append(tr);
+                        $(".remove_room_from_append").click(function () {
+                            // var room_id = $(this).attr('data-room');
+                            var row = $(this).closest('tr');
+                            row.remove();
+                            // var indexuncheck = room_id_arr.findIndex(indexUncheck);
+                            // function indexUncheck(roomId){
+                            //     return roomId == room_id;
+                            // }
+                            // room_id_arr.splice(indexuncheck,1);
+                        })
+                    });
+                }
+            });
+        $('#exampleModal').modal('toggle');
+    });
     
 });
 </script>

@@ -44,15 +44,15 @@ class BookingController extends Controller
     	}
         return view('booking.create')->with('rooms', $rooms);
     }
-    public function getRoomByID($room_id)
+    public function getRoomByID()
     {
-        if ($room_id) {
-            $rooms = DB::table('room')
-                ->whereIn('id', $room_id)
-                ->get();
-        }
-       
-        // return response()->json($rooms->room_name);
+        $room_id = request()->query('room');
+        $ids = (explode(",",$room_id));
+        $rooms = DB::table('rooms')
+            ->whereIn('id', $ids)
+            ->get();
+        return response()->json($rooms);
+        
     }
     public function store(Request $request)
     {

@@ -136,3 +136,9 @@ div.dataTables_length select {
 .bg-form{
     background-color: #dedfe0;
 }
+.table-room{
+    border-collapse: separate !important;
+    /* border-spacing: 1px !important;   */
+}
+
+
