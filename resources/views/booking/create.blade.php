@@ -50,27 +50,35 @@
                                 </div>
                             </div>
                         </div>
-                        <div class ="row">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Booking Code</label>
+                                    <input class="form-control" id="code-random" type="text" value="" name = "booking_code">
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Name</label>
                                     <input class="form-control" type="text" name = "name" placeholder="Name">
                                 </div>
                             </div>
+                        </div>
+                        <div class ="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="room_name">Phone</label>
                                     <input  type="text" name ="phone" class="form-control" placeholder="Phone Number">
                                 </div>
                             </div>
-                        </div>
-                        <div class= "row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Tent</label>
                                     <input class="form-control" type="text" name = "tent_id" placeholder="Tent">
                                 </div>
                             </div>
+                        </div>
+                        <div class= "row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Place Camping</label>
@@ -146,10 +154,13 @@
     </div>
 </div>
 <script type="text/javascript">
+    let booked_code = Math.floor((Math.random() * 1000000) + 1);
     var room_data = [];
    $(document).ready(function(){
+    $("#code-random").val(booked_code);
     var room_id_arr = [];
     $(".clickBox").click(function(){
+        // console.log('checked', checked);
         var room_id = $(this).attr('data-room');
         if($(this).is(":checked") == true){
            room_id_arr.push(room_id);
@@ -162,6 +173,7 @@
             room_id_arr.splice(indexuncheck,1);
         }
     });
+    
 
     $(".addRoom").click(function(){
         // console.log(room_data);
@@ -186,6 +198,7 @@
             }
         });
         $('#exampleModal').modal('toggle');
+        $( ".clickBox" ).prop( "checked", false );
     });
 });
 function remove_room(room_id) {

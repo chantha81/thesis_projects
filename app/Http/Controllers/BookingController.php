@@ -21,19 +21,19 @@ class BookingController extends Controller
     //      $this->middleware('permission:booking-delete', ['only' => ['destroy']]);
     // }
 
-    public function index()
+    public function index(Request $request)
     {
+        // $data = DB::table('booked__packages')->get();
+        // dd($data);
         if(request()->ajax()) {
-            $rooms = Booked_Package::with('rooms');
-            return DataTables::eloquent($rooms)
-            ->addColumn('rooms', function (Booked_Package $booked_package) {
-                return $booked_package->rooms->room_name;
-            })
+            // return 'ajax';
+            $data = DB::table('booked__packages')->get();
+            return DataTables::of($data)
             ->addColumn('action', 'booking.actions')
-            ->toJson();
-                
+            ->toJson();      
         }
         return view('booking.index');
+        // return 'Http';
     }
     public function create()
     {
@@ -69,11 +69,13 @@ class BookingController extends Controller
         //     ->with('success','Product created successfully.');
 
         $bookings = New Booked_Package;
+        $bookings->arrival_date = $request->arrival_date;
+        $bookings->depature_date = $request->depature_date;
+        $bookings->booking_code = $request->booking_code;
         $bookings->name = $request->name;
         $bookings->phone = $request->phone;
         $bookings->email = $request->email;
-        $bookings->arrival_date = $request->arrival_date;
-        $bookings->depature_date = $request->depature_date;
+        
         $room_id_str = implode(',', $request->room_ids);
         $bookings->room_ids = $room_id_str;
         $bookings->tent_id = $request->tent_id;
@@ -81,7 +83,7 @@ class BookingController extends Controller
         $bookings->status = $request->status;
         $bookings->save();
         
-        Session::flash('book_created','Booked');
+        Session::flash('book_created','Your Package Are Booked');
 
     return redirect('/create_booking');
     }

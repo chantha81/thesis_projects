@@ -7,24 +7,22 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<meta name="description" content="" />
 	<title>Camping Park</title>
-	<!-- <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png"> -->
+	<script type="text/javascript" src="{{asset('admin/js/jquery-3.5.1.min.js')}}"></script>
 	<link rel="stylesheet" href="{{asset('admin/css/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{asset('admin/plugins/fontawesome/css/fontawesome.min.css')}}">
 	<link rel="stylesheet" href="{{asset('admin/plugins/fontawesome/css/all.min.css')}}">
 	<link rel="stylesheet" href="{{asset('admin/css/feathericon.min.css')}}">
 	<link rel="stylehseet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">
-	<!-- <link rel="stylesheet" href="{{asset('admin/plugins/morris/morris.css')}}"> -->
 	<link rel="stylesheet" href="{{asset('admin/css/style.css')}}">
-	
 	<link rel="stylesheet" href="{{asset('fontawesome/css/all.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('admin/css/bootstrap-datetimepicker.min.css')}}">
-			<!-- datatabale -->
-		<link rel="stylesheet" href="/css/mystyle.css">
-		<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
-        <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>  
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
-		{{Html::style('css/mystyle.css')}}
+		<!-- datatabale -->
+	<link rel="stylesheet" href="/css/mystyle.css">
+	<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+	<link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+	{{Html::style('css/mystyle.css')}}
+	<script type="text/javascript" src="{{asset('admin/js/booking.js')}}"></script>
         
 </head>
 <body>
@@ -163,14 +161,13 @@
 		</div>
 		@yield('content')
 	</div>
-	{{Html::script('admin/js/jquery-3.5.1.min.js')}}
-	<!-- <script src="{{asset('admin/js/jquery-3.5.1.min.js')}}"></script> -->
+	
+	{{-- {{Html::script('admin/js/jquery-3.5.1.min.js')}} --}}
 	<script src="{{asset('admin/js/popper.min.js')}}"></script>
 	<script src="{{asset('admin/js/bootstrap.min.js')}}"></script>
 	<script src="{{asset('admin/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
 	<script src="{{asset('admin/plugins/raphael/raphael.min.js')}}"></script>
 	<script src="{{asset('admin/plugins/morris/morris.min.js')}}"></script>
-	<!-- <script src="{{asset('admin/js/chart.morris.js')}}"></script> -->
 	<script src="{{asset('admin/js/script.js')}}"></script>
 	<script src="{{asset('admin/js/moment.min.js')}}"></script>
 	<script src="{{asset('admin/js/jquery-ui.min.js')}}"></script>
@@ -178,7 +175,6 @@
 	<script src="{{asset('admin/plugins/raphael/raphael.min.js')}}"></script>
 	{{Html::script('admin/js/myjs.js')}}
 	{{Html::script('js/myscript.js')}}
-	
 	<!-- datatable -->
 	<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
