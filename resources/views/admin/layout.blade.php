@@ -21,9 +21,7 @@
 	<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
-	{{Html::style('css/mystyle.css')}}
-	<script type="text/javascript" src="{{asset('admin/js/booking.js')}}"></script>
-        
+	{{Html::style('css/mystyle.css')}}        
 </head>
 <body>
 	<div class="main-wrapper">

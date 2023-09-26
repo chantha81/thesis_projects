@@ -5,7 +5,7 @@
         <div class="page-header">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="page-title mt-5">Add Package</h3> </div>
+                    <h3 class="page-title mt-5">Edit Package</h3> </div>
             </div>
         </div>
         @if(Session::has('book_created'))
@@ -37,7 +37,7 @@
                                 <div class="form-group">
                                     <label>Arrival Date</label>
                                     <div class="cal-icon">
-                                        <input class="form-control datetimepicker" type="text" name = "arrival_date" placeholder="Check In">
+                                        <input class="form-control datetimepicker" value="{{ $package_booked->arrival_date }}" type="text" name = "arrival_date" placeholder="Check In">
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +45,7 @@
                                 <div class="form-group">
                                     <label>Depature Date</label>
                                     <div class="cal-icon">
-                                        <input type="text" class="form-control datetimepicker" name = "depature_date" placeholder="Check Out">
+                                        <input type="text" class="form-control datetimepicker" value="{{ $package_booked->depature_date }}" name = "depature_date" placeholder="Check Out">
                                     </div>
                                 </div>
                             </div>
@@ -54,13 +54,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Booking Code</label>
-                                    <input class="form-control" id="code-random" type="text" value="" name = "booking_code">
+                                    <input class="form-control" id="code-random" type="text" value="{{$package_booked->booking_code}}" name = "booking_code">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input class="form-control" type="text" name = "name" placeholder="Name">
+                                    <input class="form-control" type="text" value="{{$package_booked->name}}" name = "name" placeholder="Name">
                                 </div>
                             </div>
                         </div>
@@ -68,13 +68,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="room_name">Phone</label>
-                                    <input  type="text" name ="phone" class="form-control" placeholder="Phone Number">
+                                    <input  type="text" name ="phone" value="{{$package_booked->phone}}" class="form-control" placeholder="Phone Number">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Tent</label>
-                                    <input class="form-control" type="text" name = "tent_id" placeholder="Tent">
+                                    <input class="form-control" type="text" value="{{$package_booked->tent_id}}" name = "tent_id" placeholder="Tent">
                                 </div>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Place Camping</label>
-                                    <input class="form-control" type="text" name = "place_camping" placeholder="Place Camping">
+                                    <input class="form-control" type="text" name = "place_camping" value="{{$package_booked->place_camping}}" placeholder="Place Camping">
                                 </div>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                    <table class="table table-bordered table-hover">
+                    <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -136,7 +136,7 @@
                     @foreach($rooms as $room)
                         <tbody>
                             <tr>
-                                <td><input type="checkbox" data-room="{{$room->id}}" class="form-check-input clickBox" style="width:20px; height: 20px; margin-left:1px;"></td>
+                                <td><input type="checkbox" data-room="{{$room->id}}" class="form-check-input clickBox" style="width:20px; height: 20px;"></td>
                                 <td>{{$room->room_number}}</td>
                                 <td>{{$room->room_name}}</td>
                                 <td>{{$room->price}}</td>
@@ -147,20 +147,38 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary addRoom">Add Room</button>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    let booked_code = Math.floor((Math.random() * 1000000) + 1);
-    var room_data = [];
-   $(document).ready(function(){
-    $("#code-random").val(booked_code);
-    var room_id_arr = [];
+    // let booked_code = Math.floor((Math.random() * 1000000) + 1);
+var room_data = [];
+var room_id_arr = [];
+$(document).ready(function(){
+    var room_ids = new Array({{$package_booked->room_ids}});
+    console.log(room_ids);
+    $.ajax({
+        type: "GET",
+        url: '/select-room?room=' + room_ids,
+        data: room_ids,
+        success: function(data, status){
+            // console.log("data",data);
+            data.forEach(function (element) {
+                var indexuncheck = room_data.findIndex(function (room) {
+                    return element.id == room.id;
+                });
+                if (indexuncheck < 0) {
+                    room_data.push(element);
+                }
+            });
+            console.log('room-data', room_data);
+            render_room_table(room_data);
+        }
+    });
     $(".clickBox").click(function(){
-        // console.log('checked', checked);
         var room_id = $(this).attr('data-room');
         if($(this).is(":checked") == true){
            room_id_arr.push(room_id);
@@ -173,8 +191,6 @@
             room_id_arr.splice(indexuncheck,1);
         }
     });
-    
-
     $(".addRoom").click(function(){
         // console.log(room_data);
         $.ajax({
@@ -189,7 +205,6 @@
                     });
                     console.log('123', room);
                     if (indexuncheck < 0) {
-                        // console.log(indexuncheck);
                         room_data.push(element);
                     }
                 });
@@ -212,14 +227,13 @@ function render_room_table (room_data_render){
     var tboby = $('#room tbody');
     tboby.empty();
     room_data_render.forEach(function (element) {
-        // console.log("each",room_data_render);
         var tr =
             `<tr>
                 <td>${element.id} <input type="hidden" name="room_ids[]" value="${element.id}"/></td>
                 <td> ${element.room_number}</td>
                 <td> ${element.room_name} </td>
                 <td> ${element.price} </td>
-                <td> <i class="fa-solid fa-trash remove_room_from_append" style="cursor:pointer;" onclick="remove_room(${element.id})"></i></td>
+                <td> <i class="fa-solid fa-trash" style="cursor:pointer;" onclick="remove_room(${element.id})"></i></td>
              </tr>`
         tboby.append(tr);
     });

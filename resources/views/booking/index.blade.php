@@ -6,11 +6,17 @@
 					<div class="row align-items-center">
 						<div class="col">
 							<div class="mt-5">
-								<h4 class="card-title float-left mt-2">Appointments</h4>
-                                <a href="add-booking.html" class="btn btn-primary float-right veiwbutton ">Add Booking</a>
+								<h4 class="card-title float-left mt-2">All Booking</h4>
+                                <a href="{{url('create_booking')}}" class="btn btn-primary float-right veiwbutton ">Add Booking</a>
                             </div>
 						</div>
 					</div>
+					@if(Session::has('package_delete'))
+						<div class="alert alert-success alert-dismissible">
+							<button type="button" class="close" data-dismiss="alert">×</button>
+							<strong></strong>{!! session('package_delete') !!}
+						</div>
+					@endif
 				</div>
 				<div class="row">
 					<div class="col-sm-12">

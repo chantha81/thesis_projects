@@ -77,10 +77,8 @@ class RoomController extends Controller
      */
     public function edit($id)
     {
-        // return view('rooms.edit', ['rooms'=>Room::findOrFail($id)]);
         $rooms = Room::findOrFail($id);
-        return view('rooms.edit')
-        ->with('rooms', $rooms);
+        return view('rooms.edit')->with('rooms', $rooms);
     }
 
     public function update(Request $request, string $id)

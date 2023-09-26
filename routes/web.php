@@ -30,8 +30,6 @@ use App\Http\Controllers\RoomController;
 */
 Auth::routes();
   
-
-  
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/camping-pack', function () {
         return view('admin.index');
@@ -66,9 +64,6 @@ Route::group(['middleware' => ['auth']], function() {
 Route::get('/',function(){
     return view('admin/index');
 });
-// Route::get('/all_booking',function(){
-//     return view('booking/all_booking');
-// });
 
 //====Rooms====\\
 Route::get('rooms',[RoomController::class,'index'])->name('rooms.index');
@@ -82,6 +77,9 @@ Route::get('all_booking',[BookingController::class,'index']);
 Route::get('/create_booking', [BookingController::class,'create']);
 Route::post('/booking_store', [BookingController::class,'store']);
 Route::get('/select-room', [BookingController::class,'getRoomByID']);
+Route::get('/get-room_id', [BookingController::class,'getRoomIDByPackageBooking']);
+Route::get('/package-edit/{id}',[BookingController::class,'edit']);
+Route::get('/delete/{id}',[BookingController::class,'destroy']);
 
 // Route::resource('create', RoomController::class);
 // Route::get('/all_room',' RoomController@index ')->name('rooms.index');
@@ -111,7 +109,5 @@ Route::get('students/list', [StudentController::class, 'getStudents'])->name('st
 // Route::get('/booking', [BookingController::class, 'index'])->name('booking.index');  
 // Route::get('/booking/create',[BookingController::class,'create'])->name('booking.create');
 
-
-// Auth::routes();
 
 

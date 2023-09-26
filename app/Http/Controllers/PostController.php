@@ -65,7 +65,7 @@ class PostController extends Controller
                 ->withErrors($validator);
         }
 
-        $image = $request->file('image');
+    $image = $request->file('image');
     $upload = 'img/posts/';
     $filename = time().$image->getClientOriginalName();
     $path = move_uploaded_file($image->getPathName(), $upload. $filename);
