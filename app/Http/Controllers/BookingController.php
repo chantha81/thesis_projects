@@ -59,7 +59,7 @@ class BookingController extends Controller
         // Product::create($request->all());
         // return redirect()->route('products.index')
         //     ->with('success','Product created successfully.');
-        $request->room_ids ? $room_id_str = implode(',', $request->room_ids) : $room_id_str = 'null';
+        $request->room_ids ? $room_id_str = implode(',', $request->room_ids) : $room_id_str = '';
         $bookings = New Booked_Package;
         $bookings->arrival_date = $request->arrival_date;
         $bookings->depature_date = $request->depature_date;
@@ -78,6 +78,24 @@ class BookingController extends Controller
 
         return redirect('/create_booking');
     }
+    public function update(Request $request, string $id)
+    { 
+        $bookings = Booked_Package::findOrFail($id);
+        $bookings->arrival_date = $request->Input('arrival_date');
+        $bookings->depature_date = $request->Input('depature_date');
+        $bookings->booking_code = $request->Input('booking_code');
+        $bookings->name = $request->Input('name');
+        $bookings->phone = $request->Input('phone');
+        $bookings->email = $request->Input('email');
+        $request->Input('room_ids') ? $room_id_str = implode(',', $request->Input('room_ids')) : $room_id_str ='';
+        $bookings->room_ids = $room_id_str;
+        $bookings->tent_id = $request->Input('tent_id');
+        $bookings->total_price = $request->Input('total_price');
+        $bookings->status = $request->Input('status');
+        $bookings->save();
+        Session::flash('package_updated','Your package is booked');
+        return redirect('/all_booking');
+    }
     public function edit ($id)
     {
         $package_booked = Booked_Package::findOrFail($id);
@@ -89,7 +107,6 @@ class BookingController extends Controller
             ->select('room_ids')
             // ->whereIn('room_ids',$package_booked)
             ->get();
-        // return $package_booked;
         return view('booking.edit',['rooms' => $rooms,'package_booked' => $package_booked]);
     }
     public function destroy($id)

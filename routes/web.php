@@ -12,6 +12,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TestingController;
 use App\Models\Booked_Package;
 use App\Models\Room;
 use App\Models\Category;
@@ -40,7 +41,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('booking', BookingController::class);
     Route::resource('create',BookingController::class);
     Route::resource('accessories', AccessoriesController::class);
-    // Route::resource('room/create', RoomController::class);
 });
 
 // Route::get('/admin', function () {
@@ -76,6 +76,7 @@ Route::put('/rooms/{rooms}',[RoomController::class,'update'])->name('rooms.updat
 Route::get('all_booking',[BookingController::class,'index']);
 Route::get('/create_booking', [BookingController::class,'create']);
 Route::post('/booking_store', [BookingController::class,'store']);
+Route::post('/booking_update/{id}', [BookingController::class,'update']);
 Route::get('/select-room', [BookingController::class,'getRoomByID']);
 Route::get('/get-room_id', [BookingController::class,'getRoomIDByPackageBooking']);
 Route::get('/package-edit/{id}',[BookingController::class,'edit']);
@@ -111,3 +112,5 @@ Route::get('students/list', [StudentController::class, 'getStudents'])->name('st
 
 
 
+Route::view('/welcome21', 'welcome', ['name' => 'Taylor']);
+Route::resource('testing', TestingController::class);

@@ -88,7 +88,7 @@
                         </div>
                         <div class="row">
                             <button type="submit" class="btn btn-primary buttonedit ml-4">Save</button>
-                            <a class="btn btn-primary buttonedit" href="{!! url('/all_room')!!}" style= "margin-left:10px;">Back</a>
+                            <a class="btn btn-primary buttonedit" href="{!! url('/all_booking')!!}" style= "margin-left:10px;">Back</a>
                         </div>
                     </div>
                     <div class= "col-md-6">

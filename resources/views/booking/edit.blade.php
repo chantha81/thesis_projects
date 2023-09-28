@@ -28,7 +28,7 @@
         @endif
         <div class="row">
             <div class="col-lg-12">
-                <form enctype="multipart/form-data" name="package-create-form" id="add-blog-post-form" action="{{url('/booking_store')}}" method="post">
+                <form enctype="multipart/form-data" name="package-create-form" id="add-blog-post-form" action="{{url('/booking_update'.'/'.$package_booked->id)}}" method="post">
                 @csrf
                 <div class = "row">
                     <div class= "col-md-6">
@@ -158,7 +158,12 @@
 var room_data = [];
 var room_id_arr = [];
 $(document).ready(function(){
-    var room_ids = new Array({{$package_booked->room_ids}});
+    let id_room_str = String('{{$package_booked->room_ids}}');
+    if (id_room_str.length > 1 && !null) {
+        room_ids = new Array({{$package_booked->room_ids}});
+    } else {
+        room_ids = Number(id_room_str);
+    }
     console.log(room_ids);
     $.ajax({
         type: "GET",

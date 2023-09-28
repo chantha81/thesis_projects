@@ -5,14 +5,15 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<meta name="description" content="" />
+	<meta name="description" content=""/>
 	<title>Camping Park</title>
+	<link rel="shortcut icon" type="image/x-icon" href="assets/img/logo-raduis.png">
 	<script type="text/javascript" src="{{asset('admin/js/jquery-3.5.1.min.js')}}"></script>
 	<link rel="stylesheet" href="{{asset('admin/css/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{asset('admin/plugins/fontawesome/css/fontawesome.min.css')}}">
 	<link rel="stylesheet" href="{{asset('admin/plugins/fontawesome/css/all.min.css')}}">
 	<link rel="stylesheet" href="{{asset('admin/css/feathericon.min.css')}}">
-	<link rel="stylehseet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">
+	{{-- <link rel="stylehseet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">	 --}}
 	<link rel="stylesheet" href="{{asset('admin/css/style.css')}}">
 	<link rel="stylesheet" href="{{asset('fontawesome/css/all.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('admin/css/bootstrap-datetimepicker.min.css')}}">
@@ -20,7 +21,6 @@
 	<link rel="stylesheet" href="/css/mystyle.css">
 	<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
 	{{Html::style('css/mystyle.css')}}        
 </head>
 <body>

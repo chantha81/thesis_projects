@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('booked__packages', function (Blueprint $table) {
             $table->id();
+            $table->string('booking_code');
             $table->string('name');
-            $table->string('phone');
-            $table->string('rooms');
-            $table->string('accessories');
-            $table->string('start_d');
-            $table->string('end_d');
+            $table->string('email');
+            $table->string('arrival_date');
+            $table->string('depature_date');
+            $table->string('room_ids');
+            $table->string('place_camping');
+            $table->string('tent');
             $table->string('total_price');
             $table->string('status');
             $table->timestamps();
