@@ -24,7 +24,7 @@ class PermissionTableSeeder extends Seeder
             'booking-delete',
             'confirm-booking'
          ];
-      
+
          foreach ($permissions as $permission) {
               Permission::create(['name' => $permission]);
          }
