@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('depature_date');
             $table->string('room_ids');
             $table->string('place_camping');
-            $table->string('tent');
+            $table->string('tent_id');
             $table->string('total_price');
             $table->string('status');
             $table->timestamps();
