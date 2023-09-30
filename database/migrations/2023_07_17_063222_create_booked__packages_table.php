@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('booking_code');
             $table->string('name');
             $table->string('email');
+            $table->string('phone');
             $table->string('arrival_date');
             $table->string('depature_date');
             $table->string('room_ids');
