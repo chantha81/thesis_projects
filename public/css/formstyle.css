@@ -1,0 +1,80 @@
+.start-date{
+    width: 70%;
+    float: right;
+}
+.end-date{
+    width: 70%;
+}
+.label-date{
+    margin-left:150px
+}
+div.body{
+    position: relative;
+}
+div.btn-submit{
+    position: absolute;
+    top: 30px;
+    right: 80px;
+}
+.find{
+
+    position: relative;
+    bottom: 30px;
+    width: 100px;
+    background-color: light;
+}
+.tap-cate{
+    position: absolute;
+    left: 400px;
+    align-content: center;
+    /* background-color: aqua; */
+
+}
+.tap-item{
+    margin-right: 10px;
+    background-color: aquamarine;
+    border-radius: 6px;
+}
+.btn-add_room{
+    /* margin: 0; */
+    padding: 0.1rem 0.5rem;
+    /* background-color: aliceblue; */
+}
+.btn-add_room:hover{
+    opacity: 80%;
+    /* background-color: aliceblue; */
+}
+.submit-all{
+    position: sticky;
+    margin-top: 20%;
+}
+.header-titile{
+    height: 40px;
+    margin-top: 30px;
+    /* background-color: t; */
+    border-radius: 4px;
+}
+.header-titile h4{
+    padding-top: 7px;
+}
+.thead-room{
+    background-color: #eeaf70 !important;
+    padding: 0rem !important;
+    /* margin: 0; */
+}
+.thead-room, tr, th{
+    padding: 5px !important;
+}
+.tbody-room,tr,td{
+    padding: 5px !important;
+}
+.tbody-room-modal,tr,td{
+    padding: 10px !important;
+    /* text-align: center !important; */
+}
+.tbody-room-modal,tr #td-check{
+    width: 50px !important;
+}
+.clickBox{
+    left: 50px;
+}

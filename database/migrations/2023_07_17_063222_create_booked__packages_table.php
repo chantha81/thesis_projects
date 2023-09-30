@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('booking_code');
             $table->string('name');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('phone');
             $table->string('arrival_date');
             $table->string('depature_date');

@@ -110,7 +110,5 @@ Route::get('students/list', [StudentController::class, 'getStudents'])->name('st
 // Route::get('/booking', [BookingController::class, 'index'])->name('booking.index');  
 // Route::get('/booking/create',[BookingController::class,'create'])->name('booking.create');
 
-
-
 Route::view('/welcome21', 'welcome', ['name' => 'Taylor']);
 Route::resource('testing', TestingController::class);

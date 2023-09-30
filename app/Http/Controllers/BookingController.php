@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Booked_Package;
 use App\Models\Room;
+use App\Models\BookingDetail;
 use App\Models\Accessories;
 use Session;
 use DataTables;
@@ -73,6 +74,22 @@ class BookingController extends Controller
         $bookings->total_price = $request->total_price;
         $bookings->status = $request->status;
         $bookings->save();
+
+        foreach($request->room_ids as $room_id) {
+            $room = Room::find($room_id);
+            BookingDetail::create([
+                "book_id" => $bookings->id,
+                "price" => $room->price,
+                "arrival_date" => $request->arrival_date,
+                "depature_date" => $request->depature_date,
+                "status" => 'sting',
+                "room_id" => $room_id
+            ]);
+        }
+
+        
+
+        
         
         Session::flash('book_created','Your Package Are Booked');
 

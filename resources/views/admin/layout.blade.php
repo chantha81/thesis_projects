@@ -21,7 +21,8 @@
 	<link rel="stylesheet" href="/css/mystyle.css">
 	<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-	{{Html::style('css/mystyle.css')}}        
+	{{Html::style('css/mystyle.css')}}
+	{{Html::style('css/formstyle.css')}}   
 </head>
 <body>
 	<div class="main-wrapper">
