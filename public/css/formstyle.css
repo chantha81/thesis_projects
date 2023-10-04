@@ -78,3 +78,34 @@ div.btn-submit{
 .clickBox{
     left: 50px;
 }
+.tent-checkbok{
+    left: 50px;
+}
+.place_camping{
+    margin-top:30px;
+    height:35px;
+    border-radius: 4px;
+    background-color:lightblue;
+}
+.place_chek{
+    margin-top:30px;
+    height:35px;
+}
+.con-taps{
+    margin-left: 1rem;
+}
+.check_pace{
+    margin-left: 1.3rem;
+    margin-top: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+.input_place{
+    margin-top: 0.8rem;
+    height: 2rem;
+    display: none;
+}
+.bg-test{
+    background-color: red;
+}
+

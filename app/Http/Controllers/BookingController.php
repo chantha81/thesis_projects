@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Booked_Package;
 use App\Models\Room;
+use App\Models\Tent;
 use App\Models\BookingDetail;
 use App\Models\Accessories;
 use Session;
@@ -24,12 +25,21 @@ class BookingController extends Controller
 
     public function index(Request $request)
     {
+        
         if(request()->ajax()) {
-            $data = DB::table('booked__packages')->get();
+            $data = DB::table('booked__packages')
+                ->leftJoin( 'booked_packages_detail', 'booked__packages.id','=','booked_packages_detail.booked_package_id' )
+                ->rightJoin( 'rooms', 'rooms.id','=','booked_packages_detail.room_id' )
+                ->rightJoin( 'customer_info', 'customer_info.id','=', 'booked__packages.customer_info_id' )
+                ->select( 'customer_info.*','booked__packages.*' )
+                ->get();
+            // dd($data);
+            // $data = DB::table('booked__packages')->get();
             return DataTables::of($data)
             ->addColumn('action', 'booking.actions')
             ->toJson();      
         }
+        
         return view('booking.index');
     }
     public function create()
@@ -39,7 +49,8 @@ class BookingController extends Controller
     	foreach (Room::all() as $room) {
     		$rooms = $room->all();
     	}
-        return view('booking.create')->with('rooms', $rooms);
+        $tents = Tent::all();
+        return view('booking.create',['tents'=>$tents])->with('rooms', $rooms);
     }
     public function getRoomByID()
     {
@@ -50,6 +61,15 @@ class BookingController extends Controller
             ->get();
         return response()->json($rooms);
         
+    }
+    public function getTentByID()
+    {
+        $tent_id = request()->query('tent');
+        $ids = (explode(",",$tent_id));
+        $tents = DB::table('tents')
+            ->whereIn('id', $ids)
+            ->get();
+        return response()->json($tents);
     }
     public function store(Request $request)
     {
@@ -86,11 +106,6 @@ class BookingController extends Controller
                 "room_id" => $room_id
             ]);
         }
-
-        
-
-        
-        
         Session::flash('book_created','Your Package Are Booked');
 
         return redirect('/create_booking');

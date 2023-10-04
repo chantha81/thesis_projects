@@ -82,6 +82,8 @@ Route::get('/get-room_id', [BookingController::class,'getRoomIDByPackageBooking'
 Route::get('/package-edit/{id}',[BookingController::class,'edit']);
 Route::get('/delete/{id}',[BookingController::class,'destroy']);
 
+//=====Tent====\\
+Route::get('/select-tent', [BookingController::class,'getTentByID']);
 // Route::resource('create', RoomController::class);
 // Route::get('/all_room',' RoomController@index ')->name('rooms.index');
 // Route::get('room/create', ' RoomController@create ')->name('rooms.create');

@@ -12,7 +12,7 @@
 						</div>
 					</div>
 					@if(Session::has('package_delete'))
-						<div class="alert alert-success alert-dismissible">
+						<div class="alert alert-danger alert-dismissible">
 							<button type="button" class="close" data-dismiss="alert">×</button>
 							<strong></strong>{!! session('package_delete') !!}
 						</div>
@@ -28,10 +28,9 @@
 											<tr id="trhead">
 												<th>Booking Code</th>
 												<th>Name</th>
-												<th>Ph.Number</th>
+												<th>Phone</th>
 												<th>Arrival Date</th>
 												<th>Depature Date</th>
-												<th>Email</th>
 												<th>Total Price</th>
 												<th>Status</th> 
 												<th>Actions</th>
@@ -65,7 +64,6 @@
 				{data: 'phone', name: 'phone'},
 				{data: 'arrival_date', name: 'arrival_date'},
 				{data: 'depature_date', name: 'depature_date'},
-				{data: 'email', name: 'email'},
 				{data: 'total_price', name: 'total_price'},
 				{data: 'status', name: 'status'},
 				{data: 'action', name: 'action', 
