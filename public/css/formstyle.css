@@ -45,8 +45,10 @@ div.btn-submit{
     /* background-color: aliceblue; */
 }
 .submit-all{
-    position: sticky;
-    margin-top: 20%;
+    position: fixed;
+    bottom: 10px;
+    left: 55%;
+
 }
 .header-titile{
     height: 40px;

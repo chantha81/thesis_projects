@@ -26,11 +26,11 @@
 									<table id= "tbooked" class="datatable table table-stripped table table-hover table-center table-bordered">
 										<thead>
 											<tr id="trhead">
-												<th>Booking Code</th>
+												{{-- <th>Booking Code</th> --}}
 												<th>Name</th>
 												<th>Phone</th>
-												<th>Arrival Date</th>
-												<th>Depature Date</th>
+												<th>Check In Date</th>
+												<th>Check Out Date</th>
 												<th>Total Price</th>
 												<th>Status</th> 
 												<th>Actions</th>
@@ -54,16 +54,16 @@
 			processing: true,
 			serverSide: true,
 			columnDefs: [
-				{targets: [3, 4],
-            	render: DataTable.render.datetime('Do MMM YYYY')}
+				{targets: [2, 3], render: DataTable.render.datetime('Do MMM YYYY')},
+				{targets: 0, className: "text-center", width: "15%"}
 			],
 			ajax: "{{ url('all_booking') }}",
 			columns: [
-				{data: 'booking_code', name: 'booking_code'},
+				// {data: 'booking_code', name: 'booking_code'},
 				{data: 'name', name: 'name'},
 				{data: 'phone', name: 'phone'},
-				{data: 'arrival_date', name: 'arrival_date'},
-				{data: 'depature_date', name: 'depature_date'},
+				{data: 'check_in_date', name: 'check_in_date'},
+				{data: 'check_out_date', name: 'check_out_date'},
 				{data: 'total_price', name: 'total_price'},
 				{data: 'status', name: 'status'},
 				{data: 'action', name: 'action', 

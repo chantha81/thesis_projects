@@ -18,7 +18,10 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const CAMPINGPACK = '/camping-pack';
+    // public const HOME = '/camping-pack';
+    // protected $redirectTo = RouteServiceProvider::HOME;
     protected $namespace = 'App\Http\Controllers';
+    // public const HOME = '/home';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

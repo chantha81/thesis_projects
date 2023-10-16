@@ -43,7 +43,7 @@
                                                             class="fa-solid fa-calendar-days"></i></span>
                                                 </div>
                                                 <input type="text" class="form-control form-control datetimepicker"
-                                                    name="arrival_date" placeholder="Check In" aria-label="Username"
+                                                    name="check_in_date" placeholder="Check In" aria-label="Username"
                                                     aria-describedby="basic-addon1">
                                             </div>
                                         </div>
@@ -56,7 +56,7 @@
                                                             class="fa-solid fa-calendar-days"></i></span>
                                                 </div>
                                                 <input type="text" class="form-control form-control datetimepicker"
-                                                    name="depature_date" placeholder="Check Out" aria-label="Username"
+                                                    name="check_out_date" placeholder="Check Out" aria-label="Username"
                                                     aria-describedby="basic-addon1">
                                             </div>
                                         </div>
@@ -87,7 +87,7 @@
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <button type="button" class="btn btn-primary btn-add_room"
-                                                        data-toggle="modal" data-target="#exampleModal">Add Room <i
+                                                        data-toggle="modal" data-target="#exampleModal">Select Room <i
                                                             class="fa-solid fa-plus"></i></button>
                                                     <table id="room"
                                                         class="table table-bordered table-hover table-room">
@@ -108,7 +108,7 @@
                                                 {{-- Tent --}}
                                                 <div class="col-md-4">
                                                     <button type="button" class="btn btn-primary btn-add_room"
-                                                        data-toggle="modal" data-target="#tent-modal">Add Tent <i
+                                                        data-toggle="modal" data-target="#tent-modal">Select Tent <i
                                                             class="fa-solid fa-plus"></i></button>
                                                     <table id="table-tent" class="table table-bordered table-room">
                                                         <thead class="thead-room">
@@ -133,16 +133,16 @@
                                                                 <div class="card-body">
                                                                     <div class="row">
                                                                         <div class="col-md-4">
-                                                                            <h3 class="card_widget_header">200</h3>
+                                                                            <h3 class="card_widget_header">{{ $place_camping->quantity }}</h3>
                                                                             <h6 class="text-muted">Remaining</h6>
                                                                         </div>
                                                                         <div class="col-md-8">
                                                                             <div class="row">
                                                                                 <div class="col-md-4">
-                                                                                    <input class="check_pace" type="checkbox" name="place_camping" id="" value="not_check">
+                                                                                    <input class="check_pace" type="checkbox" name="place_camping" id="">
                                                                                 </div>
                                                                                 <div class="col-md-8">
-                                                                                    <input type="number" min="1" class="form-control input_place" placeholder="How Many" name="name">
+                                                                                    <input type="number" min="1" class="form-control input_place" placeholder="How Many" name="place_camping">
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -162,14 +162,14 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="row">
+                <div class="row">
                     <div class="col-lg-12">
                         <div class="text-center">
                             <button type="button" class="btn btn-primary submit-all"data-toggle="modal"
                                 data-target="#custommer-info">Submit</button>
                         </div>
                     </div>
-                </div> --}}
+                </div>
                 <div class="modal fade" id="custommer-info" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">

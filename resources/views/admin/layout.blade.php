@@ -142,6 +142,13 @@
 								<li><a href="{{url('/room_create')}}"> Add Rooms </a></li>
 							</ul>
 						</li>
+						<li class="submenu"> <a href="#"><i class="fas fa-key"></i> <span> Tent </span> <span class="menu-arrow"></span></a>
+							<ul class="submenu_class" style="display: none;">
+								<li><a href="{{route('tents.index')}}">All Tent </a></li>
+								{{-- <li><a href="{{route('tents.edit')}}"> Edit Rooms </a></li> --}}
+								<li><a href="{{route('tents.create')}}"> Add Tent </a></li>
+							</ul>
+						</li>
 						<li class="submenu"> <a href="#"><i class="fas fa-user"></i> <span> Staff </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
 								<li><a href="all-staff.html">All Staff </a></li>

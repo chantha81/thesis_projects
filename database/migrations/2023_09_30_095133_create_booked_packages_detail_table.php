@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('booked_packages_detail', function (Blueprint $table) {
             $table->id('id');
             $table->integer('room_id');
-            $table->integer('book_id');
-            $table->date('arrival_date');
-            $table->date('depature_date');
+            $table->integer('booking_id');
+            $table->date('check_in_date');
+            $table->date('check_oute_date');
             $table->string('status');
             $table->float('price');
             $table->timestamps();

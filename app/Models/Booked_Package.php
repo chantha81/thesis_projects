@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Booked_Package extends Model
 {
     use HasFactory;
-    protected $fillable = ['booking_code','name','phone','arrival_date','depature_date','tent_id' ,'email' ,'total_price','status'];
+    protected $guarded = [];
+    protected $table = 'booked__packages';
+    // protected $fillable = ['booking_code','name','phone','arrival_date','depature_date','tent_id' ,'email' ,'total_price','status'];
 
     // public function rooms() {
     //     return $this->belongsTo(Room::class,'room_id','id');

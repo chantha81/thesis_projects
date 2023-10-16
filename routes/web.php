@@ -13,6 +13,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TestingController;
+use App\Http\Controllers\TentController;
 use App\Models\Booked_Package;
 use App\Models\Room;
 use App\Models\Category;
@@ -78,21 +79,16 @@ Route::get('/create_booking', [BookingController::class,'create']);
 Route::post('/booking_store', [BookingController::class,'store']);
 Route::post('/booking_update/{id}', [BookingController::class,'update']);
 Route::get('/select-room', [BookingController::class,'getRoomByID']);
-Route::get('/get-room_id', [BookingController::class,'getRoomIDByPackageBooking']);
+Route::get('/get-room_id', [BookingController::class,'getRoomIDByBookingDetail']);
 Route::get('/package-edit/{id}',[BookingController::class,'edit']);
 Route::get('/delete/{id}',[BookingController::class,'destroy']);
 
 //=====Tent====\\
 Route::get('/select-tent', [BookingController::class,'getTentByID']);
-// Route::resource('create', RoomController::class);
-// Route::get('/all_room',' RoomController@index ')->name('rooms.index');
-// Route::get('room/create', ' RoomController@create ')->name('rooms.create');
-// Route::post('rooms/add_room',[RoomController::class,'store'])->name('rooms.store');
+Route::get('/get-tent_id', [BookingController::class,'getTentIDByTentDetail']);
 
-// Route::get('/post',[PostController::class,'index'])->name('post.index');
-// Route::get('/post',[PostController::class,'index'])->name('post.index2');
-// Route::get('/post/create',[PostController::class,'create'])->name('post.create');
-// Route::post('/post',[PostController::class,'store'])->name('post.store');
+Route::resource('tents', TentController::class);
+Route::get('tents/delete/{id}',[TentController::class,'delete']);
 
 Route::get('students', [StudentController::class, 'index']);
 Route::get('students/list', [StudentController::class, 'getStudents'])->name('students.list');

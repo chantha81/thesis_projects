@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('booked__packages', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id')->nullable();
-            $table->integer('customer_id')->nullable();
+            $table->integer('customer_info_id')->nullable();
             $table->string('booking_code')->nullable();
-            $table->string('arrival_date')->nullable();
-            $table->string('depature_date')->nullable();
+            $table->string('check_in_date')->nullable();
+            $table->string('check_out_date')->nullable();
             $table->string('total_price')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
