@@ -79,10 +79,27 @@ class TentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       $input = $request->all();
-       $tent = Tent::find($id);
-       $tent->update($input);
-       return redirect()->route('tents.index');
+    //    dd($request->image);
+        $tent = Tent::find($id);
+       if ($request->image) {
+            $image = $request->file('image');
+            $upload = 'img/tent/';
+            $filename = time().$image->getClientOriginalName();
+            $path = move_uploaded_file($image->getPathName(), $upload. $filename);
+        } else{
+            $filename = $tent->image;
+       }
+       DB::table('tents')
+        ->where('id',$id)
+        ->update([
+            'name'  => $request->name,
+            'type'  => $request->type,
+            'price' => $request->price,
+            'image' => $filename
+        ]);
+        
+       Session::flash('tent_update','Tent is Updated');
+       return redirect()->route('tents.edit',$id);
     }
 
     /**

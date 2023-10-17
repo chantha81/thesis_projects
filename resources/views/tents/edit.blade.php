@@ -8,10 +8,11 @@
 							<h3 class="page-title mt-5">Edit Tent</h3> </div>
 					</div>
 				</div>
-                @if(Session::has('room_created'))
+				{{-- {{dd($tent->image);}} --}}
+                @if(Session::has('tent_update'))
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert">×</button>
-                    <strong></strong>{!! session('room_created') !!}
+                    <strong></strong>{!! session('tent_update') !!}
                 </div>
                 @endif
                 @if (count($errors) > 0)
@@ -30,7 +31,7 @@
 					<div class="col-lg-12">
 						{{-- <form enctype="multipart/form-data" name="package-create-form" id="add-blog-post-form" action="{{route('tents.update',$tent->id)}}" method="POST"> --}}
                         {{-- {{dd($tent->image);}} --}}
-                            {!! Form::model($tent, ['method' => 'PATCH','route' => ['tents.update', $tent->id]]) !!}
+                            {!! Form::model($tent, ['method' => 'PATCH', 'files'=>'true','route' => ['tents.update', $tent->id]]) !!}
 						@csrf
 						<!-- @csrf_field -->
 						@method('PUT')
@@ -60,9 +61,9 @@
 										  <span class="input-group-text" id="inputGroupFileAddon01">Iamge</span>
 										</div>
 										<div class="custom-file">
-										  <input type="file" value="{{$tent->image}}" name="image" class="custom-file-input" id="inputGroupFile01"
+										  <input type="file" name="image" value="{{$tent->image}}" class="custom-file-input" id="inputGroupFile01"
 											aria-describedby="inputGroupFileAddon01">
-										  <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+										  <label class="custom-file-label" for="inputGroupFile01" value="{{$tent->image}}">Choose file</label>
 										</div>
 									  </div>
 								</div>

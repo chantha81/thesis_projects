@@ -28,14 +28,13 @@ class BookingController extends Controller
 
     public function index(Request $request)
     {
-        
+
         if(request()->ajax()) {
             $data = DB::table('booked__packages')
-                // ->leftJoin( 'booked_packages_detail', 'booked__packages.id','=','booked_packages_detail.booking_id' )
-                // ->rightJoin( 'rooms', 'rooms.id','=','booked_packages_detail.room_id' )
                 ->rightJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
                 ->select( 'customer_infomations.*','booked__packages.*' )
                 ->get();
+                // dd($data);
             return DataTables::of($data)
             ->addColumn('action', 'booking.actions')
             ->toJson();      
@@ -104,6 +103,7 @@ class BookingController extends Controller
     }
     public function store(Request $request)
     {
+        
         // dd($request->all());
         $place_campings = PlaceCamping::all();
         foreach ($place_campings as $place_camping) {
@@ -114,18 +114,50 @@ class BookingController extends Controller
                 DB::table('place_campings')
                 ->update(['quantity' => $place_camping_qty_new]);
         }
-        
-        request()->validate([
-            'name' => 'required',
-        ]);
+        if ($request->room_ids) {
+            $id_rooms = [];
+            foreach($request->room_ids as $room_id) 
+            {
+                array_push($id_rooms,$room_id);
+                $room = Room::find($room_id);
+            }
+            $room_price = [];
+            $rooms = DB::table('rooms')
+                ->whereIn('id',$id_rooms)
+                ->select('price') 
+                ->get();
+            foreach ($rooms as $room) {
+                array_push($room_price,$room->price);
+            }
+            $total_room_price = array_sum($room_price);
+        }
+        if ($request->tent_ids) {
+            $id_tents =[];
+            foreach ( $request->tent_ids as $tent_id ) {
+                array_push($id_tents, $tent_id);
+            }
+            $tent_price = [];
+            $tents = DB::table('tents')
+                ->whereIn('id',$id_tents)
+                ->select('price') 
+                ->get();
+            foreach ($tents as $tent) {
+                array_push($tent_price,$tent->price);
+            }
+            $total_tent_price = array_sum($tent_price);
+        }
+        $total_price = $total_room_price + $total_tent_price;
+        // request()->validate([
+        //     'name' => 'required',
+        // ]);
         // Product::create($request->all());
         // return redirect()->route('products.index')
         //     ->with('success','Product created successfully.');
+
         $customer_info = CustomerInfomation::create([
             "name"      =>$request->name,
             "phone"      =>$request->phone
         ]);
-        
         $customer_info_id = $customer_info->id;
         if ($customer_info) {
             $bookings = New Booked_Package;
@@ -133,11 +165,11 @@ class BookingController extends Controller
             $bookings->check_in_date = $request->check_in_date;
             $bookings->check_out_date = $request->check_out_date;
             $bookings->booking_code = $request->booking_code;
-            
-            $bookings->total_price = $request->total_price;
+            $bookings->total_price = $total_price;
             $bookings->status = $request->status;
             $bookings->save();
         }
+        
         if ($request->room_ids) {
             foreach($request->room_ids as $room_id) 
             {
@@ -157,25 +189,57 @@ class BookingController extends Controller
                 $tent = Tent::find($tent_id);
                 TentDetail::create([
                     "booking_id"        =>$bookings->id,
-                    "start_date"        =>$request->check_in_date,
-                    "end_date"          =>$request->check_out_date,
+                    "check_in_date"     =>$request->check_in_date,
+                    "check_out_date"    =>$request->check_out_date,
                     "tent_id"           =>$tent_id
                 ]);
             }
         }
-        
-        
-        
+
         Session::flash('book_created','Your Package Are Booked');
 
         return redirect('/create_booking');
     }
     public function update(Request $request, string $id)
     { 
+        if ($request->room_ids) {
+            $id_rooms = [];
+            foreach($request->room_ids as $room_id) 
+            {
+                array_push($id_rooms,$room_id);
+                $room = Room::find($room_id);
+            }
+            $room_price = [];
+            $rooms = DB::table('rooms')
+                ->whereIn('id',$id_rooms)
+                ->select('price') 
+                ->get();
+            foreach ($rooms as $room) {
+                array_push($room_price,$room->price);
+            }
+            $total_room_price = array_sum($room_price);
+        }
+        if ($request->tent_ids) {
+            $id_tents =[];
+            foreach ( $request->tent_ids as $tent_id ) {
+                array_push($id_tents, $tent_id);
+            }
+            $tent_price = [];
+            $tents = DB::table('tents')
+                ->whereIn('id',$id_tents)
+                ->select('price') 
+                ->get();
+            foreach ($tents as $tent) {
+                array_push($tent_price,$tent->price);
+            }
+            $total_tent_price = array_sum($tent_price);
+        }
+        $total_price = $total_room_price + $total_tent_price;
+
         $bookings = Booked_Package::findOrFail($id);
         $bookings->check_in_date = $request->Input('check_in_date');
         $bookings->check_out_date = $request->Input('check_out_date');
-        $bookings->total_price = $request->Input('total_price');
+        $bookings->total_price = $total_price;
         $bookings->status = $request->Input('status');
         $bookings->save();
 
@@ -183,7 +247,8 @@ class BookingController extends Controller
             ->where('customer_infomations.id', $bookings->customer_info_id)
             ->update(
                 ['name'  => $request->Input('name'),
-                 'phone' => $request->Input('phone')]);
+                 'phone' => $request->Input('phone')
+                ]);
         
         $room_id_hass = DB::table('booked_packages_detail')
             ->select('room_id')
@@ -231,10 +296,8 @@ class BookingController extends Controller
                 DB::table('tent_details')
                 ->updateOrInsert([
                     "booking_id"            => $bookings->id,
-                    // "price"                 => $tent->price,
                     "check_in_date"         => $request->check_in_date,
                     "check_out_date"        => $request->check_out_date,
-                    // "status"                => 'sting',
                     "tent_id"               => $tent_id
                 ]);
             }
