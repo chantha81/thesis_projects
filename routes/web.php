@@ -79,6 +79,7 @@ Route::get('/create_booking', [BookingController::class,'create']);
 Route::post('/booking_store', [BookingController::class,'store']);
 Route::post('/booking_update/{id}', [BookingController::class,'update']);
 Route::get('/select-room', [BookingController::class,'getRoomByID']);
+Route::get('/room', [BookingController::class,'getRoom']);
 Route::get('/get-room_id', [BookingController::class,'getRoomIDByBookingDetail']);
 Route::get('/package-edit/{id}',[BookingController::class,'edit']);
 Route::get('/delete/{id}',[BookingController::class,'destroy']);
@@ -86,9 +87,12 @@ Route::get('/delete/{id}',[BookingController::class,'destroy']);
 //=====Tent====\\
 Route::get('/select-tent', [BookingController::class,'getTentByID']);
 Route::get('/get-tent_id', [BookingController::class,'getTentIDByTentDetail']);
+Route::get('/get-tent', [BookingController::class,'getTent']);
+//===place_camping==\\
+Route::get('/get-place_camping', [BookingController::class,'getPlaceCamping']);
 
 Route::resource('tents', TentController::class);
-Route::get('tents/delete/{id}',[TentController::class,'delete']);
+Route::get('tents/delete/{id}',[TentController::class,'delete']);   
 
 Route::get('students', [StudentController::class, 'index']);
 Route::get('students/list', [StudentController::class, 'getStudents'])->name('students.list');

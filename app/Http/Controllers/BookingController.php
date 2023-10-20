@@ -14,6 +14,7 @@ use App\Models\CustomerInfomation;
 use App\Models\PlaceCamping;
 use Session;
 use DataTables;
+use Carbon\Carbon;
 
 class BookingController extends Controller
 
@@ -31,7 +32,7 @@ class BookingController extends Controller
 
         if(request()->ajax()) {
             $data = DB::table('booked__packages')
-                ->rightJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
+                ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
                 ->select( 'customer_infomations.*','booked__packages.*' )
                 ->get();
                 // dd($data);
@@ -63,8 +64,27 @@ class BookingController extends Controller
         $rooms = DB::table('rooms')
             ->whereIn('id', $ids)
             ->get();
-        return response()->json($rooms);
-        
+        return response()->json($rooms);    
+    }
+    //=== get free room ====\\
+    public function getRoom()
+    {
+        $date_in = request()->query('date_in');
+        $dat_out = request()->query('date_out');
+ 
+        $rooms_bcs = DB::table('rooms')
+                ->rightjoin('booked_packages_detail','booked_packages_detail.room_id','rooms.id')
+                ->whereRaw("booked_packages_detail.check_in_date >=  date('$date_in')")
+                ->whereRaw("booked_packages_detail.check_out_date <=  date('$dat_out')")
+                ->get();
+        $id_bc_rooms =[];
+        foreach ($rooms_bcs as $rooms_bc) {
+            array_push($id_bc_rooms,$rooms_bc->room_id);
+        }
+        $free_rooms = DB::table('rooms')
+            ->whereNotIn('id',$id_bc_rooms)
+            ->get();
+        return response()->json($free_rooms);    
     }
     public function getTentByID()
     {
@@ -73,7 +93,34 @@ class BookingController extends Controller
         $tents = DB::table('tents')
             ->whereIn('id', $ids)
             ->get();
+        
         return response()->json($tents);
+    }
+    //=== get free tent===\\
+    public function getTent()
+    {
+        $date_in = request()->query('date_in');
+        $dat_out = request()->query('date_out');
+       
+        $tents_bc = DB::table('tents')
+            ->rightjoin('tent_details','tent_details.tent_id','tents.id')
+            ->whereRaw("tent_details.check_in_date >=  date('$date_in')")
+            ->whereRaw("tent_details.check_out_date <=  date('$dat_out')")
+            ->get();
+        $id_bc_tents =[];
+        foreach ($tents_bc as $tent_bc){
+            array_push($id_bc_tents,$tent_bc->tent_id);
+        }
+        $tents_free = DB::table('tents')
+            ->whereNotIn('id',$id_bc_tents)
+            ->get();
+        return response()->json($tents_free);
+    }
+    //===== get free place for camping ====\\
+    public function getPlaceCamping(){
+        $place_camping = DB::table('place_campings')
+            ->get();
+        dd($place_camping);
     }
     public function getTentIDByTentDetail(){
         // $id = request()->query('room');
@@ -146,8 +193,10 @@ class BookingController extends Controller
             }
             $total_tent_price = array_sum($tent_price);
         }
+        $total_room_price = $request->room_ids ?  $total_room_price : 0;
+        $total_tent_price = $request->tent_ids ? $total_tent_price : 0;
         $total_price = $total_room_price + $total_tent_price;
-        // request()->validate([
+        // request()->validate([ 
         //     'name' => 'required',
         // ]);
         // Product::create($request->all());
@@ -166,7 +215,7 @@ class BookingController extends Controller
             $bookings->check_out_date = $request->check_out_date;
             $bookings->booking_code = $request->booking_code;
             $bookings->total_price = $total_price;
-            $bookings->status = $request->status;
+            $bookings->status = 'Pending';
             $bookings->save();
         }
         
@@ -325,9 +374,20 @@ class BookingController extends Controller
     }
     public function destroy($id)
     {
-        Booked_Package::findOrFail($id)
+        $booking = Booked_Package::findOrFail($id);
+        DB::table('customer_infomations')
+            ->where('id', $booking->customer_info_id)
             ->delete();
+        $booking->delete();
         Session::flash('package_delete','Your Booking Package is Deleted');
         return redirect('all_booking');
     }
+    // public function delete ($id)
+    // {
+    //     dd($id);
+    //     Booked_Package::findOrFail($id)
+    //         ->delete();
+    //     Session::flash('package_delete','Your Booking Package is Deleted');
+    //     return redirect('all_booking');
+    // }
 }

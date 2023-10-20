@@ -151,5 +151,48 @@ div.dataTables_length select {
     opacity: 0;
 }
 
+ /* status style */
+
+.status {
+margin: 0 auto;
+padding: 5px;
+font-size: 14px;
+border-radius: 3px;
+text-transform: capitalize;
+width: 90px;
+display: block;
+text-align: center;
+color: #fff;
+}
+
+.pending {
+background-color: #ffad04;
+border-color: transparent;
+}
+
+.approved {
+background-color: #23d160;
+border-color: transparent;
+}
+
+.rejected {
+background-color: #dc3545;
+border-color: transparent;
+}
+.title-text{
+    font-family: "Khmer OS Siemreap Regular", Times, serif;
+}
+.dashboard{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+}
+.btn-add_tent{
+    padding: 5px !important;
+}
+.btn-add_room{
+    padding: 5px !important;
+}
+
+
 
 

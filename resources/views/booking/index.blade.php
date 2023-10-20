@@ -55,7 +55,21 @@
 			serverSide: true,
 			columnDefs: [
 				{targets: [2, 3], render: DataTable.render.datetime('Do MMM YYYY')},
-				{targets: 0, className: "text-center", width: "15%"}
+				{targets: [0,1,2,3,4,5,6], className: "text-center", width: "15%"},
+				{
+			targets: 5,
+			render: function(status, type, row, meta) {
+				if (status == 'Pending') {
+				status = '<td><span class="pending status">' + status + '</span></td>'
+				} else if (status == 'Approved') {
+				status = '<td><span class="approved status">' + status + '</span></td>'
+				} else if (status == 'Reject') {
+				status = '<td><span class="rejected status">' + status + '</span></td>'
+				}
+				return status;
+			}
+			}
+				
 			],
 			ajax: "{{ url('all_booking') }}",
 			columns: [

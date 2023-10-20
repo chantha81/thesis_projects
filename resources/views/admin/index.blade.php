@@ -5,9 +5,9 @@
                     <div class="page-header">
                         <div class="row">
                             <div class="col-sm-12 mt-5">
-                                <h3 class="page-title mt-3">Good Morning Soeng Souy!</h3>
+                                <h3 class="page-title mt-3 title-text">ឧទ្យានបោះតង់ CAMPING PARK</h3>
                                 <ul class="breadcrumb">
-                                    <li class="breadcrumb-item active">Dashboard</li>
+                                    <li class="breadcrumb-item active dashboard">Dashboard</li>
                                 </ul>
                             </div>
                         </div>
