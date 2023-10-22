@@ -44,8 +44,7 @@
                                                 </div>
                                                 <input type="text"
                                                     class="form-control form-control datetimepicker check_in_date"
-                                                    name="check_in_date" placeholder="Check In" aria-label="Username"
-                                                    aria-describedby="basic-addon1">
+                                                    name="check_in_date" placeholder="Check In">
                                             </div>
                                         </div>
                                     </div>
@@ -58,7 +57,7 @@
                                                 </div>
                                                 <input type="text"
                                                     class="form-control form-control datetimepicker check_out_date"
-                                                    name="check_out_date" placeholder="Check Out" aria-label="Username"
+                                                    name="check_out_date" placeholder="Check Out" 
                                                     aria-describedby="basic-addon1">
                                             </div>
                                         </div>
@@ -140,10 +139,9 @@
                                                                 <div class="card board1 fill remaining-cp">
                                                                     <div class="card-body">
                                                                         <div class="row">
-                                                                            <div class="col-md-4">
-                                                                                <h3 class="card_widget_header">
-                                                                                    {{ $place_camping->quantity }}</h3>
-                                                                                <h6 class="text-muted">Remaining</h6>
+                                                                            <div class="col-md-4 qty_place">
+                                                                                {{-- <h3 class="card_widget_header qty_available"> </h3> --}}
+                                                                                {{-- <h6 class="text-muted">Remaining</h6> --}}
                                                                             </div>
                                                                             <div class="col-md-8">
                                                                                 <div class="row">
@@ -215,7 +213,7 @@
                                                 <span class="input-group-text" id="basic-addon1"><i
                                                         class="fa-solid fa-phone"></i></span>
                                             </div>
-                                            <input type="phone" class="form-control" placeholder="phone"
+                                            <input type="text" class="form-control" placeholder="phone"
                                                 name="phone" aria-describedby="basic-addon1">
                                         </div>
                                     </div>
@@ -298,10 +296,9 @@
         var tent_data = [];
         var room_id_arr = [];
         var tent_id_arr = [];
-        console.log(tent_data);
+        // console.log(tent_data);
         
-        $(document).ready(function() {
-           
+        $(document).ready(function() { 
             $(".btn-add_room").click(function() {
                 const check_in_date = $(".check_in_date").val() , check_out_date = $(".check_out_date").val();
                     $.ajax({
@@ -425,22 +422,36 @@
                 $('#tent-modal').modal('toggle');
                 $(".tent_checkbox").prop("checked", false);
             });
+            
+            // $.ajax({
+            //     type: "GET",
+            //     url: '/get-place_camping?date_in=' + check_in_date + '&date_out=' + check_out_date,
+            //     success: function(data, status) {
+                    
+            //     }
+            // });
             $(".check_pace").change(function() {
+                var check_in_date = $(".check_in_date").val() , check_out_date = $(".check_out_date").val();
                 if (this.checked) {
                     $('.input_place').show();
-                        $.ajax({
-                        type: "GET",
-                        url: '/get-place_camping',
-                        success: function(data, status) {
-                            console.log('place' data);
-                        }
-                    });
+                    $('.qty_place').show();
+                    $.ajax({
+                    type: "GET",
+                    url: '/get-place_camping?date_in=' + check_in_date + '&date_out=' + check_out_date,
+                    success: function(data, status) {
+                        var qty_available = $('.qty_place');
+                        qty_available.empty();
+                            var qty = ` <h3 class="card_widget_header">${data}</h3>
+                                        <h6 class="text-muted">Remaining</h6> `
+                        qty_available.append(qty);
+                    }
+                });
                 } else {
                     $('.input_place').hide();
+                    $('.qty_place').hide();
                 }
             });
         });
-
         function remove_room(room_id) {
             var index = room_data.findIndex(function(room) {
                 return room_id == room.id

@@ -61,7 +61,7 @@
 			render: function(status, type, row, meta) {
 				if (status == 'Pending') {
 				status = '<td><span class="pending status">' + status + '</span></td>'
-				} else if (status == 'Approved') {
+				} else if (status == 'Confimed') {
 				status = '<td><span class="approved status">' + status + '</span></td>'
 				} else if (status == 'Reject') {
 				status = '<td><span class="rejected status">' + status + '</span></td>'

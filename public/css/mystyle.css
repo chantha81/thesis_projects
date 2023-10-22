@@ -192,6 +192,9 @@ border-color: transparent;
 .btn-add_room{
     padding: 5px !important;
 }
+.qty_place{
+    display: none;
+}
 
 
 

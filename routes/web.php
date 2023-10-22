@@ -83,6 +83,7 @@ Route::get('/room', [BookingController::class,'getRoom']);
 Route::get('/get-room_id', [BookingController::class,'getRoomIDByBookingDetail']);
 Route::get('/package-edit/{id}',[BookingController::class,'edit']);
 Route::get('/delete/{id}',[BookingController::class,'destroy']);
+Route::get('/detail_booking/{id}',[BookingController::class,'getBookingDetail']);
 
 //=====Tent====\\
 Route::get('/select-tent', [BookingController::class,'getTentByID']);

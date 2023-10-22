@@ -12,6 +12,7 @@ use App\Models\TentDetail;
 use App\Models\Accessories;
 use App\Models\CustomerInfomation;
 use App\Models\PlaceCamping;
+use App\Models\PlaceCampingDetail;
 use Session;
 use DataTables;
 use Carbon\Carbon;
@@ -29,15 +30,17 @@ class BookingController extends Controller
 
     public function index(Request $request)
     {
-
+        $rooms = array();
+    	foreach (Room::all() as $room) {
+    		$rooms = $room->all();
+    	}
         if(request()->ajax()) {
             $data = DB::table('booked__packages')
                 ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
                 ->select( 'customer_infomations.*','booked__packages.*' )
                 ->get();
-                // dd($data);
             return DataTables::of($data)
-            ->addColumn('action', 'booking.actions')
+            ->addColumn('action', 'booking.actions',compact('rooms'))
             ->toJson();      
         }
         
@@ -50,12 +53,8 @@ class BookingController extends Controller
     	foreach (Room::all() as $room) {
     		$rooms = $room->all();
     	}
-        $place_campings = DB::table('place_campings') 
-            ->select('quantity') 
-            ->get();
-        foreach ($place_campings as $place_camping) {}
         $tents = Tent::all();
-        return view('booking.create',['tents'=>$tents,'place_camping'=>$place_camping])->with('rooms', $rooms);
+        return view('booking.create',['tents'=>$tents])->with('rooms', $rooms);
     }
     public function getRoomByID()
     {
@@ -74,16 +73,18 @@ class BookingController extends Controller
  
         $rooms_bcs = DB::table('rooms')
                 ->rightjoin('booked_packages_detail','booked_packages_detail.room_id','rooms.id')
-                ->whereRaw("booked_packages_detail.check_in_date >=  date('$date_in')")
-                ->whereRaw("booked_packages_detail.check_out_date <=  date('$dat_out')")
+                ->whereRaw("booked_packages_detail.check_in_date <=  date('$dat_out')")
+                ->whereRaw("booked_packages_detail.check_out_date >=  date('$date_in')")
                 ->get();
+        // dd($rooms_bcs);
         $id_bc_rooms =[];
         foreach ($rooms_bcs as $rooms_bc) {
             array_push($id_bc_rooms,$rooms_bc->room_id);
         }
         $free_rooms = DB::table('rooms')
-            ->whereNotIn('id',$id_bc_rooms)
+            ->whereNotIn('rooms.id',$id_bc_rooms)
             ->get();
+        // dd($free_rooms);
         return response()->json($free_rooms);    
     }
     public function getTentByID()
@@ -104,8 +105,8 @@ class BookingController extends Controller
        
         $tents_bc = DB::table('tents')
             ->rightjoin('tent_details','tent_details.tent_id','tents.id')
-            ->whereRaw("tent_details.check_in_date >=  date('$date_in')")
-            ->whereRaw("tent_details.check_out_date <=  date('$dat_out')")
+            ->whereRaw("tent_details.check_in_date <=  date('$dat_out')")
+            ->whereRaw("tent_details.check_out_date >=  date('$date_in')")
             ->get();
         $id_bc_tents =[];
         foreach ($tents_bc as $tent_bc){
@@ -118,10 +119,27 @@ class BookingController extends Controller
     }
     //===== get free place for camping ====\\
     public function getPlaceCamping(){
-        $place_camping = DB::table('place_campings')
+        $date_in = request()->query('date_in');
+        $dat_out = request()->query('date_out');
+
+        $quantity = DB::table('place_campings')
+            ->select('total')
             ->get();
-        dd($place_camping);
+        $total_qty = $quantity[0]->total;
+        $place_campings = DB::table('place_camping_details')
+            ->whereRaw("check_in_date <=  date('$dat_out')")
+            ->whereRaw("check_out_date >=  date('$date_in')")
+            ->get();
+        $qty = array();
+        foreach ($place_campings as $place_camping) {
+            array_push($qty,$place_camping->quantity);
+            // return response()->json($qty);
+        }
+        $qty_active = array_sum($qty);
+        $qty_available = $total_qty - $qty_active;
+        return response()->json($qty_available);
     }
+     
     public function getTentIDByTentDetail(){
         // $id = request()->query('room');
         $id = request()->query('id');
@@ -152,15 +170,6 @@ class BookingController extends Controller
     {
         
         // dd($request->all());
-        $place_campings = PlaceCamping::all();
-        foreach ($place_campings as $place_camping) {
-            $place_camping_qty_old = $place_camping->quantity;
-        }
-        if ($request->place_camping) {
-            $place_camping_qty_new = $place_camping_qty_old - $request->place_camping;
-                DB::table('place_campings')
-                ->update(['quantity' => $place_camping_qty_new]);
-        }
         if ($request->room_ids) {
             $id_rooms = [];
             foreach($request->room_ids as $room_id) 
@@ -215,7 +224,7 @@ class BookingController extends Controller
             $bookings->check_out_date = $request->check_out_date;
             $bookings->booking_code = $request->booking_code;
             $bookings->total_price = $total_price;
-            $bookings->status = 'Pending';
+            $bookings->status = 'Confimed';
             $bookings->save();
         }
         
@@ -244,9 +253,22 @@ class BookingController extends Controller
                 ]);
             }
         }
+        if ($request->place_camping) {
+            $place_camping = DB::table('place_campings')
+                ->get();
+            $unit_price = $place_camping[0]->unit_price;
+            // dd($unit_price);
+            $total_price = $unit_price * $request->place_camping;
+            PlaceCampingDetail::create([
+                "booking_id"        =>$bookings->id,
+                "check_in_date"     =>$request->check_in_date,
+                "check_out_date"    =>$request->check_out_date,
+                "quantity"          =>$request->place_camping,
+                "total_price"       =>$total_price
+            ]);
+        }
 
         Session::flash('book_created','Your Package Are Booked');
-
         return redirect('/create_booking');
     }
     public function update(Request $request, string $id)
@@ -390,4 +412,14 @@ class BookingController extends Controller
     //     Session::flash('package_delete','Your Booking Package is Deleted');
     //     return redirect('all_booking');
     // }
+    public function getBookingDetail($id){
+        // $booking_id = request()->query('booking_id');
+        $booking_details = DB::table('booked__packages')
+            ->leftjoin('customer_infomations','booked__packages.customer_info_id','customer_infomations.id')
+            ->leftjoin('booked_packages_detail','booked__packages.id','booked_packages_detail.booking_id')
+            ->where('booked__packages.id',$id)
+            ->get();
+        dd($booking_details);
+
+    }
 }
