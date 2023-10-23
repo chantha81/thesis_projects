@@ -31,7 +31,9 @@
 												<th>Phone</th>
 												<th>Check In Date</th>
 												<th>Check Out Date</th>
-												<th>Total Price</th>
+												<th>Paid</th>
+												<th>Amount</th>
+												<th>Balance</th>
 												<th>Status</th> 
 												<th>Actions</th>
 											</tr>
@@ -55,20 +57,22 @@
 			serverSide: true,
 			columnDefs: [
 				{targets: [2, 3], render: DataTable.render.datetime('Do MMM YYYY')},
-				{targets: [0,1,2,3,4,5,6], className: "text-center", width: "15%"},
+				{targets: [0,1,2,3,7], className: "text-center", width: "15%"},
 				{
-			targets: 5,
-			render: function(status, type, row, meta) {
-				if (status == 'Pending') {
-				status = '<td><span class="pending status">' + status + '</span></td>'
-				} else if (status == 'Confimed') {
-				status = '<td><span class="approved status">' + status + '</span></td>'
-				} else if (status == 'Reject') {
-				status = '<td><span class="rejected status">' + status + '</span></td>'
-				}
-				return status;
-			}
-			}
+				targets: 7,
+					render: function(status, type, row, meta) {
+						if (status == 'Pending') {
+						status = '<td><span class="pending status">' + status + '</span></td>'
+						} else if (status == 'Confimed') {
+						status = '<td><span class="approved status">' + status + '</span></td>'
+						} else if (status == 'Reject') {
+						status = '<td><span class="rejected status">' + status + '</span></td>'
+						}
+						return status;
+					}
+				},
+				{width: 90, targets:[4, 5, 6],className: "text-center"}
+
 				
 			],
 			ajax: "{{ url('all_booking') }}",
@@ -78,7 +82,9 @@
 				{data: 'phone', name: 'phone'},
 				{data: 'check_in_date', name: 'check_in_date'},
 				{data: 'check_out_date', name: 'check_out_date'},
-				{data: 'total_price', name: 'total_price'},
+				{data: 'paid', name: 'paid'},
+				{data: 'total_price', name: 'total_price',render: $.fn.dataTable.render.number( ',', '.', 2, '$' )},
+				{data: 'balance', name: 'balance'},
 				{data: 'status', name: 'status'},
 				{data: 'action', name: 'action', 
                     orderable: true, 

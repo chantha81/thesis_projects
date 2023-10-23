@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<meta name="description" content=""/>
 	<title>Camping Park</title>
-	<link rel="shortcut icon" type="image/x-icon" href="assets/img/logo-raduis.png">
+	<link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/img/logo-raduis.png')}}">
 	<script type="text/javascript" src="{{asset('admin/js/jquery-3.5.1.min.js')}}"></script>
 	<link rel="stylesheet" href="{{asset('admin/css/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{asset('admin/plugins/fontawesome/css/fontawesome.min.css')}}">
@@ -43,7 +43,7 @@
 								<li class="notification-message">
 									<a href="#">
 										<div class="media"> <span class="avatar avatar-sm">
-											<img class="avatar-img rounded-circle" alt="User Image" src="assets/img/profiles/avatar-02.jpg">
+											<img class="avatar-img rounded-circle" alt="User Image" src="">
 											</span>
 											<div class="media-body">
 												<p class="noti-details"><span class="noti-title">Carlson Tech</span> has approved <span class="noti-title">your estimate</span></p>
@@ -55,7 +55,7 @@
 								<li class="notification-message">
 									<a href="#">
 										<div class="media"> <span class="avatar avatar-sm">
-											<img class="avatar-img rounded-circle" alt="User Image" src="assets/img/profiles/avatar-11.jpg">
+											<img class="avatar-img rounded-circle" alt="User Image" src="">
 											</span>
 											<div class="media-body">
 												<p class="noti-details"><span class="noti-title">International Software
@@ -68,7 +68,7 @@
 								<li class="notification-message">
 									<a href="#">
 										<div class="media"> <span class="avatar avatar-sm">
-											<img class="avatar-img rounded-circle" alt="User Image" src="assets/img/profiles/avatar-17.jpg">
+											<img class="avatar-img rounded-circle" alt="User Image" src="">
 											</span>
 											<div class="media-body">
 												<p class="noti-details"><span class="noti-title">John Hendry</span> sent a cancellation request <span class="noti-title">Apple iPhone
@@ -81,7 +81,7 @@
 								<li class="notification-message">
 									<a href="#">
 										<div class="media"> <span class="avatar avatar-sm">
-											<img class="avatar-img rounded-circle" alt="User Image" src="assets/img/profiles/avatar-13.jpg">
+											<img class="avatar-img rounded-circle" alt="User Image" src="">
 											</span>
 											<div class="media-body">
 												<p class="noti-details"><span class="noti-title">Mercury Software

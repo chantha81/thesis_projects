@@ -195,6 +195,12 @@ border-color: transparent;
 .qty_place{
     display: none;
 }
+.detail_body{
+    border-radius: 4px;
+    /* border-style: solid;
+    border-color: #0000ff; */
+}
+
 
 
 

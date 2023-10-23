@@ -30,17 +30,13 @@ class BookingController extends Controller
 
     public function index(Request $request)
     {
-        $rooms = array();
-    	foreach (Room::all() as $room) {
-    		$rooms = $room->all();
-    	}
         if(request()->ajax()) {
             $data = DB::table('booked__packages')
                 ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
                 ->select( 'customer_infomations.*','booked__packages.*' )
                 ->get();
             return DataTables::of($data)
-            ->addColumn('action', 'booking.actions',compact('rooms'))
+            ->addColumn('action', 'booking.actions')
             ->toJson();      
         }
         
@@ -404,22 +400,27 @@ class BookingController extends Controller
         Session::flash('package_delete','Your Booking Package is Deleted');
         return redirect('all_booking');
     }
-    // public function delete ($id)
-    // {
-    //     dd($id);
-    //     Booked_Package::findOrFail($id)
-    //         ->delete();
-    //     Session::flash('package_delete','Your Booking Package is Deleted');
-    //     return redirect('all_booking');
-    // }
     public function getBookingDetail($id){
-        // $booking_id = request()->query('booking_id');
-        $booking_details = DB::table('booked__packages')
+        $customer_info = DB::table('booked__packages')
             ->leftjoin('customer_infomations','booked__packages.customer_info_id','customer_infomations.id')
-            ->leftjoin('booked_packages_detail','booked__packages.id','booked_packages_detail.booking_id')
             ->where('booked__packages.id',$id)
             ->get();
-        dd($booking_details);
-
+        $rooms = DB::table('booked__packages')
+            ->leftjoin('booked_packages_detail','booked_packages_detail.booking_id','booked__packages.id')
+            ->leftjoin('rooms','booked_packages_detail.room_id','rooms.id')
+            ->where('booked_packages_detail.booking_id',$id)
+            ->select('rooms.*')
+            ->get();
+        $tents = DB::table('booked__packages')
+            ->leftjoin('tent_details','booked__packages.id','tent_details.booking_id')
+            ->leftjoin('tents','tent_details.tent_id','tents.id')
+            ->where('tent_details.booking_id',$id)
+            ->select('tents.*')
+            ->get();
+        $quantity_place_camping = DB::table('booked__packages')
+            ->leftjoin('place_camping_details','booked__packages.id','place_camping_details.booking_id')
+            ->select('place_camping_details.quantity')
+            ->get();
+        return view('booking.details',compact('customer_info','rooms','tents','quantity_place_camping'));
     }
 }
