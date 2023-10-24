@@ -423,13 +423,6 @@
                 $(".tent_checkbox").prop("checked", false);
             });
             
-            // $.ajax({
-            //     type: "GET",
-            //     url: '/get-place_camping?date_in=' + check_in_date + '&date_out=' + check_out_date,
-            //     success: function(data, status) {
-                    
-            //     }
-            // });
             $(".check_pace").change(function() {
                 var check_in_date = $(".check_in_date").val() , check_out_date = $(".check_out_date").val();
                 if (this.checked) {

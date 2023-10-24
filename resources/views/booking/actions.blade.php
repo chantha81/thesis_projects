@@ -53,7 +53,127 @@
       <a class="dropdown-item" href="/detail_booking/{{$id}}">
         <i class="fa-solid fa-eye"></i> Detail Booking
       </a>
+      <a class="dropdown-item add_paid" href="#" data-toggle="modal" data-paid="{{$id}}" data-target="#add_paid">
+        <i class="fa-solid fa-check"></i> Confirm Booking
+      </a>
+      <a class="dropdown-item add_payment" href="#" data-toggle="modal" data-pay="{{$id}}" data-target="#payment">
+        <i class="fa-solid fa-dollar-sign"></i> Payment
+      </a>
     </div>
 </div>
+{{-- paid --}}
+<div class="modal fade" id="add_paid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Paid</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">$</span>
+          </div>
+          <input type="text" class="form-control paid_input">
+          <div class="input-group-append">
+            <span class="input-group-text">.00</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary paid-btn">Paid</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- payment --}}
+<div class="modal fade" id="payment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Payment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">$</span>
+          </div>
+          <input type="text" class="form-control payment_input">
+          <div class="input-group-append">
+            <span class="input-group-text">.00</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary payment-btn">Payment</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).ready(function(){
+    var booking_id;
+    $('.add_paid').click(function () {
+      var booking_ids = $(this).attr('data-paid');
+      var id = {{ $id }};
+      if (booking_ids==id) {
+        booking_id = (booking_ids=id);
+        $.ajax({
+          type: "GET",
+          url: '/not_paid_booking?booking_id=' + booking_id,
+          success: function(data, status) {  
+            if (data[0].status == 'Confirmed') {
+              $(".modal-body").empty();
+              var new_modal_body = ` <h6>This Booking Has Confirmed</h6>`
+              $(".modal-body").append(new_modal_body);
+            }
+          }
+        });
+      }
+    })
+    $('.paid-btn').click(function(){
+      if (booking_id) {
+        var paid = $('.paid_input').val();
+          $.ajax({
+          type: "GET",
+          url: '/paid_booking?booking_id=' + booking_id + '&paid=' + paid,
+          success: function(data, status) {   
+          }
+        });
+        $('#add_paid').modal('toggle');
+        $(document).ajaxStop(function(){
+          window.location.reload();
+        });
+      booking_id = '';
+      } 
+  });
+  $('.add_payment').click(function(){
+    var booking_ids = $(this).attr('data-pay');
+    var id = {{ $id }};
+    if (booking_ids==id) {
+      booking_id = (booking_ids=id);
+    }
+  });
+  $('.payment-btn').click(function(){
+    if (booking_id) {
+      var payment = $('.payment_input').val();
+      $.ajax({
+          type: "GET",
+          url: '/payment_booking?booking_id=' + booking_id + '&payment=' + payment,
+          success: function(data, status) {   
+        }
+      });
+    }
+  });
+});
+
+</script>
 
     

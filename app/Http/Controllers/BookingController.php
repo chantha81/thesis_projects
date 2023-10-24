@@ -27,13 +27,13 @@ class BookingController extends Controller
     //      $this->middleware('permission:booking-edit', ['only' => ['edit','update']]);
     //      $this->middleware('permission:booking-delete', ['only' => ['destroy']]);
     // }
-
     public function index(Request $request)
     {
         if(request()->ajax()) {
             $data = DB::table('booked__packages')
                 ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
-                ->select( 'customer_infomations.*','booked__packages.*' )
+                ->select( 'customer_infomations.*','booked__packages.*')
+                ->selectRaw('booked__packages.total_price - booked__packages.paid as balance')
                 ->get();
             return DataTables::of($data)
             ->addColumn('action', 'booking.actions')
@@ -201,12 +201,6 @@ class BookingController extends Controller
         $total_room_price = $request->room_ids ?  $total_room_price : 0;
         $total_tent_price = $request->tent_ids ? $total_tent_price : 0;
         $total_price = $total_room_price + $total_tent_price;
-        // request()->validate([ 
-        //     'name' => 'required',
-        // ]);
-        // Product::create($request->all());
-        // return redirect()->route('products.index')
-        //     ->with('success','Product created successfully.');
 
         $customer_info = CustomerInfomation::create([
             "name"      =>$request->name,
@@ -400,6 +394,9 @@ class BookingController extends Controller
         Session::flash('package_delete','Your Booking Package is Deleted');
         return redirect('all_booking');
     }
+    public function show($id){
+        return view('booking.modal');
+    }
     public function getBookingDetail($id){
         $customer_info = DB::table('booked__packages')
             ->leftjoin('customer_infomations','booked__packages.customer_info_id','customer_infomations.id')
@@ -422,5 +419,42 @@ class BookingController extends Controller
             ->select('place_camping_details.quantity')
             ->get();
         return view('booking.details',compact('customer_info','rooms','tents','quantity_place_camping'));
+    }
+    public function addPaidBooking(){
+        $booking_id = request()->query('booking_id');
+        $paid = request()->query('paid');
+        
+        DB::table('booked__packages')
+            ->where('id', $booking_id)
+            ->update([
+                'paid'      => $paid,
+                'status'    => 'Confirmed'
+        ]);
+    }
+    public function notPaidBooking(){
+        $booking_id = request()->query('booking_id');
+        $status = DB::table('booked__packages')
+            ->where('id', $booking_id)
+            ->select('status')
+            ->get();
+        return response()->json($status);
+    }
+    public function paymentBooking(){
+        $booking_id = request()->query('booking_id');
+        $payment = request()->query('payment');
+        $pay = DB::table('booked__packages')
+            ->where('id',$booking_id)
+            ->selectRaw('paid + ? as pay', [$payment])
+            ->get();
+        DB::table('booked__packages')
+            ->where('id',$booking_id)
+            ->update([
+                'paid'    => $pay[0]->pay,
+                'status'  => 'Success'
+            ]);
+        // dd($pay);
+            // ->update([
+            //     'paid'      => 
+            // ]);
     }
 }

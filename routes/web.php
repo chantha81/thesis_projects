@@ -74,6 +74,7 @@ Route::post('/room_store', [RoomController::class,'store'])->name('room.store');
 Route::get('/rooms-edit/{rooms}',[RoomController::class,'edit'])->name('rooms.edit');
 Route::put('/rooms/{rooms}',[RoomController::class,'update'])->name('rooms.update');
 
+//======booking======\\
 Route::get('all_booking',[BookingController::class,'index']);
 Route::get('/create_booking', [BookingController::class,'create']);
 Route::post('/booking_store', [BookingController::class,'store']);
@@ -84,6 +85,9 @@ Route::get('/get-room_id', [BookingController::class,'getRoomIDByBookingDetail']
 Route::get('/package-edit/{id}',[BookingController::class,'edit']);
 Route::get('/delete/{id}',[BookingController::class,'destroy']);
 Route::get('/detail_booking/{id}',[BookingController::class,'getBookingDetail']);
+Route::get('/paid_booking',[BookingController::class,'addPaidBooking']);
+Route::get('/not_paid_booking',[BookingController::class,'notPaidBooking']);
+Route::get('/payment_booking',[BookingController::class,'paymentBooking']);
 
 //=====Tent====\\
 Route::get('/select-tent', [BookingController::class,'getTentByID']);

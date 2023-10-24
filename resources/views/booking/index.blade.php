@@ -63,10 +63,12 @@
 					render: function(status, type, row, meta) {
 						if (status == 'Pending') {
 						status = '<td><span class="pending status">' + status + '</span></td>'
-						} else if (status == 'Confimed') {
+						} else if (status == 'Confirmed') {
 						status = '<td><span class="approved status">' + status + '</span></td>'
 						} else if (status == 'Reject') {
 						status = '<td><span class="rejected status">' + status + '</span></td>'
+						} else if (status == 'Success') {
+						status = '<td><span class="success status">' + status + '</span></td>'
 						}
 						return status;
 					}
@@ -82,9 +84,9 @@
 				{data: 'phone', name: 'phone'},
 				{data: 'check_in_date', name: 'check_in_date'},
 				{data: 'check_out_date', name: 'check_out_date'},
-				{data: 'paid', name: 'paid'},
-				{data: 'total_price', name: 'total_price',render: $.fn.dataTable.render.number( ',', '.', 2, '$' )},
-				{data: 'balance', name: 'balance'},
+				{data: 'paid', name: 'paid',render: $.fn.dataTable.render.number( ',', '.', 2)},
+				{data: 'total_price', name: 'total_price',render: $.fn.dataTable.render.number( ',', '.', 2)},
+				{data: 'balance', name: 'balance',render: $.fn.dataTable.render.number( ',', '.', 2)},
 				{data: 'status', name: 'status'},
 				{data: 'action', name: 'action', 
                     orderable: true, 

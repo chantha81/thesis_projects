@@ -171,13 +171,16 @@ border-color: transparent;
 }
 
 .approved {
-background-color: #23d160;
+background-color: #3399ff;
 border-color: transparent;
 }
 
 .rejected {
 background-color: #dc3545;
 border-color: transparent;
+}
+.success {
+    background-color: #00ff00;
 }
 .title-text{
     font-family: "Khmer OS Siemreap Regular", Times, serif;
