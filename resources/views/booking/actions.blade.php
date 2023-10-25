@@ -1,3 +1,105 @@
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var booking_id;
+    $('.add_paid').click(function () {
+      var booking_ids = $(this).attr('data-paid');
+      var id = {{ $id }};
+      if (booking_ids==id) {
+        booking_id = (booking_ids=id);
+        $.ajax({
+          type: "GET",
+          url: '/getstatus?booking_id=' + booking_id,
+          success: function(data, status) {
+            if (data[0].status == 'Pending') {
+              $("#add_paid").modal("show");
+              console.log(status);
+            } else if (data[0].status == "Success"){
+              $("#mssuccess").modal("show");
+            } else if (data[0].status == "Confirmed"){
+              $("#msconfirm").modal("show");
+            }
+            $('.paid-btn').click(function(){    
+                var booking_id = data[0].id, paid = $('.paid_input').val(); 
+                  $.ajax({
+                  type: "GET",
+                  url: '/paid_booking?booking_id=' + booking_id + '&paid=' + paid,
+                  success: function(data, status) {   
+                    if (data == true) {
+                      $('.notpaid').show();
+                      setTimeout(function() { $(".notpaid").hide(); }, 4000);
+                    } else {
+                      $("#add_paid").modal("hide");
+                    }
+                  }
+              });
+              
+            });
+          }
+          
+        })
+        booking_id = '';
+      } //endif
+    });
+    $(".add_payment").click(function () {
+      var booking_ids = $(this).attr('data-pay');
+      var id = {{ $id }};
+      if (booking_ids==id) {
+        booking_id = (booking_ids=id);
+        $.ajax({
+          type: "GET",
+          url: '/getstatus?booking_id=' + booking_id,
+          success: function(data, status, resp) {
+            if (data[0].status == 'Confirmed') {
+              $("#payment").modal("show");
+            } else if (data[0].status == "Pending"){
+              $("#payconfirm").modal("show");
+            } else if (data[0].status == "Success"){
+              $("#mssuccess").modal("show");
+            }
+            $('.payment-btn').click(function(){
+              var payment = $('.payment_input').val(), booking_id  = data[0].id;
+              $.ajax({
+                  type: "GET",
+                  url: '/payment_booking?booking_id=' + booking_id + '&payment=' + payment,
+                  success: function(data, status) { 
+                    if (data == true) {
+                      $('.notpayment').show();
+                      setTimeout(function() { $(".notpayment").hide(); }, 4000);
+                    } else {
+                      $("#payment").modal("hide");
+                    }
+                }
+              });
+            });
+          }
+        });
+      booking_id = '';
+      } //end if
+    });
+    $('cancel_booking').click(function () {
+      var booking_ids = $(this).attr('data-id');
+      var id = {{ $id }};
+      if (booking_ids==id) {
+        booking_id = (booking_ids=id);
+        $.ajax({
+          type: "GET",
+          url: '/getstatus?booking_id=' + booking_id,
+          success: function(data, status, resp) {
+            if (data[0].status == 'Confirmed') {
+              $("#modal_notcancel").modal("show");
+            } else if (data[0].status == "Success"){
+              $("#modal_notcancel_suc").modal("show");
+            }  
+          }
+        });
+      booking_id = '';
+      } //end if
+    })
+});
+
+</script>
+
 <style>
     .dropbtn {
       color: rgb(90, 90, 246);
@@ -48,21 +150,25 @@
 </a>
 
 <div class="dropdown">
-  <i class="fa-solid fa-sliders action_booking" data-toggle="dropdown"></i>
+  <i class="fa-solid fa-sliders action_booking" data-toggle="dropdown" data-action-id="{{$id}}"></i>
     <div class="dropdown-menu">
       <a class="dropdown-item" href="/detail_booking/{{$id}}">
         <i class="fa-solid fa-eye"></i> Detail Booking
       </a>
-      <a class="dropdown-item add_paid" href="#" data-toggle="modal" data-paid="{{$id}}" data-target="#add_paid">
+      <a class="dropdown-item add_paid" href="#" data-toggle="modal" data-paid="{{$id}}">
         <i class="fa-solid fa-check"></i> Confirm Booking
       </a>
-      <a class="dropdown-item add_payment" href="#" data-toggle="modal" data-pay="{{$id}}" data-target="#payment">
+      <a class="dropdown-item add_payment" href="#" data-toggle="modal" data-pay="{{$id}}">
         <i class="fa-solid fa-dollar-sign"></i> Payment
+      </a>
+      <a class="dropdown-item cancel_booking" href="#" data-toggle="modal" data-id="{{$id}}">
+        <i class="fa-solid fa-ban"></i> Cancel Booking
       </a>
     </div>
 </div>
+
 {{-- paid --}}
-<div class="modal fade" id="add_paid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade in" id="add_paid" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -71,8 +177,20 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <div class="alert alert-danger notpaid" style="display:none;">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Can't Paid Excess</strong>
+      </div>
+      <div class="alert alert-danger confirm" style="display:none;">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>This booking has confirm</strong>
+      </div>
       <div class="modal-body">
-        <div class="input-group mb-3">
+        <div class="alert alert-danger show-ms" style="display:none;">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>This Booking Has Confirm</strong>
+        </div>
+        <div class="input-group mb-3 input_paid">
           <div class="input-group-prepend">
             <span class="input-group-text">$</span>
           </div>
@@ -89,6 +207,30 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="mssuccess">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header alert-danger" style="width: 100%">
+          <strong>This booking has successfully</strong>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="msconfirm">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header alert-danger" style="width: 100%">
+          <strong>This booking has confirm allready</strong>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 {{-- payment --}}
 <div class="modal fade" id="payment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -98,6 +240,10 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
+      </div>
+      <div class="alert alert-danger notpayment" style="display:none;">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Can't Payment Excess Amount</strong>
       </div>
       <div class="modal-body">
         <div class="input-group mb-3">
@@ -117,63 +263,45 @@
     </div>
   </div>
 </div>
-<script type="text/javascript">
-  $(document).ready(function(){
-    var booking_id;
-    $('.add_paid').click(function () {
-      var booking_ids = $(this).attr('data-paid');
-      var id = {{ $id }};
-      if (booking_ids==id) {
-        booking_id = (booking_ids=id);
-        $.ajax({
-          type: "GET",
-          url: '/not_paid_booking?booking_id=' + booking_id,
-          success: function(data, status) {  
-            if (data[0].status == 'Confirmed') {
-              $(".modal-body").empty();
-              var new_modal_body = ` <h6>This Booking Has Confirmed</h6>`
-              $(".modal-body").append(new_modal_body);
-            }
-          }
-        });
-      }
-    })
-    $('.paid-btn').click(function(){
-      if (booking_id) {
-        var paid = $('.paid_input').val();
-          $.ajax({
-          type: "GET",
-          url: '/paid_booking?booking_id=' + booking_id + '&paid=' + paid,
-          success: function(data, status) {   
-          }
-        });
-        $('#add_paid').modal('toggle');
-        $(document).ajaxStop(function(){
-          window.location.reload();
-        });
-      booking_id = '';
-      } 
-  });
-  $('.add_payment').click(function(){
-    var booking_ids = $(this).attr('data-pay');
-    var id = {{ $id }};
-    if (booking_ids==id) {
-      booking_id = (booking_ids=id);
-    }
-  });
-  $('.payment-btn').click(function(){
-    if (booking_id) {
-      var payment = $('.payment_input').val();
-      $.ajax({
-          type: "GET",
-          url: '/payment_booking?booking_id=' + booking_id + '&payment=' + payment,
-          success: function(data, status) {   
-        }
-      });
-    }
-  });
-});
+<div class="modal fade" id="payconfirm">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header alert-warning" style="width: 100%">
+          <strong>Please confirm befor payment</strong>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
-</script>
+<div class="modal fade" id="modal_notcancel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header alert-danger" style="width: 100%">
+          <strong>Can't cancel this booking has confirmed</strong>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal_notcancel_suc">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header alert-danger" style="width: 100%">
+          <strong>Can't cancel this booking has success</strong>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
     

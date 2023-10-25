@@ -73,13 +73,10 @@
 						return status;
 					}
 				},
-				{width: 90, targets:[4, 5, 6],className: "text-center"}
-
-				
+				{width: 90, targets:[4, 5, 6],className: "text-center"}	
 			],
 			ajax: "{{ url('all_booking') }}",
 			columns: [
-				// {data: 'booking_code', name: 'booking_code'},
 				{data: 'name', name: 'name'},
 				{data: 'phone', name: 'phone'},
 				{data: 'check_in_date', name: 'check_in_date'},

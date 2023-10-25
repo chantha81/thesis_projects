@@ -423,13 +423,21 @@ class BookingController extends Controller
     public function addPaidBooking(){
         $booking_id = request()->query('booking_id');
         $paid = request()->query('paid');
-        
-        DB::table('booked__packages')
+        $amount = DB::table('booked__packages')
+            ->where('id', $booking_id)
+            ->select('total_price')
+            ->get();
+        $excess_paid = $paid > $amount[0]->total_price;
+        if ($excess_paid) {
+            return response()->json($excess_paid);
+        } else {
+            DB::table('booked__packages')
             ->where('id', $booking_id)
             ->update([
                 'paid'      => $paid,
                 'status'    => 'Confirmed'
-        ]);
+            ]);
+        }
     }
     public function notPaidBooking(){
         $booking_id = request()->query('booking_id');
@@ -444,17 +452,38 @@ class BookingController extends Controller
         $payment = request()->query('payment');
         $pay = DB::table('booked__packages')
             ->where('id',$booking_id)
+            ->select('total_price')
+            ->selectRaw('total_price - paid as balance')
             ->selectRaw('paid + ? as pay', [$payment])
             ->get();
-        DB::table('booked__packages')
-            ->where('id',$booking_id)
-            ->update([
-                'paid'    => $pay[0]->pay,
-                'status'  => 'Success'
-            ]);
-        // dd($pay);
-            // ->update([
-            //     'paid'      => 
-            // ]);
+        $pay_excess = $pay[0]->pay > $pay[0]->total_price;
+        $payment_true = $payment <= $pay[0]->total_price;
+        if ($pay_excess) {
+            return response()->json($pay_excess);
+        } else if ($payment_true) {
+            if ($pay[0]->pay < $pay[0]->balance) {
+                DB::table('booked__packages')
+                ->where('id',$booking_id)
+                ->update([
+                    'paid'    => $pay[0]->pay,
+                    'status'  => "Confirmed"
+                ]);
+            } else {
+                DB::table('booked__packages')
+                ->where('id',$booking_id)
+                ->update([
+                    'paid'    => $pay[0]->pay,
+                    'status'  => "Success"
+                ]);
+            }
+        } 
+    }
+    public function getStatus(){
+        $booking_id = request()->query('booking_id');
+        $status = DB::table('booked__packages')
+            ->where('id', $booking_id)
+            ->select('status','id')
+            ->get();
+        return response()->json($status);
     }
 }

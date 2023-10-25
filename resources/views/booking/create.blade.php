@@ -246,8 +246,9 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Room</th>
                                 <th scope="col">Name</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Bed</th>
                                 <th scope="col">Price</th>
                             </tr>
                         </thead>
@@ -312,8 +313,9 @@
                             var tr =
                                 `<tr>
                         <td id="td-check"><input type="checkbox" data-room="${element.id}" class="form-check-input clickBox" style="width:20px; height:20px"/></td>
-                        <td> ${element.room_number}</td>
-                        <td> ${element.room_name} </td>
+                        <td> ${element.name}</td>
+                        <td> ${element.type} </td>
+                        <td> ${element.bed} </td>
                         <td> ${element.price} </td>
                     </tr>`
                             tboby.append(tr);

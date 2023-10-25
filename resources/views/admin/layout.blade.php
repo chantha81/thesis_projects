@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="{{asset('admin/css/style.css')}}">
 	<link rel="stylesheet" href="{{asset('fontawesome/css/all.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('admin/css/bootstrap-datetimepicker.min.css')}}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.all.min.js">
 		<!-- datatabale -->
 	<link rel="stylesheet" href="/css/mystyle.css">
 	<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -179,6 +180,7 @@
 	<script src="{{asset('admin/js/jquery-ui.min.js')}}"></script>
 	<script src="{{asset('admin/js/bootstrap-datetimepicker.min.js')}}"></script>
 	<script src="{{asset('admin/plugins/raphael/raphael.min.js')}}"></script>
+	<script src="{{asset('admin/bootbox/bootbox.all.min.js')}}"></script>
 	{{Html::script('admin/js/myjs.js')}}
 	{{Html::script('js/myscript.js')}}
 	<!-- datatable -->

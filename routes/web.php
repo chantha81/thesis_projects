@@ -88,6 +88,7 @@ Route::get('/detail_booking/{id}',[BookingController::class,'getBookingDetail'])
 Route::get('/paid_booking',[BookingController::class,'addPaidBooking']);
 Route::get('/not_paid_booking',[BookingController::class,'notPaidBooking']);
 Route::get('/payment_booking',[BookingController::class,'paymentBooking']);
+Route::get('/getstatus', [BookingController::class,'getStatus']);
 
 //=====Tent====\\
 Route::get('/select-tent', [BookingController::class,'getTentByID']);

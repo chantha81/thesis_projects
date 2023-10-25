@@ -18,7 +18,7 @@ class StudentController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a>
+                    $actionBtn = '<a href="javascript:void(0)" ><i class="fa-solid fa-dollar-sign"></i></a>
                                   <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
                     return $actionBtn;
                 })

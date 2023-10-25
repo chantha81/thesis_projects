@@ -203,6 +203,10 @@ border-color: transparent;
     /* border-style: solid;
     border-color: #0000ff; */
 }
+.ms-status{
+    background-color: rgb(246, 70, 70);
+    height: 2rem;
+}
 
 
 
