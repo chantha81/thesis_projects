@@ -19,60 +19,50 @@ class UserController extends Controller
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
     
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $roles = Role::pluck('name','name')->all();
         return view('users.create',compact('roles'));
     }
-    
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required'
-        ]);
+        // dd($request->all());
+        // $this->validate($request, [
+        //     'name' => 'required',
+        //     'email' => 'required|email|unique:users,email',
+        //     'password' => 'required|same:confirm-password',
+        //     'roles' => 'required'
+        // ]);
     
+        if (($request->staff_img)) {
+            $image = $request->file('staff_img');
+            $upload = 'img/staff/';
+            $filename = time().$image->getClientOriginalName();
+            $path = move_uploaded_file($image->getPathName(), $upload. $filename);
+        } else{
+            $filename = null;
+        }
+
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
-    
+        $input['staff_img'] = $filename;
+        
+        $role = $request->role[0];
+        // dd($role);
         $user = User::create($input);
-        $user->assignRole($request->input('roles'));
+        $user->assignRole($role);
     
         return redirect()->route('users.index')
-                        ->with('success','User created successfully');
+            ->with('success','User created successfully');
     }
     
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $user = User::find($id);
         return view('users.show',compact('user'));
     }
     
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $user = User::find($id);
@@ -82,13 +72,6 @@ class UserController extends Controller
         return view('users.edit',compact('user','roles','userRole'));
     }
     
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $this->validate($request, [
@@ -112,7 +95,7 @@ class UserController extends Controller
         $user->assignRole($request->input('roles'));
     
         return redirect()->route('users.index')
-                        ->with('success','User updated successfully');
+            ->with('success','User updated successfully');
     }
     
     /**
@@ -125,6 +108,6 @@ class UserController extends Controller
     {
         User::find($id)->delete();
         return redirect()->route('users.index')
-                        ->with('success','User deleted successfully');
+            ->with('success','User deleted successfully');
     }
 }

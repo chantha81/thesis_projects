@@ -33,7 +33,7 @@ use App\Http\Controllers\RoomController;
 Auth::routes();
   
 Route::group(['middleware' => ['auth']], function() {
-    Route::get('/camping-pack', function () {
+    Route::get('/', function () {
         return view('admin.index');
     });
     Route::resource('roles', RoleController::class);
@@ -42,6 +42,42 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('booking', BookingController::class);
     Route::resource('create',BookingController::class);
     Route::resource('accessories', AccessoriesController::class);
+    //====Rooms====\\
+    Route::get('rooms',[RoomController::class,'index'])->name('rooms.index');
+    Route::get('rooms/list', [RoomController::class,'getRoom'])->name('rooms.list');
+    Route::get('/room_create', [RoomController::class,'create']);
+    Route::post('/room_store', [RoomController::class,'store'])->name('room.store');
+    Route::get('/rooms-edit/{rooms}',[RoomController::class,'edit'])->name('rooms.edit');
+    Route::put('/rooms/{rooms}',[RoomController::class,'update'])->name('rooms.update');
+
+    //======booking======\\
+    Route::get('all_booking',[BookingController::class,'index']);
+    Route::get('/create_booking', [BookingController::class,'create']);
+    Route::post('/booking_store', [BookingController::class,'store']);
+    Route::post('/booking_update/{id}', [BookingController::class,'update']);
+    Route::get('/select-room', [BookingController::class,'getRoomByID']);
+    Route::get('/room', [BookingController::class,'getRoom']);
+    Route::get('/get-room_id', [BookingController::class,'getRoomIDByBookingDetail']);
+    Route::get('/package-edit/{id}',[BookingController::class,'edit']);
+    Route::get('/delete/{id}',[BookingController::class,'destroy']);
+    Route::get('/detail_booking/{id}',[BookingController::class,'getBookingDetail']);
+    Route::get('/paid_booking',[BookingController::class,'addPaidBooking']);
+    Route::get('/not_paid_booking',[BookingController::class,'notPaidBooking']);
+    Route::get('/payment_booking',[BookingController::class,'paymentBooking']);
+    Route::get('/getstatus', [BookingController::class,'getStatus']);
+
+    //=====Tent====\\
+    Route::get('/select-tent', [BookingController::class,'getTentByID']);
+    Route::get('/get-tent_id', [BookingController::class,'getTentIDByTentDetail']);
+    Route::get('/get-tent', [BookingController::class,'getTent']);
+    //===place_camping==\\
+    Route::get('/get-place_camping', [BookingController::class,'getPlaceCamping']);
+
+    Route::resource('tents', TentController::class);
+    Route::get('tents/delete/{id}',[TentController::class,'delete']);   
+
+    Route::get('students', [StudentController::class, 'index']);
+    Route::get('students/list', [StudentController::class, 'getStudents'])->name('students.list');
 });
 
 // Route::get('/admin', function () {
@@ -62,46 +98,9 @@ Route::group(['middleware' => ['auth']], function() {
 // Route::resource('/category', CategoryController::class);
 
 //posts
-Route::get('/',function(){
-    return view('admin/index');
-});
 
-//====Rooms====\\
-Route::get('rooms',[RoomController::class,'index'])->name('rooms.index');
-Route::get('rooms/list', [RoomController::class,'getRoom'])->name('rooms.list');
-Route::get('/room_create', [RoomController::class,'create']);
-Route::post('/room_store', [RoomController::class,'store'])->name('room.store');
-Route::get('/rooms-edit/{rooms}',[RoomController::class,'edit'])->name('rooms.edit');
-Route::put('/rooms/{rooms}',[RoomController::class,'update'])->name('rooms.update');
 
-//======booking======\\
-Route::get('all_booking',[BookingController::class,'index']);
-Route::get('/create_booking', [BookingController::class,'create']);
-Route::post('/booking_store', [BookingController::class,'store']);
-Route::post('/booking_update/{id}', [BookingController::class,'update']);
-Route::get('/select-room', [BookingController::class,'getRoomByID']);
-Route::get('/room', [BookingController::class,'getRoom']);
-Route::get('/get-room_id', [BookingController::class,'getRoomIDByBookingDetail']);
-Route::get('/package-edit/{id}',[BookingController::class,'edit']);
-Route::get('/delete/{id}',[BookingController::class,'destroy']);
-Route::get('/detail_booking/{id}',[BookingController::class,'getBookingDetail']);
-Route::get('/paid_booking',[BookingController::class,'addPaidBooking']);
-Route::get('/not_paid_booking',[BookingController::class,'notPaidBooking']);
-Route::get('/payment_booking',[BookingController::class,'paymentBooking']);
-Route::get('/getstatus', [BookingController::class,'getStatus']);
 
-//=====Tent====\\
-Route::get('/select-tent', [BookingController::class,'getTentByID']);
-Route::get('/get-tent_id', [BookingController::class,'getTentIDByTentDetail']);
-Route::get('/get-tent', [BookingController::class,'getTent']);
-//===place_camping==\\
-Route::get('/get-place_camping', [BookingController::class,'getPlaceCamping']);
-
-Route::resource('tents', TentController::class);
-Route::get('tents/delete/{id}',[TentController::class,'delete']);   
-
-Route::get('students', [StudentController::class, 'index']);
-Route::get('students/list', [StudentController::class, 'getStudents'])->name('students.list');
 
 // Route::get('rooms', [RoomController::class, 'index']);
 // Route::get('rooms/list', [RoomController::class, 'getRooms'])->name('rooms.list');

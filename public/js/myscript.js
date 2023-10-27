@@ -14,3 +14,6 @@
 //   //        format: 'mm-dd-yyyy'
 //   //     }); 
 // });
+$('.iuser').on('click',function () {
+    alert('123');
+})

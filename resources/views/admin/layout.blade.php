@@ -16,14 +16,15 @@
 	{{-- <link rel="stylehseet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">	 --}}
 	<link rel="stylesheet" href="{{asset('admin/css/style.css')}}">
 	<link rel="stylesheet" href="{{asset('fontawesome/css/all.min.css')}}">
+	<link type="text/javascript" src="{{asset('admin/js/user.js')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('admin/css/bootstrap-datetimepicker.min.css')}}">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.all.min.js">
 		<!-- datatabale -->
 	<link rel="stylesheet" href="/css/mystyle.css">
 	<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 	{{Html::style('css/mystyle.css')}}
-	{{Html::style('css/formstyle.css')}}   
+	{{Html::style('css/formstyle.css')}}
+	  
 </head>
 <body>
 	<div class="main-wrapper">
@@ -152,9 +153,8 @@
 						</li>
 						<li class="submenu"> <a href="#"><i class="fas fa-user"></i> <span> Staff </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
-								<li><a href="all-staff.html">All Staff </a></li>
-								<li><a href="edit-staff.html"> Edit Staff </a></li>
-								<li><a href="add-staff.html"> Add Staff </a></li>
+								<li><a href="{{route('users.index')}}">All Staff </a></li>
+								<li><a href="{{route('users.create')}}"> Add Staff </a></li>
 							</ul>
 						</li>
 						<li> <a href="assets.html"><i class="fas fa-cube"></i> <span>Assests</span></a> </li>
@@ -176,11 +176,11 @@
 	<script src="{{asset('admin/plugins/raphael/raphael.min.js')}}"></script>
 	<script src="{{asset('admin/plugins/morris/morris.min.js')}}"></script>
 	<script src="{{asset('admin/js/script.js')}}"></script>
+	
 	<script src="{{asset('admin/js/moment.min.js')}}"></script>
 	<script src="{{asset('admin/js/jquery-ui.min.js')}}"></script>
 	<script src="{{asset('admin/js/bootstrap-datetimepicker.min.js')}}"></script>
 	<script src="{{asset('admin/plugins/raphael/raphael.min.js')}}"></script>
-	<script src="{{asset('admin/bootbox/bootbox.all.min.js')}}"></script>
 	{{Html::script('admin/js/myjs.js')}}
 	{{Html::script('js/myscript.js')}}
 	<!-- datatable -->
@@ -188,5 +188,6 @@
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 	<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 	<script src="https://cdn.datatables.net/plug-ins/1.13.6/dataRender/datetime.js"></script>
+	{{-- myscript --}}
 </body>
 </html>

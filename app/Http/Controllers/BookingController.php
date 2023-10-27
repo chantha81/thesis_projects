@@ -394,9 +394,6 @@ class BookingController extends Controller
         Session::flash('package_delete','Your Booking Package is Deleted');
         return redirect('all_booking');
     }
-    public function show($id){
-        return view('booking.modal');
-    }
     public function getBookingDetail($id){
         $customer_info = DB::table('booked__packages')
             ->leftjoin('customer_infomations','booked__packages.customer_info_id','customer_infomations.id')
