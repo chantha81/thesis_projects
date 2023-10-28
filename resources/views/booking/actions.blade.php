@@ -3,6 +3,7 @@
   $(document).ready(function(){
     var booking_id;
     $('.add_paid').click(function () {
+      console.log(table.page);
       var booking_ids = $(this).attr('data-paid');
       var id = {{ $id }};
       if (booking_ids==id) {
@@ -31,6 +32,7 @@
                     } else {
                       $("#add_paid").modal("hide");
                     }
+                    table.ajax.reload();
                   }
               });
               

@@ -1,11 +1,10 @@
 <?php
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PostController;
-
 use App\Http\Controllers\AccessoriesController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HomeController;
@@ -31,7 +30,7 @@ use App\Http\Controllers\RoomController;
 |
 */
 Auth::routes();
-  
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/', function () {
         return view('admin.index');
@@ -90,7 +89,7 @@ Route::group(['middleware' => ['auth']], function() {
 // Route::post('/post-login', [AuthController::class, 'postLogin'])->name('login.post');
 // Route::get('/registration', [AuthController::class, 'registration'])->name('register');
 // Route::post('/post-registration', [AuthController::class, 'postRegistration'])->name('register.post');
-// // Route::get('/dashboard', [AuthController::class, 'dashboard']);
+// Route::get('/dashboard', [AuthController::class, 'dashboard']);
 // Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //Category

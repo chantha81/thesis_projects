@@ -20,13 +20,13 @@ use Carbon\Carbon;
 class BookingController extends Controller
 
 {
-    // function __construct()
-    // {
-    //      $this->middleware('permission:booking-list|booking-create|booking-edit|booking-delete', ['only' => ['index','show']]);
-    //      $this->middleware('permission:booking-create', ['only' => ['create','store']]);
-    //      $this->middleware('permission:booking-edit', ['only' => ['edit','update']]);
-    //      $this->middleware('permission:booking-delete', ['only' => ['destroy']]);
-    // }
+    function __construct()
+    {
+         $this->middleware('permission:booking-list|booking-create|booking-edit|booking-delete', ['only' => ['index','show']]);
+         $this->middleware('permission:booking-create', ['only' => ['create','store']]);
+         $this->middleware('permission:booking-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:booking-delete', ['only' => ['destroy']]);
+    }
     public function index(Request $request)
     {
         if(request()->ajax()) {
@@ -163,8 +163,7 @@ class BookingController extends Controller
         return response()->json($rooms);
     }
     public function store(Request $request)
-    {
-        
+    { 
         // dd($request->all());
         if ($request->room_ids) {
             $id_rooms = [];
@@ -214,7 +213,7 @@ class BookingController extends Controller
             $bookings->check_out_date = $request->check_out_date;
             $bookings->booking_code = $request->booking_code;
             $bookings->total_price = $total_price;
-            $bookings->status = 'Confimed';
+            $bookings->status = 'Confirmed';
             $bookings->save();
         }
         

@@ -31,9 +31,9 @@
 												<th>Phone</th>
 												<th>Check In Date</th>
 												<th>Check Out Date</th>
-												<th>Paid</th>
-												<th>Amount</th>
-												<th>Balance</th>
+												<th>Book Advance</th>
+												<th>Total</th>
+												<th>Unpaid</th>
 												<th>Status</th> 
 												<th>Actions</th>
 											</tr>
@@ -50,8 +50,9 @@
 		</div>
 
 <script type="text/javascript">
+    var table ;
 	$(function () {
-		var table = $('#tbooked').DataTable({
+		 table = $('#tbooked').DataTable({
 			paging: true,
 			processing: true,
 			serverSide: true,
