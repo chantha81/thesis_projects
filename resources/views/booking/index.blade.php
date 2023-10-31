@@ -23,7 +23,7 @@
 						<div class="card card-table">
 							<div class="card-body booking_card">
 								<div class="table-responsive">
-									<table id= "tbooked" class="datatable table table-stripped table table-hover table-center table-bordered">
+									<table id= "tbooked" class="datatable table table-stripped table-hover table-center table-bordered">
 										<thead>
 											<tr id="trhead">
 												{{-- <th>Booking Code</th> --}}
@@ -82,7 +82,7 @@
 				{data: 'phone', name: 'phone'},
 				{data: 'check_in_date', name: 'check_in_date'},
 				{data: 'check_out_date', name: 'check_out_date'},
-				{data: 'paid', name: 'paid',render: $.fn.dataTable.render.number( ',', '.', 2)},
+				{data: 'book_advance', name: 'book_advance',render: $.fn.dataTable.render.number( ',', '.', 2)},
 				{data: 'total_price', name: 'total_price',render: $.fn.dataTable.render.number( ',', '.', 2)},
 				{data: 'balance', name: 'balance',render: $.fn.dataTable.render.number( ',', '.', 2)},
 				{data: 'status', name: 'status'},

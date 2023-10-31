@@ -22,7 +22,8 @@ class PermissionTableSeeder extends Seeder
             'booking-create',
             'booking-edit',
             'booking-delete',
-            'confirm-booking'
+            'confirm-booking',
+            'add-user'
          ];
 
          foreach ($permissions as $permission) {

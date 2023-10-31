@@ -254,6 +254,9 @@ border-color: transparent;
     text-shadow:1px 1px #bcbdbe;
     font-style: normal;
 }
+.btn-adUser{
+    cursor: pointer;
+}
 
 
 

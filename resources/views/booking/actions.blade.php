@@ -53,33 +53,25 @@
           url: '/getstatus?booking_id=' + booking_id,
           success: function(data, status, resp) {
             if (data[0].status == 'Confirmed') {
-              $("#payment").modal("show");
+              booking_id  = data[0].id;
+              $.ajax({
+                  type: "GET",
+                  url: '/payment_booking?booking_id=' + booking_id,
+                  success: function(data, status) { 
+                }
+              });
+              // $("#payment").modal("show");
             } else if (data[0].status == "Pending"){
               $("#payconfirm").modal("show");
             } else if (data[0].status == "Success"){
               $("#mssuccess").modal("show");
             }
-            $('.payment-btn').click(function(){
-              var payment = $('.payment_input').val(), booking_id  = data[0].id;
-              $.ajax({
-                  type: "GET",
-                  url: '/payment_booking?booking_id=' + booking_id + '&payment=' + payment,
-                  success: function(data, status) { 
-                    if (data == true) {
-                      $('.notpayment').show();
-                      setTimeout(function() { $(".notpayment").hide(); }, 4000);
-                    } else {
-                      $("#payment").modal("hide");
-                    }
-                }
-              });
-            });
           }
         });
       booking_id = '';
       } //end if
     });
-    $('cancel_booking').click(function () {
+    $('.cancel_booking').click(function () {
       var booking_ids = $(this).attr('data-id');
       var id = {{ $id }};
       if (booking_ids==id) {
@@ -92,6 +84,14 @@
               $("#modal_notcancel").modal("show");
             } else if (data[0].status == "Success"){
               $("#modal_notcancel_suc").modal("show");
+            } else if (data[0].status == 'Pending'){
+              var booking_id = data[0].id;
+              $.ajax({
+                  type: "GET",
+                  url: '/cancel_booking?booking_id=' + booking_id,
+                  success: function(data, status) {
+                }
+              });
             }  
           }
         });
@@ -147,9 +147,9 @@
 <a href="/package-edit/{{$id}}" data-toggle="tooltip" data-original-title="Edit">
     <i class="fa-solid fa-pen-to-square"></i>
 </a>
-<a href="/delete/{{ $id }}" data-id="{{ $id }}" data-toggle="tooltip" data-original-title="Delete">
+{{-- <a href="/delete/{{ $id }}" data-id="{{ $id }}" data-toggle="tooltip" data-original-title="Delete">
     <i class="fa-solid fa-trash-can"></i>
-</a>
+</a> --}}
 
 <div class="dropdown">
   <i class="fa-solid fa-sliders action_booking" data-toggle="dropdown" data-action-id="{{$id}}"></i>

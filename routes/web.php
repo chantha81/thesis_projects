@@ -10,7 +10,6 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\TentController;
 use App\Models\Booked_Package;
@@ -37,7 +36,6 @@ Route::group(['middleware' => ['auth']], function() {
     });
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
-    Route::resource('products', ProductController::class);
     Route::resource('booking', BookingController::class);
     Route::resource('create',BookingController::class);
     Route::resource('accessories', AccessoriesController::class);
@@ -64,6 +62,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/not_paid_booking',[BookingController::class,'notPaidBooking']);
     Route::get('/payment_booking',[BookingController::class,'paymentBooking']);
     Route::get('/getstatus', [BookingController::class,'getStatus']);
+    Route::get('/cancel_booking',[BookingController::class,'cancelBooking']);
 
     //=====Tent====\\
     Route::get('/select-tent', [BookingController::class,'getTentByID']);
@@ -74,9 +73,6 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::resource('tents', TentController::class);
     Route::get('tents/delete/{id}',[TentController::class,'delete']);   
-
-    Route::get('students', [StudentController::class, 'index']);
-    Route::get('students/list', [StudentController::class, 'getStudents'])->name('students.list');
 });
 
 // Route::get('/admin', function () {
@@ -91,30 +87,6 @@ Route::group(['middleware' => ['auth']], function() {
 // Route::post('/post-registration', [AuthController::class, 'postRegistration'])->name('register.post');
 // Route::get('/dashboard', [AuthController::class, 'dashboard']);
 // Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
-//Category
-
-// Route::resource('/category', CategoryController::class);
-
-//posts
-
-
-
-
-// Route::get('rooms', [RoomController::class, 'index']);
-// Route::get('rooms/list', [RoomController::class, 'getRooms'])->name('rooms.list');
-// Route::get('rooms/create',[RoomController::class,'create'])->name('rooms.create');
-// Route::post('rooms/create',[RoomController::class,'store'])->name('rooms.store');
-
-// Route::get('/accessories',[AccessoriesController::class,'index'])->name('accessories.index');
-// Route::get('accessories/list', [AccessoriesController::class, 'getAccessories'])->name('accessories.list');
-// Route::get('accessories/create',[AccessoriesController::class,'create'])->name('accessories.create');
-// Route::post('accessories/create',[AccessoriesController::class,'store'])->name('accessories.store');
-// Route::get('/accessories/{accessories}/edit',[AccessoriesController::class,'edit'])->name('accessories.edit');
-// Route::put('/accessories/{accessories}',[AccessoriesController::class,'update'])->name('accessories.update');
-
-// Route::get('/booking', [BookingController::class, 'index'])->name('booking.index');  
-// Route::get('/booking/create',[BookingController::class,'create'])->name('booking.create');
 
 Route::view('/welcome21', 'welcome', ['name' => 'Taylor']);
 Route::resource('testing', TestingController::class);

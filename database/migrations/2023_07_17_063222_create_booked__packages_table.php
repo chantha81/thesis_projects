@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('booking_code')->nullable();
             $table->string('check_in_date')->nullable();
             $table->string('check_out_date')->nullable();
-            $table->string('total_price')->nullable();
+            $table->float('total_price')->default(0);
+            $table->float('book_advance')->default(0);
             $table->string('status')->nullable();
             $table->timestamps();
         });

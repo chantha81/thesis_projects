@@ -218,6 +218,15 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon1">$</span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="Book Advance" name="book_advance"
+                                         aria-describedby="basic-addon1">
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -467,8 +476,8 @@
                 var tr =
                     `<tr>
                 <td>${element.id} <input type="hidden" name="room_ids[]" value="${element.id}"/></td>
-                <td> ${element.room_number}</td>
-                <td> ${element.room_name} </td>
+                <td> ${element.name}</td>
+                <td> ${element.type} </td>
                 <td> ${element.price} </td>
                 <td> <i class="fa-solid fa-trash remove_room_from_append" style="cursor:pointer;" onclick="remove_room(${element.id})"></i></td>
              </tr>`

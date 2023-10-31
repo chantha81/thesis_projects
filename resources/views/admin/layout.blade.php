@@ -18,6 +18,7 @@
 	<link rel="stylesheet" href="{{asset('fontawesome/css/all.min.css')}}">
 	<link type="text/javascript" src="{{asset('admin/js/user.js')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('admin/css/bootstrap-datetimepicker.min.css')}}">
+
 		<!-- datatabale -->
 	<link rel="stylesheet" href="/css/mystyle.css">
 	<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -139,13 +140,13 @@
 								<li><a href="{{ url('create_booking') }}"> Add Booking </a></li>
 							</ul>
 						</li>
-						<li class="submenu"> <a href="#"><i class="fas fa-user"></i> <span> Customers </span> <span class="menu-arrow"></span></a>
+						{{-- <li class="submenu"> <a href="#"><i class="fas fa-user"></i> <span> Customers </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
 								<li><a href="all-customer.html"> All customers </a></li>
 								<li><a href="edit-customer.html"> Edit Customer </a></li>
 								<li><a href="add-customer.html"> Add Customer </a></li>
 							</ul>
-						</li>
+						</li> --}}
 						<li class="submenu"> <a href="#"><i class="fas fa-key"></i> <span> Rooms </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
 								<li><a href="{{url('/rooms')}}">All Rooms </a></li>
@@ -197,6 +198,9 @@
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 	<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 	<script src="https://cdn.datatables.net/plug-ins/1.13.6/dataRender/datetime.js"></script>
-	{{-- myscript --}}
+	{{-- dialog are you sure --}}
+	{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 </body>
 </html>

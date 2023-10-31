@@ -29,11 +29,12 @@ class BookingController extends Controller
     }
     public function index(Request $request)
     {
+        
         if(request()->ajax()) {
             $data = DB::table('booked__packages')
                 ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
                 ->select( 'customer_infomations.*','booked__packages.*')
-                ->selectRaw('booked__packages.total_price - booked__packages.paid as balance')
+                ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
                 ->get();
             return DataTables::of($data)
             ->addColumn('action', 'booking.actions')
@@ -213,6 +214,7 @@ class BookingController extends Controller
             $bookings->check_out_date = $request->check_out_date;
             $bookings->booking_code = $request->booking_code;
             $bookings->total_price = $total_price;
+            $bookings->book_advance = $request->book_advance;
             $bookings->status = 'Confirmed';
             $bookings->save();
         }
@@ -445,34 +447,18 @@ class BookingController extends Controller
     }
     public function paymentBooking(){
         $booking_id = request()->query('booking_id');
-        $payment = request()->query('payment');
-        $pay = DB::table('booked__packages')
+        $unpaid = DB::table('booked__packages')
             ->where('id',$booking_id)
-            ->select('total_price')
-            ->selectRaw('total_price - paid as balance')
-            ->selectRaw('paid + ? as pay', [$payment])
+            ->select('book_advance')
+            ->selectRaw('total_price - book_advance as unpaid')
             ->get();
-        $pay_excess = $pay[0]->pay > $pay[0]->total_price;
-        $payment_true = $payment <= $pay[0]->total_price;
-        if ($pay_excess) {
-            return response()->json($pay_excess);
-        } else if ($payment_true) {
-            if ($pay[0]->pay < $pay[0]->balance) {
-                DB::table('booked__packages')
-                ->where('id',$booking_id)
-                ->update([
-                    'paid'    => $pay[0]->pay,
-                    'status'  => "Confirmed"
-                ]);
-            } else {
-                DB::table('booked__packages')
-                ->where('id',$booking_id)
-                ->update([
-                    'paid'    => $pay[0]->pay,
-                    'status'  => "Success"
-                ]);
-            }
-        } 
+        $paid = $unpaid[0]->book_advance + $unpaid[0]->unpaid;
+        DB::table('booked__packages')
+            ->where('id',$booking_id)
+            ->update([
+                'book_advance'    =>$paid,
+                'status'  => "Success"
+            ]);
     }
     public function getStatus(){
         $booking_id = request()->query('booking_id');
@@ -481,5 +467,13 @@ class BookingController extends Controller
             ->select('status','id')
             ->get();
         return response()->json($status);
+    }
+    public function cancelBooking(){
+        $booking_id = request()->query('booking_id');
+        DB::table('booked__packages')
+            ->where('id', $booking_id)
+            ->update([
+                'status' =>  'Reject'
+            ]);
     }
 }

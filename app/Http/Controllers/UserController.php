@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
+use DataTables;
 use DB;
 use Hash;
 use Illuminate\Support\Arr;
@@ -14,9 +15,25 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $data = User::orderBy('id','DESC')->paginate(5);
-        return view('users.index',compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        // $data = User::get();
+        //     return Datatables::of($data)
+        //         ->addColumn('action','rooms.actions')
+        //         ->toJson();
+        // dd($data);
+        if (request()->ajax()) {
+            $data = User::get();
+            return DataTables::of($data)
+                ->addColumn('role', function(User $data){
+                    foreach ($data as $user) {
+                        foreach ($data->getRoleNames() as $role) {
+                            return  $role;
+                        }
+                    }
+                })
+                ->addColumn('action','users.actions')
+                ->toJson();
+        }
+        return view('users.index');
     }
     
     public function create()
@@ -57,11 +74,12 @@ class UserController extends Controller
             ->with('success','User created successfully');
     }
     
-    public function show($id)
-    {
-        $user = User::find($id);
-        return view('users.show',compact('user'));
-    }
+    // public function show($id)
+    // {
+    //     // dd($id);
+    //     $user = User::find($id);
+    //     return view('users.show',compact('user'));
+    // }
     
     public function edit($id)
     {
@@ -97,17 +115,19 @@ class UserController extends Controller
         return redirect()->route('users.index')
             ->with('success','User updated successfully');
     }
-    
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
+        dd($id);
         User::find($id)->delete();
         return redirect()->route('users.index')
             ->with('success','User deleted successfully');
     }
+    public function getUser($id)
+    {
+        dd($id);
+        User::find($id)->delete();
+        return redirect()->route('users.index')
+            ->with('success','User deleted successfully');
+    }
+
 }
