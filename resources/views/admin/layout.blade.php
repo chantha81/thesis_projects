@@ -38,7 +38,7 @@
 			<a class="mobile_btn" id="mobile_btn"> <i class="fas fa-bars"></i> </a>
 			<ul class="nav user-menu">
 				<li class="nav-item dropdown noti-dropdown">
-					<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"> <i class="fe fe-bell"></i> <span class="badge badge-pill">3</span> </a>
+					<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"> <i class="fe fe-bell"></i> <span class="badge badge-pill">{{ 3 }}</span> </a>
 					<div class="dropdown-menu notifications">
 						<div class="topnav-dropdown-header"> <span class="notification-title">Notifications</span> <a href="javascript:void(0)" class="clear-noti"> Clear All </a> </div>
 						<div class="noti-content">
@@ -51,46 +51,6 @@
 											<div class="media-body">
 												<p class="noti-details"><span class="noti-title">Carlson Tech</span> has approved <span class="noti-title">your estimate</span></p>
 												<p class="noti-time"><span class="notification-time">4 mins ago</span> </p>
-											</div>
-										</div>
-									</a>
-								</li>
-								<li class="notification-message">
-									<a href="#">
-										<div class="media"> <span class="avatar avatar-sm">
-											<img class="avatar-img rounded-circle" alt="User Image" src="">
-											</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">International Software
-													Inc</span> has sent you a invoice in the amount of <span class="noti-title">$218</span></p>
-												<p class="noti-time"><span class="notification-time">6 mins ago</span> </p>
-											</div>
-										</div>
-									</a>
-								</li>
-								<li class="notification-message">
-									<a href="#">
-										<div class="media"> <span class="avatar avatar-sm">
-											<img class="avatar-img rounded-circle" alt="User Image" src="">
-											</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">John Hendry</span> sent a cancellation request <span class="noti-title">Apple iPhone
-													XR</span></p>
-												<p class="noti-time"><span class="notification-time">8 mins ago</span> </p>
-											</div>
-										</div>
-									</a>
-								</li>
-								<li class="notification-message">
-									<a href="#">
-										<div class="media"> <span class="avatar avatar-sm">
-											<img class="avatar-img rounded-circle" alt="User Image" src="">
-											</span>
-											<div class="media-body">
-												<p class="noti-details"><span class="noti-title">Mercury Software
-												Inc</span> added a new product <span class="noti-title">Apple
-												MacBook Pro</span></p>
-												<p class="noti-time"><span class="notification-time">12 mins ago</span> </p>
 											</div>
 										</div>
 									</a>
@@ -208,4 +168,5 @@
     
     {{-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> --}}
 </body>
+
 </html>

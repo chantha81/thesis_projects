@@ -7,11 +7,11 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AccessoriesController;
 use App\Http\Controllers\BookingController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\TentController;
+use App\Http\Controllers\DashboardController;
 use App\Models\Booked_Package;
 use App\Models\Room;
 use App\Models\Category;
@@ -29,25 +29,26 @@ use App\Http\Controllers\RoomController;
 |
 */
 Auth::routes();
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 Route::group(['middleware' => ['auth']], function() {
-    Route::get('/', function () {
-        return view('admin.index');
-    });
+    // Route::get('/', function () {
+    //     return view('admin.index');
+    // });
+    Route::get('/', [DashboardController::class, 'index']);
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
-    Route::resource('booking', BookingController::class);
+    Route::get('/delete/{user}',[UserController::class,'destroy']);
     Route::resource('create',BookingController::class);
     Route::resource('accessories', AccessoriesController::class);
     //====Rooms====\\
     Route::get('rooms',[RoomController::class,'index'])->name('rooms.index');
-    Route::get('rooms/list', [RoomController::class,'getRoom'])->name('rooms.list');
     Route::get('/room_create', [RoomController::class,'create']);
     Route::post('/room_store', [RoomController::class,'store'])->name('room.store');
     Route::get('/rooms-edit/{rooms}',[RoomController::class,'edit'])->name('rooms.edit');
     Route::put('/rooms/{rooms}',[RoomController::class,'update'])->name('rooms.update');
 
     //======booking======\\
+    Route::get('getAllbooking',[BookingController::class,'getAllbooking']);
     Route::get('all_booking',[BookingController::class,'index']);
     Route::get('/create_booking', [BookingController::class,'create']);
     Route::post('/booking_store', [BookingController::class,'store']);
@@ -74,12 +75,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('tents', TentController::class);
     Route::get('tents/delete/{id}',[TentController::class,'delete']);   
 });
-
-// Route::get('/admin', function () {
-//     return view('admin.index');
-// });
-
-// login and register
 
 // Route::get('/login', [AuthController::class, 'index'])->name('login');
 // Route::post('/post-login', [AuthController::class, 'postLogin'])->name('login.post');

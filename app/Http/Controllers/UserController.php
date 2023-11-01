@@ -15,11 +15,6 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        // $data = User::get();
-        //     return Datatables::of($data)
-        //         ->addColumn('action','rooms.actions')
-        //         ->toJson();
-        // dd($data);
         if (request()->ajax()) {
             $data = User::get();
             return DataTables::of($data)
@@ -117,17 +112,8 @@ class UserController extends Controller
     }
     public function destroy($id)
     {
-        dd($id);
         User::find($id)->delete();
         return redirect()->route('users.index')
             ->with('success','User deleted successfully');
     }
-    // public function getUser($id)
-    // {
-    //     dd($id);
-    //     User::find($id)->delete();
-    //     return redirect()->route('users.index')
-    //         ->with('success','User deleted successfully');
-    // }
-
 }
