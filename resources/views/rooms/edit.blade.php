@@ -36,14 +36,14 @@
 							<div class="row formtype">
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Room Number</label>
-										<input class="form-control" type="text" value="{{ $rooms->room_number }}" name = "room_number">
+										<label>Name</label>
+										<input class="form-control" type="text" value="{{ $rooms->name }}" name = "name">
 									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
-                                        <label for="room_name">Name</label>
-                                        <input  type="text" name ="room_name" value="{{ $rooms->room_name }}" class="form-control">
+                                        <label for="type">Type</label>
+                                        <input  type="text" name ="type" value="{{ $rooms->type }}" class="form-control">
 									</div>
 								</div>
                                 <div class="col-md-4">

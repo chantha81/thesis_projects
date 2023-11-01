@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('booked_packages_detail', function (Blueprint $table) {
             $table->id('id');
-            $table->integer('room_id');
-            $table->integer('booking_id');
+            $table->bigInteger('room_id');
+            $table->bigInteger('booking_id');
             $table->date('check_in_date');
             $table->date('check_oute_date');
             $table->string('status');

@@ -16,7 +16,6 @@
 	{{-- <link rel="stylehseet" href="https://cdn.oesmith.co.uk/morris-0.5.1.css">	 --}}
 	<link rel="stylesheet" href="{{asset('admin/css/style.css')}}">
 	<link rel="stylesheet" href="{{asset('fontawesome/css/all.min.css')}}">
-	<link type="text/javascript" src="{{asset('admin/js/user.js')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('admin/css/bootstrap-datetimepicker.min.css')}}">
 
 		<!-- datatabale -->
@@ -28,6 +27,7 @@
 	  
 </head>
 <body>
+	{{ $user = Auth::user(); }}
 	<div class="main-wrapper">
 		<div class="header">
 			<div class="header-left">
@@ -106,8 +106,8 @@
 						<div class="user-header">
 							<div class="avatar avatar-sm"> <img src="/img/icons/Avatar.png" alt="User Image" class="avatar-img rounded-circle"> </div>
 							<div class="user-text">
-								<h6>Admin</h6>
-								<p class="text-muted mb-0">Administrator</p>
+								<h6>{{ $user->last_name }}</h6>
+								<p class="text-muted mb-0">{{ $user->email }}</p>
 							</div>
 						</div> <a class="dropdown-item" href="profile.html">My Profile</a> 
 								<a class="dropdown-item" href="settings.html">Account Settings</a> 
@@ -132,7 +132,7 @@
 			<div class="sidebar-inner slimscroll">
 				<div id="sidebar-menu" class="sidebar-menu">
 					<ul>
-						<li class="active"> <a href="{{'admin-camping'}}"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a> </li>
+						<li class="active"> <a href="{{url('/')}}"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a> </li>
 						<li class="list-divider"></li>
 						<li class="submenu"> <a href="#"><i class="fas fa-suitcase"></i> <span> Booking </span> <span class="menu-arrow"></span></a>
 							<ul class="submenu_class" style="display: none;">
@@ -169,7 +169,11 @@
 						</li>
 						<li> <a href="{{route('roles.index')}}"><i class="fas fa-cube"></i> <span>Role User</span></a> </li>
 						<li> <a href="{{route('logout')}}"><i class="far fa-bell"></i> <span>Activities</span></a> </li>
-						<li> <a href="settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a> </li>
+						<li class="submenu"> <a href="settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a> 
+							<ul class="submenu_class" style="display: none;">
+								<li> <a href="#"><i class="fas fa-search"></i> hy</a> </li>
+							</ul>
+						</li>
 						<li class="list-divider"></li>
 						
 					</ul>
@@ -180,6 +184,7 @@
 	</div>
 	
 	{{-- {{Html::script('admin/js/jquery-3.5.1.min.js')}} --}}
+	<script type="text/javascript" src="{{asset('admin/js/jquery-3.5.1.min.js')}}"></script>
 	<script src="{{asset('admin/js/popper.min.js')}}"></script>
 	<script src="{{asset('admin/js/bootstrap.min.js')}}"></script>
 	<script src="{{asset('admin/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
@@ -201,6 +206,6 @@
 	{{-- dialog are you sure --}}
 	{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
     
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> --}}
 </body>
 </html>

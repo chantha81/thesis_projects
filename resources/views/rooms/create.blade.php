@@ -28,7 +28,7 @@
                 @endif
 				<div class="row">
 					<div class="col-lg-12">
-						<form name="package-create-form" id="add-blog-post-form" action="{{url('/room_store')}}" method="post">
+						<form enctype="multipart/form-data" name="package-create-form" id="add-blog-post-form" action="{{url('/room_store')}}" method="post">
 						@csrf
 						<!-- @csrf_field -->
 						<!-- @method('PUT') -->
@@ -36,14 +36,14 @@
 							<div class="row formtype">
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Room Number</label>
-										<input class="form-control" type="text" name = "room_number">
+										<label>Name</label>
+										<input class="form-control" type="text" name = "name">
 									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
-                                        <label for="room_name">Name</label>
-                                        <input  type="text" name ="room_name" class="form-control">
+                                        <label for="">Type</label>
+                                        <input  type="text" name ="type" class="form-control">
 									</div>
 								</div>
                                 <div class="col-md-4">

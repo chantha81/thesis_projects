@@ -15,7 +15,7 @@
 				<div class="card card-table">
 					<div class="card-body booking_card">
 						<div class="table-responsive">
-							<table style="width: 100%;" id="table_tent" class="table table-striped table-bordered row-border">
+							<table style="width: 100%;" id="table_tent" class="datatable table table-stripped table-hover table-center table-bordered">
 								<thead>
 									<tr id="trhead">
 										<th>Name</th>
@@ -52,7 +52,7 @@
 			columns: [
 				{data: 'name', name: 'name'},
 				{data: 'type', name: 'type'},
-				{data: 'price', name: 'price'},
+				{data: 'price', name: 'price',render: $.fn.dataTable.render.number( ',', '.', 2)},
                 {data: 'image', name: 'image',
                     "render": function (data) {
                     return '<img src="/img/tent/'+ data +'" width="60" height="50"/>';

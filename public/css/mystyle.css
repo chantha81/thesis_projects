@@ -257,6 +257,12 @@ border-color: transparent;
 .btn-adUser{
     cursor: pointer;
 }
+.submenu-setting{
+    list-style-type: none;
+}
+.submenu ul li a{
+    list-style-type: none;
+}
 
 
 

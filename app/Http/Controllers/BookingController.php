@@ -166,6 +166,7 @@ class BookingController extends Controller
     public function store(Request $request)
     { 
         // dd($request->all());
+        //===get sum price ====\\
         if ($request->room_ids) {
             $id_rooms = [];
             foreach($request->room_ids as $room_id) 
@@ -198,9 +199,15 @@ class BookingController extends Controller
             }
             $total_tent_price = array_sum($tent_price);
         }
+        if ($request->place_camping) {
+            $place_camping = DB::table('place_campings')->get();
+            $unit_price = $place_camping[0]->unit_price;
+            $total_place = $unit_price * $request->place_camping;
+        }
+        $total_place_camping = $request->place_camping ? $total_place : 0;
         $total_room_price = $request->room_ids ?  $total_room_price : 0;
         $total_tent_price = $request->tent_ids ? $total_tent_price : 0;
-        $total_price = $total_room_price + $total_tent_price;
+        $total_price = $total_room_price + $total_tent_price + $total_place_camping;
 
         $customer_info = CustomerInfomation::create([
             "name"      =>$request->name,
@@ -245,17 +252,15 @@ class BookingController extends Controller
             }
         }
         if ($request->place_camping) {
-            $place_camping = DB::table('place_campings')
-                ->get();
+            $place_camping = DB::table('place_campings')->get();
             $unit_price = $place_camping[0]->unit_price;
-            // dd($unit_price);
-            $total_price = $unit_price * $request->place_camping;
+            $total_place = $unit_price * $request->place_camping;
             PlaceCampingDetail::create([
                 "booking_id"        =>$bookings->id,
                 "check_in_date"     =>$request->check_in_date,
                 "check_out_date"    =>$request->check_out_date,
                 "quantity"          =>$request->place_camping,
-                "total_price"       =>$total_price
+                "total_price"       =>$total_place
             ]);
         }
 

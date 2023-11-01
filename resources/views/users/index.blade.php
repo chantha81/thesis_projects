@@ -78,6 +78,6 @@
       ]
     });
 });
-console.log(table);
+// console.log(table);
 </script>
 @endsection

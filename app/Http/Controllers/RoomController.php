@@ -12,20 +12,15 @@ use Validator;
 
 class RoomController extends Controller
 {
-    public function index()
-    {
-        return view('rooms.index');
-    }
-    public function getRoom(Request $request)
-    {
-        if ($request->ajax()) {
-            $data = Room::latest()->get();
+    public function index(Request $request)
+    {  
+        if (request()->ajax()) {
+            $data = Room::get();
             return Datatables::of($data)
-                ->addIndexColumn()
                 ->addColumn('action','rooms.actions')
-            ->rawColumns(['action'])
-            ->make(true);
+                ->toJson();
         }
+        return view('rooms.index');
     }
 
     public function store(Request $request)
@@ -48,8 +43,8 @@ class RoomController extends Controller
         }
         
         $rooms = new Room;
-        $rooms->room_number = $request->room_number;
-        $rooms->room_name = $request->room_name;
+        $rooms->name = $request->name;
+        $rooms->type = $request->type;
         $rooms->bed = $request->bed;
         if ($request->image) {
             $rooms->image = $filename;
@@ -91,8 +86,8 @@ class RoomController extends Controller
         }
         
         $rooms = Room::findOrFail($id);
-        $rooms->room_number = $request->Input('room_number');
-        $rooms->room_name = $request->Input('room_name');
+        $rooms->name = $request->Input('name');
+        $rooms->type = $request->Input('type');
         $rooms->bed = $request->Input('bed') ? $request->Input('bed') : $request->bed;
         if ($request->image) {
             $rooms->image = $filename;
