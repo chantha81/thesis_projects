@@ -65,9 +65,10 @@ class BookingController extends Controller
     //=== get free room ====\\
     public function getRoom()
     {
+        // dd('test');
         $date_in = request()->query('date_in');
         $dat_out = request()->query('date_out');
- 
+        // dd($date_in,$dat_out);
         $rooms_bcs = DB::table('rooms')
                 ->rightjoin('booked_packages_detail','booked_packages_detail.room_id','rooms.id')
                 ->whereRaw("booked_packages_detail.check_in_date <=  date('$dat_out')")
@@ -165,6 +166,7 @@ class BookingController extends Controller
     }
     public function store(Request $request)
     { 
+        dd($request->all());
         // dd($request->all());
         //===get sum price ====\\
         if ($request->room_ids) {
@@ -219,7 +221,7 @@ class BookingController extends Controller
             $bookings->customer_info_id = $customer_info_id;
             $bookings->check_in_date = $request->check_in_date;
             $bookings->check_out_date = $request->check_out_date;
-            $bookings->booking_code = $request->booking_code;
+            
             $bookings->total_price = $total_price;
             $bookings->book_advance = $request->book_advance;
             $bookings->status = 'Confirmed';
@@ -480,5 +482,45 @@ class BookingController extends Controller
             ->update([
                 'status' =>  'Reject'
             ]);
+    }
+    public function getInvice(){
+        $booking_id = request()->query('booking_id');
+        $customer_info = DB::table('booked__packages')
+            ->leftjoin('customer_infomations','booked__packages.customer_info_id','customer_infomations.id')
+            ->where('booked__packages.id',$booking_id)
+            ->get();
+        $room = DB::table('booked__packages')
+            ->leftjoin('booked_packages_detail','booked_packages_detail.booking_id','booked__packages.id')
+            ->leftjoin('rooms','booked_packages_detail.room_id','rooms.id')
+            ->where('booked_packages_detail.booking_id',$booking_id)
+            ->select('rooms.*')
+            ->get();
+        $tent = DB::table('booked__packages')
+            ->leftjoin('tent_details','booked__packages.id','tent_details.booking_id')
+            ->leftjoin('tents','tent_details.tent_id','tents.id')
+            ->where('tent_details.booking_id',$booking_id)
+            ->select('tents.*')
+            ->get();
+        $quantity_place_camping = DB::table('booked__packages')
+            ->leftjoin('place_camping_details','booked__packages.id','place_camping_details.booking_id')
+            ->where('place_camping_details.booking_id',$booking_id)
+            ->select('place_camping_details.quantity')
+            ->get();
+        $place_camping = DB::table('place_campings') ->select('unit_price') ->get();
+        $data_place = $quantity_place_camping->merge($place_camping);
+        return response()->json([
+            'data' =>[
+                'customer_info'     => $customer_info,
+                'room'              => $room,
+                'tent'              => $tent,
+                'data_place'        => $data_place
+            ]
+        ]);
+    }
+    public function testget(){
+        
+        $room = DB::table('rooms') ->get();
+        // dd($room);
+        return response()->json($room);
     }
 }

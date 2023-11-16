@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth']], function() {
     // Route::get('/', function () {
     //     return view('admin.index');
     // });
+    // Route::get('/', [DashboardController::class, 'index']);
     Route::get('/', [DashboardController::class, 'index']);
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
@@ -49,6 +50,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     //======booking======\\
     Route::get('getAllbooking',[BookingController::class,'getAllbooking']);
+    Route::get('invice',[BookingController::class,'getInvice']);
     Route::get('all_booking',[BookingController::class,'index']);
     Route::get('/create_booking', [BookingController::class,'create']);
     Route::post('/booking_store', [BookingController::class,'store']);
@@ -73,15 +75,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/get-place_camping', [BookingController::class,'getPlaceCamping']);
 
     Route::resource('tents', TentController::class);
-    Route::get('tents/delete/{id}',[TentController::class,'delete']);   
+    Route::get('tents/delete/{id}',[TentController::class,'delete']);
+    Route::get('/booking_invice',[BookingController::class,'invice']);   
 });
 
-// Route::get('/login', [AuthController::class, 'index'])->name('login');
-// Route::post('/post-login', [AuthController::class, 'postLogin'])->name('login.post');
-// Route::get('/registration', [AuthController::class, 'registration'])->name('register');
-// Route::post('/post-registration', [AuthController::class, 'postRegistration'])->name('register.post');
-// Route::get('/dashboard', [AuthController::class, 'dashboard']);
-// Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
-Route::view('/welcome21', 'welcome', ['name' => 'Taylor']);
-Route::resource('testing', TestingController::class);
+Route::get('{any?}', function () {
+    return view('welcome');
+})->where('any', '.*');
+Route::get('/room', [BookingController::class,'getRoom']);
