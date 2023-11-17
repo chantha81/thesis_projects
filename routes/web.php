@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/room_store', [RoomController::class,'store'])->name('room.store');
     Route::get('/rooms-edit/{rooms}',[RoomController::class,'edit'])->name('rooms.edit');
     Route::put('/rooms/{rooms}',[RoomController::class,'update'])->name('rooms.update');
+    Route::get('rooms/room-delete/{rooms}',[RoomController::class,'delete']);
 
     //======booking======\\
     Route::get('getAllbooking',[BookingController::class,'getAllbooking']);

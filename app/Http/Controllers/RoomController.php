@@ -113,4 +113,8 @@ class RoomController extends Controller
     public function create(){
         return view('rooms/create');
     }
+    public function delete ($id){
+        Room::find($id) ->delete();
+        return redirect()->route('rooms.index');
+    }
 }

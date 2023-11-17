@@ -193,7 +193,7 @@
                                     <div class="row">Type: {{ room.type }}</div>
                                     <div class="row">Bed: {{ room.bed }}</div>
                                     <div class="row">Price/Day:{{ room.price }} $</div>
-                                    <div class="row"><button class="btn btn-danger" style="width: 80px !important;"><i class="fa-solid fa-trash"></i> Remove</button></div>
+                                    <div class="row"><button class="btn btn-danger" style="width: 80px !important;" @click="removeFromcart(room)"><i class="fa-solid fa-trash"></i> Remove</button></div>
                                 </div>
                             </div>
                         </div>
@@ -314,6 +314,11 @@ function addTentTobooking(tent_data) {
 }
 function navigatTo(page) {
     this.page = page;
+}
+function removeFromcart(room_data) {
+    let index = this.RoomItems.findIndex(RoomItems => RoomItems.id === room_data.id);
+    console.log(RoomItems,'index');
+    // this.RoomItems.splice()
 }
 const AddBooking = async(data_room,data_tent) =>{
     await fetch('/create_booking')
