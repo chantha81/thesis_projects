@@ -36,7 +36,7 @@
 							<div class="row formtype">
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Name</label>
+										<label>Room Name</label>
 										<input class="form-control" type="text" value="{{ $rooms->name }}" name = "name">
 									</div>
 								</div>

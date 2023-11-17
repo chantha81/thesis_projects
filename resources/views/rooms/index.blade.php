@@ -18,7 +18,7 @@
 							<table style="width: 100%;" id="table_room" class="datatable table table-stripped table-hover table-center table-bordered">
 								<thead>
 									<tr id="trhead">
-										<th>Name</th>
+										<th>Room Name</th>
 										<th>Type</th>
 										<th>Bed</th>
 										<th>Price</th>

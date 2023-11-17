@@ -18,7 +18,7 @@
 							<table style="width: 100%;" id="table_tent" class="datatable table table-stripped table-hover table-center table-bordered">
 								<thead>
 									<tr id="trhead">
-										<th>Name</th>
+										<th>Tent Name</th>
 										<th>Type</th>
 										<th>Price</th>
                                         <th>Image</th>

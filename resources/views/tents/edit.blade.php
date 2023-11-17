@@ -40,7 +40,7 @@
 							<div class="row formtype d-flex justify-content-center">
                                 <div class="col-md-9 ">
 									<div class="form-group">
-										<label>Name</label>
+										<label>Tent Name</label>
 										<input class="form-control" type="text" name = "name" value="{{$tent->name}}">
 									</div>
 								</div>
