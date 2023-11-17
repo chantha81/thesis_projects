@@ -18,7 +18,7 @@
 							<table style="width: 100%;" id="table_room" class="datatable table table-stripped table-hover table-center table-bordered">
 								<thead>
 									<tr id="trhead">
-										<th>Name</th>
+										<th>Room Name</th>
 										<th>Type</th>
 										<th>Bed</th>
 										<th>Price</th>
@@ -54,7 +54,7 @@
 				{data: 'name', name: 'name'},
 				{data: 'type', name: 'type'},
 				{data: 'bed', name: 'bed'},
-				{data: 'price', name: 'price', render: $.fn.dataTable.render.number( ',', '.', 2)},
+				{data: 'price', name: 'price', render: $.fn.dataTable.render.number( ',', '.', 2,'$')},
 				{data: 'image', name: 'image',
 					"render": function (data) {
                     return '<img src="/img/room/'+ data +'" width="60" height="50"/>';

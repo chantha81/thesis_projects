@@ -9,12 +9,13 @@
 					</div>
 				</div>
 				{{-- {{dd($tent->image);}} --}}
-                @if(Session::has('tent_update'))
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    <strong></strong>{!! session('tent_update') !!}
-                </div>
-                @endif
+				@if(Session::has('tent_update'))
+				<div class="alert alert-primary alert-dismissible">
+					<button type="button" class="close" data-dismiss="alert">x</button>
+					<strong>{!! session('tent_update') !!}</strong>
+				</div>
+				@endif
+             
                 @if (count($errors) > 0)
                     <!-- Form Error List -->
                     <div class="alert alert-danger">
@@ -39,7 +40,7 @@
 							<div class="row formtype d-flex justify-content-center">
                                 <div class="col-md-9 ">
 									<div class="form-group">
-										<label>Name</label>
+										<label>Tent Name</label>
 										<input class="form-control" type="text" name = "name" value="{{$tent->name}}">
 									</div>
 								</div>
@@ -56,7 +57,7 @@
 									</div>
 								</div>
                                 <div class="col-md-9">
-									<div class="input-group" style="width: 50%;">
+									<!-- <div class="input-group" style="width: 50%;">
 										<div class="input-group-prepend">
 										  <span class="input-group-text" id="inputGroupFileAddon01">Iamge</span>
 										</div>
@@ -65,7 +66,9 @@
 											aria-describedby="inputGroupFileAddon01">
 										  <label class="custom-file-label" for="inputGroupFile01" value="{{$tent->image}}">Choose file</label>
 										</div>
-									  </div>
+									  </div> -->
+									{!! Form::label('image', 'Image:') !!}
+                					{!! Form::file('image', array('class'=>'form-control')) !!}
 								</div>
 							</div>
                             <div class="row d-flex justify-content-center">

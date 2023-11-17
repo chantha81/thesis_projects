@@ -108,7 +108,7 @@ class RoomController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+       //
     }
     public function create(){
         return view('rooms/create');

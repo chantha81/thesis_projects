@@ -119,5 +119,9 @@ class TentController extends Controller
     {
         Tent::find($id) ->delete();
         return redirect()->route('tents.index');
+
+        Session::flash('tent_delete','Tent is Deleted');
+        session()->flash('success', 'Deleted Successfully');
+    	return redirect('tent');
     }
 }

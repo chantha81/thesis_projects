@@ -13,11 +13,12 @@
             <div class="col-lg-12 margin-tb">
                 <div class="pull-left">
                     <h2>Role Management</h2>
+                    <a class="btn btn-success" href="{{ route('roles.create') }}"> Create New Role </a>
                 </div>
                 <div class="pull-right" style ="margin-bottom:20px; ">
-                @can('role-create')
+                <!-- @can('role-create') -->
                     <a class="btn btn-success" href="{{ route('roles.create') }}"> Create New Role </a>
-                    @endcan
+                    <!-- @endcan -->
                 </div>
             </div>
         </div>

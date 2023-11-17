@@ -18,7 +18,7 @@
 							<table style="width: 100%;" id="table_tent" class="datatable table table-stripped table-hover table-center table-bordered">
 								<thead>
 									<tr id="trhead">
-										<th>Name</th>
+										<th>Tent Name</th>
 										<th>Type</th>
 										<th>Price</th>
                                         <th>Image</th>
@@ -52,7 +52,7 @@
 			columns: [
 				{data: 'name', name: 'name'},
 				{data: 'type', name: 'type'},
-				{data: 'price', name: 'price',render: $.fn.dataTable.render.number( ',', '.', 2)},
+				{data: 'price', name: 'price',render: $.fn.dataTable.render.number( ',', '.', 2,'$')},
                 {data: 'image', name: 'image',
                     "render": function (data) {
                     return '<img src="/img/tent/'+ data +'" width="60" height="50"/>';
