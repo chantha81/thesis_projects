@@ -27,7 +27,6 @@
 	  
 </head>
 <body>
-	{{ $user = Auth::user(); }}
 	<div class="main-wrapper">
 		<div class="header">
 			<div class="header-left">
@@ -66,8 +65,8 @@
 						<div class="user-header">
 							<div class="avatar avatar-sm"> <img src="/img/icons/Avatar.png" alt="User Image" class="avatar-img rounded-circle"> </div>
 							<div class="user-text">
-								<h6>{{ $user->last_name }}</h6>
-								<p class="text-muted mb-0">{{ $user->email }}</p>
+								<h6>last_name</h6>
+								<p class="text-muted mb-0">0email</p>
 							</div>
 						</div> <a class="dropdown-item" href="profile.html">My Profile</a> 
 								<a class="dropdown-item" href="settings.html">Account Settings</a> 

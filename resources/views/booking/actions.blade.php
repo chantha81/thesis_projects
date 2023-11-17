@@ -97,7 +97,8 @@
         });
       booking_id = '';
       } //end if
-    })
+    });
+
 });
 
 </script>
@@ -147,9 +148,9 @@
 <a href="/package-edit/{{$id}}" data-toggle="tooltip" data-original-title="Edit">
     <i class="fa-solid fa-pen-to-square"></i>
 </a>
-{{-- <a href="/delete/{{ $id }}" data-id="{{ $id }}" data-toggle="tooltip" data-original-title="Delete">
-    <i class="fa-solid fa-trash-can"></i>
-</a> --}}
+<a href="#" class="print-invoice" data-toggle="modal" data-toggle="tooltip" data-id="{{ $id }}" data-target="#MyModal">
+  <i class="fa-solid fa-print"></i>
+</a>
 
 <div class="dropdown">
   <i class="fa-solid fa-sliders action_booking" data-toggle="dropdown" data-action-id="{{$id}}"></i>
@@ -304,6 +305,318 @@
   </div>
 </div>
 
+{{-- modal print --}}
+
+  <div id="MyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    
+    <div class="modal-dialog modal-lg">
+      
+      <!-- Modal Content: begins -->
+      <div class="modal-content">
+         
+        <div class="modal-body">
+          <div class="body-message">
+            <div id="invoice-POS">
+              <center id="top">
+                <div>
+                  <img src="assets/img/logo-raduis.png" alt="" width="50" height="50" srcset="">
+                </div>
+                <div class="info"> 
+                  <h2>CampingPack</h2>
+                  <div id="date"></div>
+                </div><!--End Info-->
+                
+              </center><!--End InvoiceTop-->
+              
+              <div id="mid">
+                <div class="info_c">
+                  {{-- <p> 
+                      Address : street city, state 0000</br>
+                      Email   : JohnDoe@gmail.com</br>
+                      Phone   : 555-555-5555</br>
+                  </p> --}}
+                </div>
+              </div><!--End Invoice Mid-->
+              <div id="bot">  
+                    <div id="table">
+                        <table id="room_invice">
+                            <thead>
+                              <tr>
+                                <th>N°</th>
+                                <th>Name</th>
+                                <th>type</th>
+                                <th>bed</th>
+                                <th>price</th>
+                              </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div><!--End Table-->
+            
+                    <div id="legalcopy">
+                        <p class="legal"><strong>Thank you for your business!</strong>
+                        </p>
+                    </div>
+                </div><!--End InvoiceBot-->
+            </div>
+          </div>
+        </div>
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button id="btnPrint" type="button" class="btn btn-default">Print</button>
+        </div>
+      </div>
+      <!-- Modal Content: ends -->
+
+    </div>
+</div>
+<script>
+</script>
+<style>
+#date{
+  margin-top:1rem;
+}
+  @media screen {
+    #printSection {
+        display: block;
+    }
+  }
+  
+  @media print {
+    body * {
+      visibility:hidden;
+    }
+    #printSection, #printSection * {
+      visibility:visible;
+    }
+    #printSection {
+      position:absolute;
+      left:0;
+      top:0;
+    }
+  }
+  
+  
+    @media print {
+      .page-break { display: block; page-break-before: always; }
+  }
+        #invoice-POS {
+    box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
+    padding: 2mm;
+    margin: 0 auto;
+    width: 80mm;
+    background: #FFF;
+  }
+  #invoice-POS ::selection {
+    background: #f31544;
+    color: #FFF;
+  }
+  #invoice-POS ::moz-selection {
+    background: #f31544;
+    color: #FFF;
+  }
+  #invoice-POS h1 {
+    font-size: 1.5em;
+    color: #222;
+  }
+  #invoice-POS h2 {
+    font-size: .9em;
+  }
+
+  #invoice-POS h3 {
+    font-size: 1.2em;
+    font-weight: 300;
+    line-height: 2em;
+  }
+  #invoice-POS p {
+    font-size: .7em;
+    color: #666;
+    line-height: 1.2em;
+  }
+  #invoice-POS #top, #invoice-POS #mid, #invoice-POS #bot {
+    /* Targets all id with 'col-' */
+    border-bottom: 1px solid #EEE;
+  }
+  #invoice-POS #top {
+    min-height: 100px;
+  }
+  /* #invoice-POS #mid {
+    min-height: 80px;    //old
+  } */
+  #invoice-POS #mid {
+    height: auto;
+  }
+  #invoice-POS #mid p{
+    margin-bottom: 5px;
+  }
+  #invoice-POS #bot {
+    min-height: 50px;
+  }
+  #invoice-POS .clientlogo {
+    float: left;
+    height: 60px;
+    width: 60px;
+    background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;
+    background-size: 60px 60px;
+    border-radius: 50px;
+  }
+  #invoice-POS .info {
+    display: block;
+    margin-left: 0;
+  }
+  #invoice-POS .title {
+    float: right;
+  }
+  #invoice-POS .title p {
+    text-align: right;
+  }
+  #invoice-POS table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  #invoice-POS .tabletitle {
+    font-size: .5em;
+    background: #EEE;
+  }
+  #invoice-POS .service {
+    border-bottom: 1px solid #EEE;
+  }
+  #invoice-POS .item {
+    width: 24mm;
+  }
+  #invoice-POS .itemtext {
+    font-size: .5em;
+  }
+  #invoice-POS #legalcopy {
+    margin-top: 5mm;
+    width: auto;
+  }
+  #room_invice thead{
+    font-size: .5em;
+    background: #EEE;
+  }
+  #room_invice tbody{
+    font-size: .5em;
+  }
+  </style>
+  
+
+
+<script>
+  window.console = window.console || function(t) {};
+</script>
+  
+<script type="text/javascript">
+  $(document).ready(function () {
+    var booking_id;
+    var room_data = [];
+    var customer_data = [];
+    // var i = 1;
+    $('.print-invoice').click(function () {
+      var booking_ids = $(this).attr('data-id');
+      var id = {{ $id }};
+      if (booking_ids==id) {
+        booking_id = (booking_ids=id);
+        $.ajax({
+          type: "GET",
+          url: '/invice?booking_id=' + booking_id,
+          success: function(data, status) { 
+            data.data.room.forEach(r => {
+              var indexhas = room_data.findIndex(function(room_id) {
+                  return r.id == room_id.id;
+                });
+                if (indexhas < 0) {
+                room_data.push(r);
+              }
+            });
+            render_room_table(room_data);
+            data.data.customer_info.forEach(ci => {
+              console.log(ci);
+              var indexhas = customer_data.findIndex(function(ci_id) {
+                  return ci.id == ci_id.id;
+                });
+                if (indexhas < 0) {
+                  customer_data.push(ci);
+              }   
+            });
+            render_customer(customer_data);
+          }
+        });
+      }
+    });
+  });
+  function render_customer(ci_data) {
+    var info = $('.info_c');
+    var date = $('#date');
+    info.empty();
+    date.empty();
+    ci_data.forEach(function (customer) {
+      var c_info = ` <h2>Customer Info</h2>
+      <p>
+      Name: ${customer.name} <br>
+      Phone: ${customer.phone}
+    </p>`
+    var date_in  = customer.check_in_date;
+    var date_out = customer.check_out_date;
+    var from_date = formatDate(date_in);
+    var to_date   = formatDate(date_out);
+    var date_info = ` <p style="float: left;">Form Date: ${from_date} </p> <p>To Date: ${to_date}</p> `
+    info.append(c_info);
+    date.append(date_info);
+    });
+  }
+  function formatDate(date) {
+    var date_new = new Date(date);
+      var d = date_new.getDate();
+      var m =  date_new.getMonth();
+      m += 1;  // JavaScript months are 0-11
+      var y = date_new.getFullYear();
+      return (d + "." + m + "." + y);
+  }
+  function render_room_table(room_data_render) {
+      var tboby = $('#room_invice tbody');
+      var i = 1;
+      tboby.empty();
+      room_data_render.forEach(function(element) {
+          var tr = `<tr>
+          <td>${i++}</td>
+          <td>${element.name} <input type="hidden" name="room_ids[]" value="${element.id}"/></td>
+          <td> ${element.type}</td>
+          <td> ${element.bed} </td>
+          <td> ${element.price} </td>
+        </tr>`
+          tboby.append(tr);
+      });
+  }
+</script>
+
+<script>
+    document.getElementById("btnPrint").onclick = function () {
+      printElement(document.getElementById("invoice-POS"));
+  }
+  
+  function printElement(elem) {
+      var domClone = elem.cloneNode(true);
+      
+      var $printSection = document.getElementById("printSection");
+      
+      if (!$printSection) {
+          var $printSection = document.createElement("div");
+          $printSection.id = "printSection";
+          document.body.appendChild($printSection);
+      }
+      
+      $printSection.innerHTML = "";
+      $printSection.appendChild(domClone);
+      window.print();
+  }
+</script>
+<script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
 
 
     

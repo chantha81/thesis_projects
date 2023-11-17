@@ -63,7 +63,6 @@
                                         </div>
                                         
                                     </div>
-
                                 </div>
                                 <div class="row">
                                     <div class="container">
@@ -365,7 +364,7 @@
                                 room_data.push(element);
                             }
                         });
-                        console.log('room-data', room_data);
+                        // console.log('room-data', room_data);
                         render_room_table(room_data);
                     }
                 });

@@ -23,6 +23,7 @@ class DashboardController extends Controller
         $booking_confirm = count($confirm);
         $reject = Booked_Package::where('status','Reject') ->get();
         $booking_reject = count($reject);
+        // $user = \Auth::user();
         return view('admin.index',compact('booking_total','booking_pending','booking_success','booking_confirm','booking_reject'));
     }
 }
