@@ -8,12 +8,12 @@
 							<h3 class="page-title mt-5">Add Room</h3> </div>
 					</div>
 				</div>
-                @if(Session::has('room_created'))
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    <strong></strong>{!! session('room_created') !!}
-                </div>
-                @endif
+				@if(Session::has('room_created'))
+					<div class="alert alert-primary alert-dismissible">
+						<button type="button" class="close" data-dismiss="alert">x</button>
+						<strong> {!! session('room_created') !!}</strong>
+					</div>
+				@endif
                 @if (count($errors) > 0)
                     <!-- Form Error List -->
                     <div class="alert alert-danger">
@@ -60,21 +60,21 @@
 								<div class="col-md-4">
 									<div class="form-group">
 										<label>Price</label>
-										<input class="form-control" type="text" name = "price">
+										<input class="form-control" type="number" name = "price">
 									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Image</label>
+										<!-- <label>Image</label> -->
 										<div class="custom-file mb-3">
-											<input type="file" class="custom-file-input" id="customFile" name="image">
-											<label class="custom-file-label" for="customFile">Choose file</label>
+										{!! Form::label('image', 'Image:') !!}
+                						{!! Form::file('image', array('class'=>'form-control')) !!}
 										</div>
 									</div>
 								</div>
 							</div>
 							<button type="submit" class="btn btn-primary buttonedit ml-2">Save</button>
-                            <a class="btn btn-primary buttonedit" href="{!! url('/all_room')!!}">Back</a>
+                            <a class="btn btn-primary buttonedit"  href="{{route('rooms.index')}}">All Rooms</a>
 						</form>
 					</div>
 				</div>

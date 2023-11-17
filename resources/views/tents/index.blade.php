@@ -52,7 +52,7 @@
 			columns: [
 				{data: 'name', name: 'name'},
 				{data: 'type', name: 'type'},
-				{data: 'price', name: 'price',render: $.fn.dataTable.render.number( ',', '.', 2)},
+				{data: 'price', name: 'price',render: $.fn.dataTable.render.number( ',', '.', 2,'$')},
                 {data: 'image', name: 'image',
                     "render": function (data) {
                     return '<img src="/img/tent/'+ data +'" width="60" height="50"/>';

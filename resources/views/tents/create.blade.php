@@ -8,15 +8,12 @@
 							<h3 class="page-title mt-5">Add Tent</h3> </div>
 					</div>
 				</div>
-                @if(Session::has('tent_add'))
-				<div class="row d-flex justify-content-center">
-					<div class=" col-md-9 alert alert-success alert-dismissible">
-						<button type="button" class="close" data-dismiss="alert">×</button>
-						<strong></strong>{!! session('tent_add') !!}
+				@if(Session::has('tent_add'))
+					<div class="alert alert-primary alert-dismissible">
+						<button type="button" class="close" data-dismiss="alert">x</button>
+						<strong> {!! session('tent_add') !!}</strong>
 					</div>
-				</div>
-                
-                @endif
+				@endif
                 @if (count($errors) > 0)
                     <!-- Form Error List -->
                     <div class="alert alert-danger">
@@ -52,11 +49,11 @@
 								<div class="col-md-9">
 									<div class="form-group">
                                         <label>Price</label>
-                                        <input  type="text" name ="price" class="form-control">
+                                        <input  type="number" name ="price" class="form-control">
 									</div>
 								</div>
 								<div class="col-md-9" >
-									<div class="input-group" style="width: 50%;">
+									<!-- <div class="input-group" style="width: 50%;">
 										<div class="input-group-prepend">
 										  <span class="input-group-text" id="inputGroupFileAddon01">Iamge</span>
 										</div>
@@ -65,11 +62,13 @@
 											aria-describedby="inputGroupFileAddon01">
 										  <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
 										</div>
-									  </div>
+									  </div> -->
+									{!! Form::label('image', 'Image:') !!}
+                					{!! Form::file('image', array('class'=>'form-control')) !!}
 								</div>
 							</div>
-                            <div class="row d-flex justify-content-center " style="margin-top:20px;">
-                                <div class="col-md-2">
+							<div class="row d-flex justify-content-center">
+                                <div class="col-md-3">
                                     <button type="submit" class="btn btn-primary buttonedit ml-2">Save</button>
                                     <a class="btn btn-primary buttonedit" href="{{route('tents.index')}}">All Tent</a>
                                 </div>
