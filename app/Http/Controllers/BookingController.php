@@ -166,7 +166,6 @@ class BookingController extends Controller
     }
     public function store(Request $request)
     { 
-        dd($request->all());
         // dd($request->all());
         //===get sum price ====\\
         if ($request->room_ids) {
@@ -221,10 +220,14 @@ class BookingController extends Controller
             $bookings->customer_info_id = $customer_info_id;
             $bookings->check_in_date = $request->check_in_date;
             $bookings->check_out_date = $request->check_out_date;
-            
             $bookings->total_price = $total_price;
             $bookings->book_advance = $request->book_advance;
-            $bookings->status = 'Confirmed';
+            if ( !empty($request->book_advance)) {
+                $status = 'Confirmed';
+            } else {
+                $status = 'Pending';
+            }
+            $bookings->status = $status;
             $bookings->save();
         }
         

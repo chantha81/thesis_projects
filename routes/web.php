@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/room_store', [RoomController::class,'store'])->name('room.store');
     Route::get('/rooms-edit/{rooms}',[RoomController::class,'edit'])->name('rooms.edit');
     Route::put('/rooms/{rooms}',[RoomController::class,'update'])->name('rooms.update');
+    Route::get('rooms/room-delete/{rooms}',[RoomController::class,'delete']);
 
     //======booking======\\
     Route::get('getAllbooking',[BookingController::class,'getAllbooking']);
@@ -83,3 +84,5 @@ Route::get('{any?}', function () {
     return view('welcome');
 })->where('any', '.*');
 Route::get('/room', [BookingController::class,'getRoom']);
+Route::get('/get-tent', [BookingController::class,'getTent']);
+Route::post('/booking_store', [BookingController::class,'store']);

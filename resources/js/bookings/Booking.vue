@@ -95,15 +95,36 @@
         margin: 2px;
         padding: 5px;
     }
+    .cus_name{
+        border-radius: 4px;
+        height: 40px;
+    }
+    #cus_frm{
+        background-color: rgb(191, 217, 243);
+        padding: 10px 20px;
+        border-radius: 4px;
+    }
+    #p_cus{
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    }
+    .btn_book{
+        padding: 5px 8px;
+        border-radius: 4px;
+        color: white;
+        background-color:rgb(63, 63, 243);
+        width: auto;
+        height: 40px;
+    }
 
    
 </style>
 
 <template>
     <!-- <div v-if="page === 'booking'"> -->
-    
+        
         <div class="container bg">
             <div class="sticky-top">
+                <!-- <button class="btn btn-primary" @click="add">click me</button> -->
                 <div class="row">
                     <div class="header">
                         <div class="col-md-4"></div>
@@ -193,7 +214,7 @@
                                     <div class="row">Type: {{ room.type }}</div>
                                     <div class="row">Bed: {{ room.bed }}</div>
                                     <div class="row">Price/Day:{{ room.price }} $</div>
-                                    <div class="row"><button class="btn btn-danger" style="width: 80px !important;"><i class="fa-solid fa-trash"></i> Remove</button></div>
+                                    <div class="row"><button class="btn btn-danger" style="width: 80px !important;" @click="removeRoomFromcart(room)"><i class="fa-solid fa-trash"></i> Remove</button></div>
                                 </div>
                             </div>
                         </div>
@@ -209,7 +230,7 @@
                                     <div class="row">Name: {{ tent.name }}</div>
                                     <div class="row">Type: {{ tent.type }}</div>
                                     <div class="row">Price/Day:{{ tent.price }} $</div>
-                                    <div class="row" style="margin-top: 40px;"><button class="btn btn-danger" style="width: 80px !important; "><i class="fa-solid fa-trash"></i> Remove</button></div>
+                                    <div class="row" style="margin-top: 60px;"><button class="btn btn-danger" style="width: 80px !important; " @click="removeTentFromcart(tent)"><i class="fa-solid fa-trash"></i> Remove</button></div>
                                 </div>
                             </div>
                         </div>
@@ -219,9 +240,23 @@
                             <div class="col-md-4"></div>
                             <div class="col-md-4"></div>
                             <div class="col-md-4 text-right">
-                                <button class="btn btn-success btn_cart" @click="AddBooking(RoomItems,TentItems)">Book Now !</button>
+                                <button class="btn btn-success btn_cart" @click="navigatTo('customer_info')">Book Now !</button>
                             </div>
+            
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="page === 'customer_info'">
+                <div class="row justify-content-center" >
+                    <div class="col-md-6 text-center">
+                        <p id="p_cus">Your Infomation</p>
+                        <form id="cus_frm" @submit.prevent="AddBooking(RoomItems,TentItems,cus_info)">
+                            <label for="">name:{{ cus_info.name }}</label>
+                            <input class="cus_name" type="text" placeholder='Name' v-model="cus_info.name">
+                            <input class="cus_name" type="text" placeholder="Phone" v-model="cus_info.phone">
+                            <button class="btn_book">Book Now!</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -237,11 +272,14 @@
     // import { Swal } from 'sweetalert2';
 
     const date = ref();
-    let free_room = ref([]), free_tent = ref([])
-    let RoomItems = ref([]), TentItems = ref([])
+    let free_room = ref([])
+    let free_tent = ref([])
+    let RoomItems = ref([])
+    let TentItems = ref([])
     let page = ref('booking')
-  
-
+    let cus_info = ref({name:'',phone:''})
+    console.log(free_tent, 'free tent');
+    
 onMounted(() => {
   const startDate = new Date();
   const endDate = new Date(new Date().setDate(startDate.getDate() + 1));
@@ -253,12 +291,10 @@ async function search() {
     const dateformat_end = format(date.value[1])
     await fetch('/room?date_in=' + dateformat_start + '&date_out=' + dateformat_end)
     .then((response) => response.json())
-    .then((data) =>{ free_room.value = data, console.log(data,'data'),console.log(free_room.value);
-    })
-    await fetch('/get-tent?date_in=' + dateformat_start + '&date_out' + dateformat_end)
+    .then((data) => { free_room.value = data, console.log(data,'data'),console.log(free_room.value)})
+    await fetch('/get-tent?date_in=' + dateformat_start + '&date_out=' + dateformat_end)
     .then((response) => response.json())
-    .then((data) =>{free_tent.value = data,console.log(data,'data_tent');
-    })
+    .then((data) => { free_tent.value = data, console.log(free_tent.value,'data_tent')})
 }
 const format = (date) => {
     const day = date.getDate();
@@ -266,8 +302,6 @@ const format = (date) => {
     const year = date.getFullYear();
     return `${year}/${month}/${day}`;
 }
-
-
 function addRoomTobooking(room_data) {
     let index = this.RoomItems.findIndex(free_room => free_room.id === room_data.id);
     if (index !== -1) {
@@ -315,11 +349,57 @@ function addTentTobooking(tent_data) {
 function navigatTo(page) {
     this.page = page;
 }
-const AddBooking = async(data_room,data_tent) =>{
-    await fetch('/create_booking')
-
-    // console.log(data_room);
-    // console.log(data_tent);
+function removeRoomFromcart(room_data) {
+    let index = this.RoomItems.findIndex(RoomItems => RoomItems.id === room_data.id);
+    this.RoomItems.splice(index,1)
+}
+function removeTentFromcart(tent_data) {
+    let index = this.TentItems.findIndex(TentItems => TentItems.id === tent_data.id);
+    this.TentItems.splice(index,1)
+}
+const AddBooking = async(data_room,data_tent,info) =>{
+    let room_ids = [];
+    let tent_ids = [];
+    let name = info.name;
+    let phone = info.phone;
+    let check_in_date = format(date.value[0])
+    let check_out_date = format(date.value[1])
+    data_room.forEach(element => {
+        room_ids.push(element.id);
+    });
+    data_tent.forEach(element => {
+        tent_ids.push(element.id);
+    });
+    await fetch("/booking_store", {
+        method: "post",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            "Content-Type": "application/json",
+        },
+        //make sure to serialize your JSON body
+        body: JSON.stringify({ 
+            check_in_date,
+            check_out_date,
+            name,
+            phone,
+            room_ids,
+            tent_ids,
+        })
+        
+        .then(
+            Swal.fire({
+            title: "Booking success",
+            text: "We will call confirm you a little more !",
+            icon: "success",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            // cancelButtonColor: "OK",
+            confirmButtonText: "Yes"
+            })
+        ) 
+    });
+}
+async function add() {
 }
 </script>
 
