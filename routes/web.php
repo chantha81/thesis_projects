@@ -84,3 +84,5 @@ Route::get('{any?}', function () {
     return view('welcome');
 })->where('any', '.*');
 Route::get('/room', [BookingController::class,'getRoom']);
+Route::get('/get-tent', [BookingController::class,'getTent']);
+Route::post('/booking_store', [BookingController::class,'store']);

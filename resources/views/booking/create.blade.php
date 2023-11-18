@@ -180,7 +180,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="text-center">
-                            <button type="button" class="btn btn-primary submit-all"data-toggle="modal"
+                            <button type="button" class="btn btn-primary submit-all" data-toggle="modal"
                                 data-target="#custommer-info">Submit</button>
                         </div>
                     </div>
