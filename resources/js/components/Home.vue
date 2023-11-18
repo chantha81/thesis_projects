@@ -1,4 +1,3 @@
-
 <style>
     body{
         font-size: 14px;
@@ -12,12 +11,11 @@
             <div class="navlinks">
                 <ul id="menulist">
                     <li><a href="/CampingPack">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="room.html">Room</a></li>
-                    <li><a href="#home">Page</a></li>
-                    <li></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><i class="fa fa-search"></i></li>
+                    <li><a href="/Room">Room</a></li>
+                    <li><a href="/ThingToDo">Things to do</a></li>
+                    <li><a href="/Gallery">Gallery</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                    <!-- <li><i class="fa fa-search"></i></li> -->
                     <router-link class="book_btn" to="/Booking">Book Now</router-link>
                 </ul>
                 <span class="fa fa-bars" onclick="menutoggle()"></span>

@@ -1,43 +1,170 @@
 
 <script>
-    import Slider from './Slider.vue';
-    import Gallery from './Gallery.vue';
+import Slider from './Slider.vue';
+import Contact from './Contact.vue';
+import Gallery from './Gallery.vue';
+import Room from './Room.vue';
+import ThingToDo from './ThingToDo.vue';
 
-    export default {
-        components: {
-            Slider,Gallery,
-        },            
-    }
+export default {
+    components: {
+        Slider, Gallery,
+        Contact, Room, ThingToDo
+    },
+}
 </script>
+<!-- <style>
+@import '/public/css/style_frontend.css';
+</style> -->
 <template>
     <section class="home">
-    <div class="content">
-        <div class="item">
-            <Slider/>
+        <div class="content">
+            <div class="item">
+                <Slider />
+            </div>
         </div>
-    </div>
-</section> 
-<section class="gallery1">
+    </section>
+    <!-- <section class="gallery1">
     <div class="container-fluid top">
         <Gallery/>
     </div>
-</section>
-<section class="about top">
-    <div class="container flex">
-        <div class="left">
-            <div class="heading">
-                <h1>Welcome</h1>
-                <h2>My Hotel</h2>
+</section> -->
+    <section class="about top">
+        <div class="container flex">
+            <div class="left">
+                <div class="heading">
+                    <h1>Welcome</h1>
+                    <h2>My Hotel</h2>
+                </div>
+                <p>Camping Resort is a new resort in the middle of the beautiful forest close to the fabulous valley top of
+                    the mountain and located in OBAK RORTES Kirirom National Park. The resort features stunning
+                    accommodations, a restaurant, a coffee shop, a tree bar, and especially the fantastic campfires to
+                    facilitate you from unbelievable cold weather, it takes approximately 45- 60 minutes to reach by fast
+                    road from Phnom Penh Capital City Cambodia. The nearest airport is PhnomPenh Pochentong International
+                    Airport which is around 78 kilometers away from Camping Resort.</p>
+                <a href="/Booking"> <button class="primary-btn">Book Now</button></a>
             </div>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam unde neque eaque corporis tenetur, consequuntur impedit, tempore optio voluptatum earum obcaecati cupiditate eligendi, nihil aliquid commodi fugit incidunt ab nisi.</p>
-            <a href="book.html"> <button class="primary-btn">Book Now</button></a>
+            <div class="right">
+                <img src="images/accommodation3.jpg" alt="" width="450px" height="400px">
+            </div>
         </div>
-        <div class="right">
-            <img src="images/accommodation3.jpg" alt="" width="450px" height="400px">
+    </section>
+
+    <section class="rooms">
+        <div class="container top">
+            <div class="heading">
+                <h1>EXPLORE</h1>
+                <h2>Our Rooms</h2>
+                <p>Camping Park Resort features a total of 19 modern tree houses, vacation tents, 46 family tents, and 150 Camping each of them is tastefully designed with high-quality and sustainable materials. Each unit is equipped with air-conditioning, a Fan and Fresh Air, a hot shower, and a hair dryer,</p>
+            </div>
+            <div class="text">
+                <div class="row" style="width: 100%;">
+                    <div class="column1"  style="width:27%; ">
+                        <div class="room-img">
+                            <img src="images/accommodation3.jpg" alt="" height="180px">
+                            <div>
+                                <h2>Accommodation Room</h2>
+                                <div class="rate flex">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <p>This Cottage is popular for now</p>
+                                <div class="button flex">
+                                    <!-- <button class="primary-btn">BOOK NOW</button> -->
+                                    <a href="book.html"> <button class="primary-btn">Book Now</button></a>
+                                    <h3>75$ <span><br>per nignt</span></h3>
+                                </div>
+                            </div>
+                            
+                        </div>
+                       
+                    </div>
+                    <div class="column1"  style="width:27%;">
+                        <div class="room-img">
+                            <img src="images/deluxe.jpg" alt="" height="180px">
+                            <div>
+                                <h2>Accommodation Room</h2>
+                                <div class="rate flex">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <p>This Cottage is popular for now</p>
+                                <div class="button flex">
+                                    <!-- <button class="primary-btn">BOOK NOW</button> -->
+                                    <a href="book.html"> <button class="primary-btn">Book Now</button></a>
+                                    <h3>75$ <span><br>per nignt</span></h3>
+                                </div>
+                            </div>
+                            
+                        </div>
+                       
+                    </div>
+                    <div class="column1" style="width:27%;">
+                        <div class="room-img">
+                            <img src="images/a1.jpg" alt="" height="180px">
+                            <div>
+                                <h2>Hotel Bus</h2>
+                                <div class="rate flex">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <p>This Cottage is popular for now</p>
+                                <div class="button flex">
+                                    <!-- <button class="primary-btn">BOOK NOW</button> -->
+                                    <a href="book.html"> <button class="primary-btn">Book Now</button></a>
+                                    <h3>75$ <span><br>per nignt</span></h3>
+                                </div>
+                            </div>
+                            
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
+
+
+
+    <!-- <script>
+    $('.owl-carousel1').owlCarousel({
+    loop:true,
+    margin:40,
+    nav:true,
+    dots: false,
+    navText:["<i class='fa fa-chevron-left'></i>","<i class='fa fa-chevron-right'></i>"],
+    responsive:{
+        0:{
+            items:1
+        },
+        768:{
+            items:2,
+            margin:10,                     
+        },
+        1000:{
+            items:3
+        }
+    }
+})
+</script> -->
+    <div class="gallery-i" style="margin-top: 1rem;">
+        <img src="images/accommodation3.jpg" alt="">
+        <img src="images/camping/camping.png" alt="">
+        <img src="images/Cottage/Cottage.png" alt="">
+        <img src="images/images (3).jpg" alt="">
+        <img src="images/cammm.jpg" alt="">
+        <img src="images/food/food.png" alt="">
     </div>
-</section>
-<!-- <section class="counter top">
+    <!-- <section class="counter top">
     <div class="container grid">
         <div class="box">
             <h1>2500</h1>
@@ -61,7 +188,7 @@
         </div>
     </div>
 </section> -->
-<!-- <section class="rooms">
+    <!-- <section class="rooms">
     <div class="container top">
         <div class="heading">
             <h1>EXPLORE</h1>
@@ -214,7 +341,7 @@
         </div>
     </div>
 </section> -->
-<!-- <section class="gallery">
+    <!-- <section class="gallery">
     <div class="container top">
         <div class="heading">
             <h1>PHOTO</h1>
@@ -317,74 +444,64 @@
         </div>
     </div>
 </section> -->
-<section class="services top">
-    <div class="container">
-        <div class="heading">
-            <h1>Best Moments</h1>
-            <h2>Our Best Moments</h2>
-            <p>Lorem ipsum dolor sit,Lorem ipsum dolor sit,Lorem ipsum dolor sit,</p>
-        </div>
+    <section class="services top">
+        <div class="container">
+            <div class="heading">
+                <h1>Best Moments</h1>
+                <h2>Our Best Moments</h2>
+                <p>Best moments in our place. Coffee, Delious Food, Restaurant Tree, Mountain...</p>
+            </div>
 
-        <div class="content flex_space">
-            <div class="left grid2">
-                <div class="box">
-                    <div class="text">
-                        <i class="fa-solid fa-champagne-glasses"></i>
-                        <h3>Delious Food</h3>
+            <div class="content flex_space">
+                <div class="left grid2">
+                    <div class="box">
+                        <div class="text">
+                            <i class="fa-solid fa-champagne-glasses"></i>
+                            <h3>Delious Food</h3>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="text">
+                            <i class="fa-solid fa-coffee"></i>
+                            <h3>Coffee Shop</h3>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="text">
+                            <i class="fa-solid fa-utensils"></i>
+                            <h3>Restuarant</h3>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div class="text">
+                            <i class="fa-solid fa-tree-city"></i>
+                            <h3>Tree </h3>
+                        </div>
                     </div>
                 </div>
-                <div class="box">
-                    <div class="text">
-                        <i class="fa-solid fa-coffee"></i>
-                        <h3>Coffee Shop</h3>
-                    </div>
+                <div class="right">
+                    <img src="images/Having-Picnic.png" alt="">
                 </div>
-                <div class="box">
-                    <div class="text">
-                        <i class="fa-solid fa-utensils"></i>
-                        <h3>Inhouse Restuarant</h3>
-                    </div>
-                </div>
-                <div class="box">
-                    <div class="text">
-                        <i class="fa-solid fa-tree-city"></i>
-                        <h3>Tree </h3>
-                    </div>
-                </div>
-            </div>
-            <div class="right">
-                <img src="images/Having-Picnic.png" alt="">
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="customer top">
-    <div class="container">
-        <div class="owl-carousel owl-carousel2 owl-theme">
-            <div class="items">
-                <i class="fa-solid fa-quote-right"></i>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium officiis laboriosam libero nulla repellendus cupiditate distinctio, tempora id eaque laborum doloremque illo sapiente itaque nobis labore iure totam corrupti beatae.</p>
-                <h3>Som Socheat</h3>
-                <label for=""> Som Socheat</label>
-            </div>
-            <div class="items">
-                <i class="fa-solid fa-quote-right"></i>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium officiis laboriosam libero nulla repellendus cupiditate distinctio, tempora id eaque laborum doloremque illo sapiente itaque nobis labore iure totam corrupti beatae.</p>
-                <h3>Som Socheat</h3>
-                <label for=""> Som Socheat</label>
-            </div>
-            <div class="items">
-                <i class="fa-solid fa-quote-right"></i>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium officiis laboriosam libero nulla repellendus cupiditate distinctio, tempora id eaque laborum doloremque illo sapiente itaque nobis labore iure totam corrupti beatae.</p>
-                <h3>Som Socheat</h3>
-                <label for=""> Som Socheat</label>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- <script>
+    <section class="customer top">
+        <div class="container">
+            <div class="owl-carousel owl-carousel2 owl-theme">
+                <div class="items">
+                    <h3>Explore the planet together</h3>
+                    <i class="fa-solid fa-quote-right"></i>
+                    <p>Camping Park Resort features a total of 19 modern tree houses, vacation tents, 46 family tents, and
+                        150 Camping each of them is tastefully designed with high-quality and sustainable materials. Each
+                        unit is equipped with air-conditioning, a Fan and Fresh Air, a hot shower, and a hair dryer.</p>
+                    <label for="">Stay in One of the Top National Parks Kirirom Mountain</label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- <script>
     $('.owl-carousel2').owlCarousel({
     loop:true,
     margin:0,
@@ -404,133 +521,53 @@
     }
 })
 </script> -->
-
-<section  class="news top rooms">
-    <div class="container">
-        <div class="heading">
-            <h1>NEWS</h1>
-            <h2>Our News</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae cupiditate velit sunt magni laborum. sit amet consectetur adipisicin.</p>
+    <section class="newsletter mtop">
+        <div class="container flex_space">
+            <h1>Please contact us via:</h1>
+            <input type="text" placeholder="Your Email">
+            <input type="text" value="Subscribe">
         </div>
-        <div class="content flex">
-            <div class="left grid2">
-                <div class="items">
-                    <div class="image">
-                        <img src="images/accommodation3.jpg" alt="" width="350px" height="250px">
-                    </div>
-                    <div class="text">
-                        <h2>Finibush bonorom malrom.</h2>
-                        <div class="admin flex">
-                            <i class="fa fa-user"></i>
-                            <label for="">Admin</label>
-                            <i class="fa fa-heart"></i>
-                            <label for="">500</label>
-                            <i class="fa fas fa-comments"></i>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.reiciendis soluta vitae amet earum explicabo autem eligendi expedita voluptates accusamus dolore.</p>
-                    </div>
-                </div>
-                <div class="items">
-                    <div class="image">
-                        <img src="images/Having-Picnic.png" alt="" width="350px" height="250px">
-                    </div>
-                    <div class="text">
-                        <h2>Finibush bonorom malrom.</h2>
-                        <div class="admin flex">
-                            <i class="fa fa-user"></i>
-                            <label for="">Admin</label>
-                            <i class="fa fa-heart"></i>
-                            <label for="">500</label>
-                            <i class="fa fas fa-comments"></i>
-                        </div>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.reiciendis soluta vitae amet earum explicabo autem eligendi expedita voluptates accusamus dolore.</p>
-                    </div>
+    </section>
+
+    <footer>
+        <div class="container grid">
+            <div class="box">
+                <img src="images/logo.png" alt="" width="100px" height="65px">
+
+                <div class="icon">
+                    <a href="https://www.facebook.com/CampingParkKirirom"><i class="fa fab fa-facebook-square"></i></a>
+                    <a href="https://instagram.com/socheat__som?igshid=MzMyNGUyNmU2YQ=="><i
+                            class="fa fab fa-instagram-square"></i></a>
+                    <a href="https://youtu.be/ojFBtjvmmEM?si=eW_e1G2R4WdSulWY"><i class="fa fab fa-youtube"></i></a>
+                    <a href="https://www.tiktok.com/@aotu_user?_t=8hPhqjiau2c&_r=1"><i class="fa fab fa-tiktok"></i></a>
                 </div>
             </div>
 
-            <div class="right">
-                <div class="box flex">
-                    <div class="img">
-                        <img src="images/food.png" alt="" >
-                    </div>
-                    <div class="stext">
-                        <h2>Food time</h2>
-                        <p>Lorem, ipsumr adipisicing elit. Quia, atque deleniti labore.</p>
-                    </div>
-                </div>
-                <div class="box flex">
-                    <div class="img">
-                        <img src="images/Having-Picnic.png" alt="">
-                    </div>
-                    <div class="stext">
-                        <h2>Food time</h2>
-                        <p>Lorem, ipsumr adipisicing elit. Quia, atque deleniti labore.</p>
-                    </div>
-                </div>
-                <div class="box flex">
-                    <div class="img">
-                        <img src="images/mountain.png" alt="">
-                    </div>
-                    <div class="stext">
-                        <h2>Food time</h2>
-                        <p>Lorem, ipsumr adipisicing elit. Quia, atque deleniti labore.</p>
-                    </div>
-                </div>
+            <div class="box">
+                <h2>Links</h2>
+                <ul>
+                    <li><a href="/CampingPack">Home</a></li>
+                    <li><a href="/Room">Room</a></li>
+                    <li><a href="/ThingToDo">Things to do</a></li>
+                    <li><a href="/Gallery">Gallery</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                    <li><a href="/Booking">Booking</a></li>
+                </ul>
             </div>
 
-        </div>
-    </div>
-</section>
-
-<section class="newsletter mtop">
-    <div class="container flex_space">
-        <h1>Please contact us via:</h1>
-        <input type="text" placeholder="Your Email">
-        <input type="text" value="Subscribe">
-    </div>
-</section>
-
-<footer>
-    <div class="container grid">
-        <div class="box">
-            <img src="images/logo.png" alt="" width="80px" height="60px">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem accusantium quae eius velit a. Nesciunt facilis consequatur, dolor delectus enim alias rem ex qui rerum laboriosam dolorem officiis at. Distinctio!</p>
-
-            <div class="icon">
-                <i class="fa fab fa-facebook-square"></i>
-                <i class="fa fab fa-instagram-square"></i>
-                <i class="fa fab fa-twitter-square"></i>
-                <i class="fa fab fa-youtube"></i>
-                <i class="fa fab fa-tiktok"></i>
-            </div>
-        </div>
-
-        <div class="box">
-            <h2>Links</h2>
-            <ul>
-                <li>Company</li>
-                <li>About US</li>
-                <li>Contact US</li>
-                <li>Services</li>
-                <li>Pravicy Policy</li>
-            </ul>
-        </div>
-
-        <div class="box">
-            <h2>Contact US</h2>
-            <p>Lorem Magnam numquam delectus doloremque vel corporis!</p>
-            <i class="fa fa-location-dot"></i>
-            <label for="">1201 Park Street, Pnom Srouch, Kampong Spue.</label>
-            <i class="fa fa-phone"></i>
-            <label for="">+855 96 522 423 5</label>
-            <i class="fa fa-envelope"></i>
+            <div class="box">
+                <h2>Contact US</h2>
+                <p>Please contact us for more information</p>
+                <i class="fa fa-location-dot"></i>
+                <label for="">1201 Park Street, Pnom Srouch, Kampong Spue.</label>
+                <i class="fa fa-phone"></i>
+                <label for="">+855 96 522 423 5</label><br>
+                <i class="fa fa-envelope"></i>
             <label for="">info@gmail.com</label>
         </div>
-
-        <div class="legal">
-            <p class="container">Copyright (C) 2023 Copyright Holder All Rights Reserved</p>
-        </div>
-
+    </div>
+    <div class="legal">
+        <p class="container">Copyright (C) 2023 Developed by Student Technology</p>
     </div>
 </footer>
-</template>
+<!-- <script src="https:://kit.fontawesome.com/032d11eac3.js" crossorigin="anonymous"></script> --></template>

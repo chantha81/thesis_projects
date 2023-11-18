@@ -15,6 +15,10 @@ import '@vuepic/vue-datepicker/dist/main.css';
 import Home from './components/Home.vue';
 import HomeBody from './components/BodyHome.vue';
 import Booking from './bookings/Booking.vue';
+import Contact from './components/Contact.vue';
+import Room from './components/Room.vue';
+import ThingToDo from './components/ThingToDo.vue';
+import Gallery from './components/Gallery.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -26,6 +30,22 @@ const router = createRouter({
         path: '/Booking', 
         component:Booking
         },
+        { 
+          path: '/Contact', 
+          component:Contact
+        },
+        { 
+          path: '/Room', 
+          component:Room
+        },
+        { 
+          path: '/ThingToDo', 
+          component:ThingToDo
+        },
+        { 
+          path: '/Gallery', 
+          component:Gallery
+        },            
     ],
 });
 
