@@ -96,6 +96,7 @@ header img {
 
 header ul {
     display: inline-block;
+    list-style: none;
 }
 
 header ul li {
@@ -107,6 +108,7 @@ header ul li a {
     color: #000;
     margin: 0 10px;
     transition: 0.5s;
+    text-decoration: none;
 }
 
 header ul li a:hover {
