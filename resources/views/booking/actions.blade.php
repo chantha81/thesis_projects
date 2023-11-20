@@ -3,25 +3,28 @@
   $(document).ready(function(){
     var booking_id;
     $('.add_paid').click(function () {
-      console.log(table.page);
+      // console.log(table.page);
       var booking_ids = $(this).attr('data-paid');
       var id = {{ $id }};
       if (booking_ids==id) {
         booking_id = (booking_ids=id);
+        // console.log(booking_id,'id');
         $.ajax({
           type: "GET",
           url: '/getstatus?booking_id=' + booking_id,
           success: function(data, status) {
+            // console.log(data);
             if (data[0].status == 'Pending') {
               $("#add_paid").modal("show");
-              console.log(status);
+              // console.log(status,'st');
             } else if (data[0].status == "Success"){
               $("#mssuccess").modal("show");
             } else if (data[0].status == "Confirmed"){
               $("#msconfirm").modal("show");
             }
             $('.paid-btn').click(function(){    
-                var booking_id = data[0].id, paid = $('.paid_input').val(); 
+                var booking_id = data[0].id;
+                var paid = $('.paid_input').val(); 
                   $.ajax({
                   type: "GET",
                   url: '/paid_booking?booking_id=' + booking_id + '&paid=' + paid,
@@ -31,14 +34,18 @@
                       setTimeout(function() { $(".notpaid").hide(); }, 4000);
                     } else {
                       $("#add_paid").modal("hide");
+                      Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Your work has been saved",
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
                     }
-                    table.ajax.reload();
                   }
-              });
-              
+              }); 
             });
           }
-          
         })
         booking_id = '';
       } //endif
@@ -57,7 +64,14 @@
               $.ajax({
                   type: "GET",
                   url: '/payment_booking?booking_id=' + booking_id,
-                  success: function(data, status) { 
+                  success: function(data, status) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Payment Success",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 }
               });
               // $("#payment").modal("show");
@@ -330,15 +344,11 @@
               
               <div id="mid">
                 <div class="info_c">
-                  {{-- <p> 
-                      Address : street city, state 0000</br>
-                      Email   : JohnDoe@gmail.com</br>
-                      Phone   : 555-555-5555</br>
-                  </p> --}}
                 </div>
               </div><!--End Invoice Mid-->
               <div id="bot">  
                     <div id="table">
+                      <p class="p_item">Room</p>
                         <table id="room_invice">
                             <thead>
                               <tr>
@@ -349,12 +359,34 @@
                                 <th>price</th>
                               </tr>
                             </thead>
-                            <tbody></tbody>
+                            <tbody>
+                            </tbody>
                         </table>
+                        <p class="p_item">Tent</p>
+                        <table id="tent_invice">
+                          <thead>
+                            <tr>
+                              <th>N°</th>
+                              <th>Name</th>
+                              <th>type</th>
+                              <th>price</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          </tbody>
+                      </table>
                     </div><!--End Table-->
-            
+                    <p class="p_item">Place Camping</p>
+                    <div class="row p_cam">
+                      <div class="col-3">Qty :</div>
+                      <div class="col-3">Price :</div>
+                      <div class="col-3">Total Price :</div>
+                    </div>
+
+                    <div id="total" style="color: white !importain"><p class="p_item">Total :</p></div>
+                    
                     <div id="legalcopy">
-                        <p class="legal"><strong>Thank you for your business!</strong>
+                        <p class="legal"><strong>Thank you for Come Campingpark!</strong>
                         </p>
                     </div>
                 </div><!--End InvoiceBot-->
@@ -374,6 +406,13 @@
 <script>
 </script>
 <style>
+.p_item{
+  background-color: #222;
+  color: white !important;
+  padding: 2px;
+}
+
+
 #date{
   margin-top:1rem;
 }
@@ -499,6 +538,21 @@
   #room_invice tbody{
     font-size: .5em;
   }
+  #tent_invice thead{
+    font-size: .5em;
+    background: #EEE;
+  }
+  #tent_invice tbody{
+    font-size: .5em;
+  }
+  /* #tent_invice {
+    margin-top: 5px;
+  } */
+  .p_cam{
+    font-size: 10px;
+    padding: 3px;
+    margin-left: -5px;
+  }
   </style>
   
 
@@ -512,7 +566,11 @@
     var booking_id;
     var room_data = [];
     var customer_data = [];
+    var tent_data =[];
+    var place_camping_qty;
+    var place_camping_unit_price;
     // var i = 1;
+    var total_p;
     $('.print-invoice').click(function () {
       var booking_ids = $(this).attr('data-id');
       var id = {{ $id }};
@@ -522,6 +580,8 @@
           type: "GET",
           url: '/invice?booking_id=' + booking_id,
           success: function(data, status) { 
+            console.log(data,'data');
+            total_p = data.data.total;
             data.data.room.forEach(r => {
               var indexhas = room_data.findIndex(function(room_id) {
                   return r.id == room_id.id;
@@ -541,6 +601,25 @@
               }   
             });
             render_customer(customer_data);
+            data.data.tent.forEach(t => {
+              var indexhas = tent_data.findIndex(function(tent_id) {
+                  return t.id == tent_id.id;
+                });
+                if (indexhas < 0) {
+                tent_data.push(t);
+              }
+            })
+            render_tent_table(tent_data);
+            if (data.data.data_place.length === 2) {
+              place_camping_qty = data.data.data_place[0];
+              place_camping_unit_price = data.data.data_place[1];
+              place(place_camping_qty,place_camping_unit_price);
+            }
+            
+            var total = $('#total');
+            total.empty();
+            var p_total = `<p class="p_item"> Total : ${total_p} $</p>`
+            total.append(p_total);
           }
         });
       }
@@ -578,16 +657,63 @@
       var tboby = $('#room_invice tbody');
       var i = 1;
       tboby.empty();
+      var subtotal = [];
       room_data_render.forEach(function(element) {
+        subtotal.push(element.price);
           var tr = `<tr>
           <td>${i++}</td>
           <td>${element.name} <input type="hidden" name="room_ids[]" value="${element.id}"/></td>
-          <td> ${element.type}</td>
+          <td> ${element.type} </td>
           <td> ${element.bed} </td>
-          <td> ${element.price} </td>
+          <td> ${element.price} $</td>
         </tr>`
           tboby.append(tr);
       });
+      var sub_total = 0;
+      for (var i in subtotal) {
+        sub_total += subtotal[i];
+      }
+      var td = $('#room_invice tbody');
+      var v_td = `<td colspan="5" style="background-color:#EEE;padding:5px"> RoomTotal: ${sub_total} $</td>`
+      td.append(v_td);
+      
+
+  }
+  function render_tent_table(tent_data_render) {
+    var tboby = $('#tent_invice tbody');
+      var i = 1;
+      tboby.empty();
+      var subtotal = [];
+      tent_data_render.forEach(function(element) {
+        subtotal.push(element.price);
+          var tr = `<tr>
+          <td>${i++}</td>
+          <td>${element.name} <input type="hidden" name="room_ids[]" value="${element.id}"/></td>
+          <td> ${element.type} </td>
+          <td> ${element.price} $</td>
+        </tr>`
+          tboby.append(tr);
+      });
+      var sub_total = 0;
+      for (var i in subtotal) {
+        sub_total += subtotal[i];
+      }
+      var td = $('#tent_invice tbody');
+      var v_td = `<td colspan="4" style="background-color:#EEE;padding:5px"> TentTotal: ${sub_total} $</td>`
+      td.append(v_td);
+  }
+  function place(qty,unit_prices) {
+    console.log(unit_prices.unit_price);
+    var p = $('.p_cam');
+    var total = qty.quantity * unit_prices.unit_price;
+    p.empty();
+    var p_result = `<div class="row p_cam">
+                      <div class="col-sm-3">Qty : ${qty.quantity}</div>
+                      <div class="col-sm-3">Price : ${unit_prices.unit_price}</div>
+                      <div class="col-sm-3">Total Price : ${total}</div>
+                    </div>
+                    `
+    p.append(p_result);
   }
 </script>
 

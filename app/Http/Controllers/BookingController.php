@@ -29,16 +29,26 @@ class BookingController extends Controller
     // }
     public function index(Request $request)
     {
+        // $data = DB::table('booked__packages')
+        //         ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
+        //         ->select( 'customer_infomations.*','booked__packages.*')
+        //         ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
+        //         ->orderByDesc('booked__packages.created_at')
+        //         ->get();
+        // dd($data);
+
         
         if(request()->ajax()) {
             $data = DB::table('booked__packages')
                 ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
                 ->select( 'customer_infomations.*','booked__packages.*')
                 ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
+                ->orderByDesc('booked__packages.created_at') 
                 ->get();
             return DataTables::of($data)
             ->addColumn('action', 'booking.actions')
-            ->toJson();      
+            ->make(true);
+            // ->toJson();      
         }
         
         return view('booking.index');
@@ -442,8 +452,8 @@ class BookingController extends Controller
             DB::table('booked__packages')
             ->where('id', $booking_id)
             ->update([
-                'paid'      => $paid,
-                'status'    => 'Confirmed'
+                'book_advance'  => $paid,
+                'status'        => 'Confirmed'
             ]);
         }
     }
@@ -471,11 +481,14 @@ class BookingController extends Controller
             ]);
     }
     public function getStatus(){
+        
         $booking_id = request()->query('booking_id');
+        // dd($booking_id);
         $status = DB::table('booked__packages')
             ->where('id', $booking_id)
             ->select('status','id')
             ->get();
+        // dd($status);
         return response()->json($status);
     }
     public function cancelBooking(){
@@ -509,21 +522,74 @@ class BookingController extends Controller
             ->where('place_camping_details.booking_id',$booking_id)
             ->select('place_camping_details.quantity')
             ->get();
+            // dd($quantity_place_camping);
         $place_camping = DB::table('place_campings') ->select('unit_price') ->get();
         $data_place = $quantity_place_camping->merge($place_camping);
+        // dd($quantity_place_camping);
+        $room_price = [];
+        $tent_price = [];
+        if ( !empty($quantity_place_camping[0]) ) {
+            // dd('123');
+            $place_p = $quantity_place_camping[0]->quantity * $place_camping[0]->unit_price;
+        } else {
+            // dd('321');
+            $place_p = 0;
+        }
+        // dd($place_p);
+        if ($room) {
+            foreach ($room as $room_p) {
+                array_push( $room_price,$room_p->price);
+            }
+        }
+        // dd($room_price);
+        if ($tent) {
+            foreach ($tent as $tent_p) {
+                array_push( $tent_price,$tent_p->price);
+            }
+        }
+        
+        
+        $total = array_sum($room_price) + array_sum($tent_price) + $place_p;
+        // dd($total);
+        
         return response()->json([
             'data' =>[
                 'customer_info'     => $customer_info,
                 'room'              => $room,
                 'tent'              => $tent,
-                'data_place'        => $data_place
+                'data_place'        => $data_place,
+                'total'             => $total,
             ]
         ]);
     }
     public function testget(){
         
         $room = DB::table('rooms') ->get();
-        // dd($room);
         return response()->json($room);
     }
+    public function getReport (Request $request){
+        
+       
+        if(request()->ajax()) {
+            if ($request->d_from && $request->d_to) {
+                $data = DB::table('booked__packages')
+                ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
+                ->select( 'customer_infomations.*','booked__packages.*')
+                ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
+                ->whereBetween('booked__packages.created_at',[date($request->d_from),date($request->d_to)])
+                ->get();
+            } else {
+                $data = DB::table('booked__packages')
+                ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
+                ->select( 'customer_infomations.*','booked__packages.*')
+                ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
+                ->get();
+            }
+            return DataTables::of($data)
+            ->toJson();
+                    
+        }
+        return view('report/index');
+    }   
+    
 }

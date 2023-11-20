@@ -263,6 +263,25 @@ border-color: transparent;
 .submenu ul li a{
     list-style-type: none;
 }
+/* .search_date{
+    height: 30px;
+} */
+.btn_search {
+   margin-bottom: 10px;
+}
+.btn_hide{
+    margin-bottom: 10px;
+}
+#frm_search{
+    border-radius: 4px;
+    padding: 10px;
+    background-color: #dedfe0;
+    width: 400px;
+    margin-bottom: 20px;
+}
+.div_form_search{
+    margin-top: -20px;
+}
 
 
 

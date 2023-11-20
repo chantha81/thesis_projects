@@ -77,7 +77,11 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::resource('tents', TentController::class);
     Route::get('tents/delete/{id}',[TentController::class,'delete']);
-    Route::get('/booking_invice',[BookingController::class,'invice']);   
+    Route::get('/booking_invice',[BookingController::class,'invice']);
+    
+    // === Report ===\\
+    Route::get('report',[BookingController::class,'getReport']);
+    // Route::get('export-report', [BookingController::class, 'exportReport']);
 });
 
 Route::get('{any?}', function () {

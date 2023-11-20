@@ -22,6 +22,9 @@
 	<link rel="stylesheet" href="/css/mystyle.css">
 	<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 	{{Html::style('css/mystyle.css')}}
 	{{Html::style('css/formstyle.css')}}
 	  
@@ -127,7 +130,7 @@
 							</ul>
 						</li>
 						<li> <a href="{{route('roles.index')}}"><i class="fas fa-cube"></i> <span>Role User</span></a> </li>
-						<li> <a href="{{route('logout')}}"><i class="fa-solid fa-file-lines"></i> <span>Report</span></a> </li>
+						<li> <a href="{{url('report')}}"><i class="fa-solid fa-file-lines"></i> <span>Report</span></a> </li>
 						<li class="submenu"> <a href="settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a> 
 							<ul class="submenu_class" style="display: none;">
 								<li> <a href="#"><i class="fas fa-search"></i> hy</a> </li>
@@ -162,6 +165,18 @@
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 	<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 	<script src="https://cdn.datatables.net/plug-ins/1.13.6/dataRender/datetime.js"></script>
+    {{-- datatable file --}}
+	{{-- <script src="https://code.jquery.com/jquery-3.7.0.js"></script> --}}
+	<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+	<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+
+	{{-- swal --}}
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	{{-- dialog are you sure --}}
 	{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
     

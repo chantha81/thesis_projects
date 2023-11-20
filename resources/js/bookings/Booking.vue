@@ -168,7 +168,7 @@
                         <div class="row">
                             <div class="col-md-4" v-for="room in free_room" :key="room.id">
                                 <div class="card card_b" style="width: 90%;">
-                                    <img class="card-img-top" src="/images/b.jpg" alt="Card image cap">
+                                    <img :src=" '/img/room/' + room.image" class="card-img-top" alt="Card image cap">
                                     <div class="card-body">
                                         <h5 class="card-title">Name: {{ room.name }}</h5>
                                         <p class="card-text"><strong>Bed :</strong> {{ room.price }}</p>
@@ -186,7 +186,7 @@
                         <div class="row">
                             <div class="col-md-4" v-for="tent in free_tent" :key="tent.id">
                                 <div class="card card_b" style="width: 90%;">
-                                    <img class="card-img-top" src="/images/camping/camping1.png" alt="Card image cap">
+                                    <img class="card-img-top" :src="'/img/tent/' + tent.image" alt="Card image cap">
                                     <div class="card-body">
                                         <h5 class="card-title">Name: {{ tent.name }}</h5>
                                         <p class="card-text"><Strong>Type :</Strong> {{ tent.type }}</p>
@@ -280,6 +280,7 @@
     let cus_info = ref({name:'',phone:''})
     console.log(free_tent, 'free tent');
     
+    
 onMounted(() => {
   const startDate = new Date();
   const endDate = new Date(new Date().setDate(startDate.getDate() + 1));
@@ -353,11 +354,13 @@ function removeRoomFromcart(room_data) {
     let index = this.RoomItems.findIndex(RoomItems => RoomItems.id === room_data.id);
     this.RoomItems.splice(index,1)
 }
+
 function removeTentFromcart(tent_data) {
     let index = this.TentItems.findIndex(TentItems => TentItems.id === tent_data.id);
     this.TentItems.splice(index,1)
 }
-const AddBooking = async(data_room,data_tent,info) =>{
+
+async function AddBooking (data_room,data_tent,info) {
     let room_ids = [];
     let tent_ids = [];
     let name = info.name;
@@ -370,24 +373,8 @@ const AddBooking = async(data_room,data_tent,info) =>{
     data_tent.forEach(element => {
         tent_ids.push(element.id);
     });
-    await fetch("/booking_store", {
-        method: "post",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            "Content-Type": "application/json",
-        },
-        //make sure to serialize your JSON body
-        body: JSON.stringify({ 
-            check_in_date,
-            check_out_date,
-            name,
-            phone,
-            room_ids,
-            tent_ids,
-        })
-        
-        .then(
-            Swal.fire({
+
+    Swal.fire({
             title: "Booking success",
             text: "We will call confirm you a little more !",
             icon: "success",
@@ -395,9 +382,30 @@ const AddBooking = async(data_room,data_tent,info) =>{
             confirmButtonColor: "#3085d6",
             // cancelButtonColor: "OK",
             confirmButtonText: "Yes"
-            })
-        ) 
-    });
+            }).then( async (result) => {
+                if(result.isConfirmed) {
+                    await fetch("/booking_store", {
+                            method: "post",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                                "Content-Type": "application/json",
+                            },
+                            //make sure to serialize your JSON body
+                            body: JSON.stringify({ 
+                                    check_in_date,
+                                    check_out_date,
+                                    name,
+                                    phone,
+                                    room_ids,
+                                    tent_ids,
+                            })
+                        })
+                        .then(() => {
+                            this.page = "booking";                   
+                        }) 
+                }
+            });
+   
 }
 async function add() {
 }

@@ -27,6 +27,7 @@
 										<thead>
 											<tr id="trhead">
 												{{-- <th>Booking Code</th> --}}
+												<th>Check</th>
 												<th>Name</th>
 												<th>Phone</th>
 												<th>Check In Date</th>
@@ -56,11 +57,14 @@
 			paging: true,
 			processing: true,
 			serverSide: true,
+			order:[0, 'desc'],
 			columnDefs: [
-				{targets: [2, 3], render: DataTable.render.datetime('Do MMM YYYY')},
-				{targets: [0,1,2,3,7], className: "text-center", width: "15%"},
+				{ width: 20, targets: 0 },
+				{targets: [3, 4], render: DataTable.render.datetime('Do MMM YYYY')},
+				{targets: [0,1,2,3], className: "text-center", width: "15%"},
+				{targets: [8],className: "text-center"},
 				{
-				targets: 7,
+				targets: 8,
 					render: function(status, type, row, meta) {
 						if (status == 'Pending') {
 						status = '<td><span class="pending status">' + status + '</span></td>'
@@ -78,13 +82,16 @@
 			],
 			ajax: "{{ url('all_booking') }}",
 			columns: [
+				{data: 'id', name: 'id' , "render": function () {
+                    return '<input type="checkbox" id="booking" name="booking_id">';
+                }},
 				{data: 'name', name: 'name'},
 				{data: 'phone', name: 'phone'},
 				{data: 'check_in_date', name: 'check_in_date'},
 				{data: 'check_out_date', name: 'check_out_date'},
-				{data: 'book_advance', name: 'book_advance',render: $.fn.dataTable.render.number( ',', '.', 2)},
-				{data: 'total_price', name: 'total_price',render: $.fn.dataTable.render.number( ',', '.', 2)},
-				{data: 'balance', name: 'balance',render: $.fn.dataTable.render.number( ',', '.', 2)},
+				{data: 'book_advance', name: 'book_advance',render: $.fn.dataTable.render.number( ',', '.', 2, '$')},
+				{data: 'total_price', name: 'total_price',render: $.fn.dataTable.render.number( ',', '.', 2, '$')},
+				{data: 'balance', name: 'balance',render: $.fn.dataTable.render.number( ',', '.', 2, '$')},
 				{data: 'status', name: 'status'},
 				{data: 'action', name: 'action', 
                     orderable: true, 
