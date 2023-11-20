@@ -29,6 +29,21 @@ export default {
         <Gallery/>
     </div>
 </section> -->
+<div class="qr">
+    <p>QR For payment</p>
+    <div class="" style="display: flex;
+    justify-content: center;
+    align-items: center; text-align:center;
+    margin-top:1rem;">
+   
+        <img src="images/riel_qr.jpg" alt="" style="width: 150px; height:150px;d">
+        <img src="images/dollar_qr.jpg" alt="" style="width: 150px; height:150px;">
+    </div>
+    <div>
+        <p>Socheat Som</p>
+    </div>
+</div>
+
     <section class="about top">
         <div class="container flex">
             <div class="left">
