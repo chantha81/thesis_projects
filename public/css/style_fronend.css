@@ -374,10 +374,13 @@ h1 {
     padding:  30px;
 }
 .rooms .text{
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    /* border: 1px solid rgba(0.1, 0.1, 0.1, 0.1); */
     border-top: none;
     padding:5px;
     width: 100%;
+}
+.rooms .column1{
+    margin-left: 1rem;
 }
 .rooms .text img {
    width: 230px;
@@ -391,12 +394,12 @@ h1 {
 .rooms p{
     margin: 20px 0;
     opacity: 0.7;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .rooms h3{
     font-size: 30px;
-    line-height: 20px;
+    line-height: 15px;
     margin-left: 20px;
     font-weight: 500 ;
     color: #7fc142;
@@ -1185,4 +1188,41 @@ input[type=submit]:hover {
         height: 25rem;
         width: 30rem;
     }
+}
+
+/* Contact Edit */
+.text .row p{
+    font-size: 20px;
+    margin:0 1rem;
+    /* width: 390px; */
+    height: 30px;
+    
+}
+.text .row i{
+    font-size: 45px;
+    margin:0 2rem;
+}
+.text .row h1{
+    font-size: 20px;
+    margin-left: 10rem;
+    /* margin-top: 1rem; */
+}
+.text .row a{
+    font-size: 43px;
+    margin-right: 1rem;
+    padding: 0 1rem;
+    text-decoration: none;
+}
+.text .row .phone a{
+    font-size: 23px;
+    margin-right: 1rem;
+    padding: 0 1rem;
+    text-decoration: none;
+}
+.text .row .phone i{
+    font-size: 0rem;
+}
+.text .row .phone p{
+   margin-top: 3rem;
+   margin-left: 6rem;
 }

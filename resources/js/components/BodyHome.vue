@@ -55,15 +55,17 @@ export default {
             <div class="heading">
                 <h1>EXPLORE</h1>
                 <h2>Our Rooms</h2>
-                <p>Camping Park Resort features a total of 19 modern tree houses, vacation tents, 46 family tents, and 150 Camping each of them is tastefully designed with high-quality and sustainable materials. Each unit is equipped with air-conditioning, a Fan and Fresh Air, a hot shower, and a hair dryer,</p>
+                <p>Camping Park Resort features a total of 19 modern tree houses, vacation tents, 46 family tents, and 150
+                    Camping each of them is tastefully designed with high-quality and sustainable materials. Each unit is
+                    equipped with air-conditioning, a Fan and Fresh Air, a hot shower, and a hair dryer,</p>
             </div>
             <div class="text">
-                <div class="row" style="width: 100%;">
-                    <div class="column1"  style="width:27%; ">
+                <div class="row1" style="width: 100%;">
+                    <div class="column1" style="width:29.5%; ">
                         <div class="room-img">
                             <img src="images/accommodation3.jpg" alt="" height="180px">
                             <div>
-                                <h2>Accommodation Room</h2>
+                                <h2>Deluxe Family Tent</h2>
                                 <div class="rate flex">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
@@ -74,19 +76,19 @@ export default {
                                 <p>This Cottage is popular for now</p>
                                 <div class="button flex">
                                     <!-- <button class="primary-btn">BOOK NOW</button> -->
-                                    <a href="book.html"> <button class="primary-btn">Book Now</button></a>
+                                    <a href="/Booking"> <button class="primary-btn">Booking</button></a>
                                     <h3>75$ <span><br>per nignt</span></h3>
                                 </div>
                             </div>
-                            
+
                         </div>
-                       
+
                     </div>
-                    <div class="column1"  style="width:27%;">
+                    <div class="column1" style="width:29.5%;">
                         <div class="room-img">
                             <img src="images/deluxe.jpg" alt="" height="180px">
                             <div>
-                                <h2>Accommodation Room</h2>
+                                <h2>Deluxe Double Tent</h2>
                                 <div class="rate flex">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
@@ -97,15 +99,15 @@ export default {
                                 <p>This Cottage is popular for now</p>
                                 <div class="button flex">
                                     <!-- <button class="primary-btn">BOOK NOW</button> -->
-                                    <a href="book.html"> <button class="primary-btn">Book Now</button></a>
+                                    <a href="/Booking"> <button class="primary-btn">Booking</button></a>
                                     <h3>75$ <span><br>per nignt</span></h3>
                                 </div>
                             </div>
-                            
+
                         </div>
-                       
+
                     </div>
-                    <div class="column1" style="width:27%;">
+                    <div class="column1" style="width:29.5%;">
                         <div class="room-img">
                             <img src="images/a1.jpg" alt="" height="180px">
                             <div>
@@ -120,13 +122,13 @@ export default {
                                 <p>This Cottage is popular for now</p>
                                 <div class="button flex">
                                     <!-- <button class="primary-btn">BOOK NOW</button> -->
-                                    <a href="book.html"> <button class="primary-btn">Book Now</button></a>
+                                    <a href="/Booking"> <button class="primary-btn">Booking</button></a>
                                     <h3>75$ <span><br>per nignt</span></h3>
                                 </div>
                             </div>
-                            
+
                         </div>
-                       
+
                     </div>
                 </div>
             </div>
@@ -532,14 +534,14 @@ export default {
     <footer>
         <div class="container grid">
             <div class="box">
-                <img src="images/logo.png" alt="" width="100px" height="65px">
+                <img src="images/logo.png" alt="" width="140px" height="70px">
 
                 <div class="icon">
                     <a href="https://www.facebook.com/CampingParkKirirom"><i class="fa fab fa-facebook-square"></i></a>
                     <a href="https://instagram.com/socheat__som?igshid=MzMyNGUyNmU2YQ=="><i
                             class="fa fab fa-instagram-square"></i></a>
                     <a href="https://youtu.be/ojFBtjvmmEM?si=eW_e1G2R4WdSulWY"><i class="fa fab fa-youtube"></i></a>
-                    <a href="https://www.tiktok.com/@aotu_user?_t=8hPhqjiau2c&_r=1"><i class="fa fab fa-tiktok"></i></a>
+                    <a href="https://t.me/+855965224235"><i class="fa fab fa-telegram"></i></a>
                 </div>
             </div>
 
@@ -563,11 +565,11 @@ export default {
                 <i class="fa fa-phone"></i>
                 <label for="">+855 96 522 423 5</label><br>
                 <i class="fa fa-envelope"></i>
-            <label for="">info@gmail.com</label>
+                <label for="">info@gmail.com</label>
+            </div>
         </div>
-    </div>
-    <div class="legal">
-        <p class="container">Copyright (C) 2023 Developed by Student Technology</p>
-    </div>
-</footer>
+        <div class="legal">
+            <p class="container">Copyright (C) 2023 Developed by Student Technology</p>
+        </div>
+    </footer>
 <!-- <script src="https:://kit.fontawesome.com/032d11eac3.js" crossorigin="anonymous"></script> --></template>

@@ -105,7 +105,7 @@
                     <a href="https://instagram.com/socheat__som?igshid=MzMyNGUyNmU2YQ=="><i
                             class="fa fab fa-instagram-square"></i></a>
                     <a href="https://youtu.be/ojFBtjvmmEM?si=eW_e1G2R4WdSulWY"><i class="fa fab fa-youtube"></i></a>
-                    <a href="https://www.tiktok.com/@aotu_user?_t=8hPhqjiau2c&_r=1"><i class="fa fab fa-tiktok"></i></a>
+                    <a href="https://t.me/+855965224235"><i class="fa fab fa-telegram"></i></a>
                 </div>
             </div>
 
