@@ -252,7 +252,7 @@
                     <div class="col-md-6 text-center">
                         <p id="p_cus">Your Infomation</p>
                         <form id="cus_frm" @submit.prevent="AddBooking(RoomItems,TentItems,cus_info)">
-                            <label for="">name:{{ cus_info.name }}</label>
+                            <!-- <label for="">name:{{ cus_info.name }}</label> -->
                             <input class="cus_name" type="text" placeholder='Name' v-model="cus_info.name">
                             <input class="cus_name" type="text" placeholder="Phone" v-model="cus_info.phone">
                             <button class="btn_book">Book Now!</button>

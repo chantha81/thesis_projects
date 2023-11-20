@@ -568,27 +568,39 @@ class BookingController extends Controller
         return response()->json($room);
     }
     public function getReport (Request $request){
-        
-        if(request()->ajax()) {
-            if ($request->d_from && $request->d_to) {
-                $data = DB::table('booked__packages')
-                ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
-                ->select( 'customer_infomations.*','booked__packages.*')
-                ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
-                ->whereBetween('booked__packages.created_at',[date($request->d_from),date($request->d_to)])
-                ->get();
-            } else {
-                $data = DB::table('booked__packages')
+        if ($request->d_from && $request->d_to) {
+            $data = DB::table('booked__packages')
+            ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
+            ->select( 'customer_infomations.*','booked__packages.*')
+            ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
+            ->whereBetween('booked__packages.created_at',[date($request->d_from),date($request->d_to)])
+            ->get();
+        } else {
+            $data = DB::table('booked__packages')
                 ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
                 ->select( 'customer_infomations.*','booked__packages.*')
                 ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
                 ->get();
-            }
-            return DataTables::of($data)
-            ->toJson();
-                   
         }
-        return view('report/index');
+        // if(request()->ajax()) {
+        //     if ($request->d_from && $request->d_to) {
+        //         $data = DB::table('booked__packages')
+        //         ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
+        //         ->select( 'customer_infomations.*','booked__packages.*')
+        //         ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
+        //         ->whereBetween('booked__packages.created_at',[date($request->d_from),date($request->d_to)])
+        //         ->get();
+        //     } else {
+        //         $data = DB::table('booked__packages')
+        //         ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
+        //         ->select( 'customer_infomations.*','booked__packages.*')
+        //         ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
+        //         ->get();
+        //     }
+        //     return DataTables::of($data)
+        //     ->toJson();         
+        // }
+        return view('report/index', compact('data'));
     }   
     
 }
