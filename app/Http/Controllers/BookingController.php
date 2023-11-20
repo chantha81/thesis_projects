@@ -569,7 +569,6 @@ class BookingController extends Controller
     }
     public function getReport (Request $request){
         
-       
         if(request()->ajax()) {
             if ($request->d_from && $request->d_to) {
                 $data = DB::table('booked__packages')
@@ -587,7 +586,7 @@ class BookingController extends Controller
             }
             return DataTables::of($data)
             ->toJson();
-                    
+                   
         }
         return view('report/index');
     }   
