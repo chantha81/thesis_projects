@@ -131,11 +131,11 @@
 						</li>
 						<li> <a href="{{route('roles.index')}}"><i class="fas fa-cube"></i> <span>Role User</span></a> </li>
 						<li> <a href="{{url('report')}}"><i class="fa-solid fa-file-lines"></i> <span>Report</span></a> </li>
-						<li class="submenu"> <a href="settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a> 
+						{{-- <li class="submenu"> <a href="settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a> 
 							<ul class="submenu_class" style="display: none;">
 								<li> <a href="#"><i class="fas fa-search"></i> hy</a> </li>
 							</ul>
-						</li>
+						</li> --}}
 						<li class="list-divider"></li>
 						
 					</ul>

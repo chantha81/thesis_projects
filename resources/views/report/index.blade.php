@@ -93,7 +93,6 @@
 
   let d_from = $('.d_from').val();
   $(function () {
-    // let d_from = $('.d_from').val();
     table = $('#tReport').DataTable({
       paging: true,
       processing: true,

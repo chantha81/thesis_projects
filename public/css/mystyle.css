@@ -168,6 +168,7 @@ color: #fff;
 .pending {
 background-color: #ffad04;
 border-color: transparent;
+/* width: 200px; */
 }
 
 .approved {
