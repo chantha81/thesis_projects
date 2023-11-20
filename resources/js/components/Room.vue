@@ -101,12 +101,13 @@
             <div class="box">
                <h2>Links</h2>
                <ul>
-                  <li><a href="/CampingPack">Home</a></li>
-                  <li><a href="/Room">Room</a></li>
-                  <li><a href="/ThingToDo">Things to do</a></li>
-                  <li><a href="/Gallery">Gallery</a></li>
-                  <li><a href="/Contact">Contact</a></li>
-                  <li><a href="/Booking">Booking</a></li>
+                  <li><router-link class="" to="/CampingPack">Home</router-link></li>
+                  <li><router-link class="" to="/Room">Room</router-link></li>
+                  <li><router-link class="" to="/ThingtoDo">Things To Do</router-link></li>
+                  <li><router-link class="" to="/Gallery">Gallery</router-link></li>
+                  <li><router-link class="" to="/Contact">Contact</router-link></li>
+                  <!-- <li><i class="fa fa-search"></i></li> -->
+                  <router-link class="" to="/Booking">Book Now</router-link>
                </ul>
             </div>
 
