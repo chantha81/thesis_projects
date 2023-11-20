@@ -1226,3 +1226,10 @@ input[type=submit]:hover {
    margin-top: 3rem;
    margin-left: 6rem;
 }
+
+/* QR */
+.qr  p{
+    text-align: center;
+    font-size: 15px;
+    margin-top: 2rem;
+}
