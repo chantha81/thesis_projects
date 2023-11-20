@@ -15,7 +15,6 @@
                     <li><a href="/ThingToDo">Things to do</a></li>
                     <li><a href="/Gallery">Gallery</a></li>
                     <li><a href="/Contact">Contact</a></li>
-                    <router-link to="/Contact">Contact</router-link>
                     <!-- <li><i class="fa fa-search"></i></li> -->
                     <router-link class="book_btn" to="/Booking">Book Now</router-link>
                 </ul>
