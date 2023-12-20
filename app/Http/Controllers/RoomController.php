@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Room;
+use App\Models\RoomType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Session;
@@ -14,8 +15,12 @@ class RoomController extends Controller
 {
     public function index(Request $request)
     {  
+    
         if (request()->ajax()) {
-            $data = Room::get();
+            $data = DB::table('rooms')
+                ->leftjoin('room_type','rooms.room_type_id','room_type.id')
+                ->select('rooms.*','room_type.name_type')
+                ->get();
             return Datatables::of($data)
                 ->addColumn('action','rooms.actions')
                 ->toJson();
@@ -44,7 +49,7 @@ class RoomController extends Controller
         
         $rooms = new Room;
         $rooms->name = $request->name;
-        $rooms->type = $request->type;
+        $rooms->room_type_id = $request->type;
         $rooms->bed = $request->bed;
         if ($request->image) {
             $rooms->image = $filename;
@@ -102,18 +107,17 @@ class RoomController extends Controller
     return redirect('/rooms');
     }
     
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
        //
     }
     public function create(){
-        return view('rooms/create');
+        $room_type = RoomType::get();
+        // dd($room_type);
+        return view('rooms/create',compact('room_type'));
     }
     public function delete ($id){
+        // dd($id);
         Room::find($id) ->delete();
         return redirect()->route('rooms.index');
     }

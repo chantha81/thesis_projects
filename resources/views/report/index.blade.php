@@ -13,19 +13,19 @@
   <div class="div_form_search">
     <button class="btn btn-primary btn_search"><i class="fa-solid fa-up-long"></i> Show form </button>
     <button class="btn btn-primary btn_hide"><i class="fa-solid fa-down-long"></i> Hide form </button>
-    <form action="" id="frm_search" method="GET">
+    <div id="frm_search">
       <div class="row">
         <div class="col-md-6">
-          <input type="text" class="form-control search_date d_from datetimepicker" placeholder="form date" name="d_from" value="">
+          <input type="text" class="form-control search_date d_from datetimepicker" placeholder="form date" name="d_from">
         </div>
         <div class="col-md-6">
-          <input type="text" class="form-control search_date d_to datetimepicker" placeholder="to date" name="d_to" value="">
+          <input type="text" class="form-control search_date d_to datetimepicker" placeholder="to date" name="d_to">
         </div>
       </div>
       <div class="row">
         <div class="col-md-3"><button class="btn btn-success btn_submit" style="margin: 10px 0 10px 10px">submit</button></div>
       </div>
-    </form>
+    </div>
   </div>
   @if ($message = Session::get('success'))
   <div class="alert alert-success">
@@ -54,9 +54,12 @@
 
 <script type="text/javascript">
 
-
+  var d_from;
+  var d_to;
  
   $(document).ready(function () {
+
+    
 
     $('#frm_search').hide();
     $('.btn_search').click(function () {
@@ -65,8 +68,15 @@
     $('.btn_hide').click(function () {
       $('#frm_search').hide();
     });
+    
     $('.btn_submit').click(function () {
-    })
+      d_from = $('.d_from').val();
+      d_to = $('.d_to').val();
+      // console.log($('.d_from').val());
+    });
+    // $('.d_from').click(function () {
+    //   alert('123');
+    // })
   });
 
   $(function () {
@@ -105,7 +115,9 @@
         'pageLength', 'csv', 'excel'
       ],
       
-      ajax: `{{url("report")}}` ,
+      // ajax: `{{url("report?d_from=d_from")}}`,
+      ajax: '{{url("report")}}',
+      // data:arguments
       columns: [
         {data: 'name', name: 'name'},
         {data: 'phone', name: 'phone'},

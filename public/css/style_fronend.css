@@ -1233,3 +1233,41 @@ input[type=submit]:hover {
     font-size: 15px;
     margin-top: 2rem;
 }
+.search{
+    margin-top: 25px;
+}
+.search #inputSearch{
+    height: 35px;
+    border-radius: 8px;
+    width: 70%;
+}
+.search label{
+    margin-right: 5px;
+}
+.search ::placeholder {
+    text-align: center;
+}
+.btn_search {
+    margin-left: 10px;
+    width: 60px;
+    height: 35px;
+    background-color: #00bd19;
+    border-radius: 4px;
+    padding: 5px 10px;
+}
+.filter_room{
+    top: 75px !important;
+    margin-top: 20px !important;
+    margin-left: 0 !important;
+    background-color: #eee;
+    height: 500px;
+    border-radius: 4px;
+}
+.filter_room h4 {
+    margin-top: 5px !important;
+}
+/* .check_type input{
+    width: 20px !important;
+    height: 20px;
+} */
+

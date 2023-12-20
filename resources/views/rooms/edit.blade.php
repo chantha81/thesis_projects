@@ -43,7 +43,7 @@
 								<div class="col-md-4">
 									<div class="form-group">
                                         <label for="type">Type</label>
-                                        <input  type="text" name ="type" value="{{ $rooms->type }}" class="form-control">
+                                        <input  type="text" name ="type" value="{{ $rooms->name_type }}" class="form-control">
 									</div>
 								</div>
                                 <div class="col-md-4">

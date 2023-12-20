@@ -12,6 +12,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\TentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RoomTypeController;
 use App\Models\Booked_Package;
 use App\Models\Room;
 use App\Models\Category;
@@ -41,13 +42,14 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/delete/{user}',[UserController::class,'destroy']);
     Route::resource('create',BookingController::class);
     Route::resource('accessories', AccessoriesController::class);
+    Route::resource('room_type', RoomTypeController::class);
     //====Rooms====\\
     Route::get('rooms',[RoomController::class,'index'])->name('rooms.index');
     Route::get('/room_create', [RoomController::class,'create']);
     Route::post('/room_store', [RoomController::class,'store'])->name('room.store');
     Route::get('/rooms-edit/{rooms}',[RoomController::class,'edit'])->name('rooms.edit');
     Route::put('/rooms/{rooms}',[RoomController::class,'update'])->name('rooms.update');
-    Route::get('rooms/room-delete/{rooms}',[RoomController::class,'delete']);
+    Route::get('/room-delete/{rooms}',[RoomController::class,'delete']);
 
     //======booking======\\
     Route::get('getAllbooking',[BookingController::class,'getAllbooking']);
@@ -82,6 +84,16 @@ Route::group(['middleware' => ['auth']], function() {
     // === Report ===\\
     Route::get('report',[BookingController::class,'getReport']);
     // Route::get('export-report', [BookingController::class, 'exportReport']);
+
+    Route::get('/search_room',[BookingController::class, 'getRoomType']);
+    Route::get('/search_room_bycheck',[BookingController::class, 'getRoomTypeBycheck']);
+    Route::get('/multi_check',[BookingController::class, 'getRoomMulticheck']);
+    Route::get('/check_price',[BookingController::class, 'getRoomPrice']);
+    Route::get('/check_price_multiP',[BookingController::class, 'getRoomPriceMultiP']);
+    Route::get('/search_tent',[BookingController::class, 'getTentType']);
+    Route::get('/type_room',[BookingController::class, 'getTypeRoom']);
+    
+
 });
 
 Route::get('{any?}', function () {
@@ -90,3 +102,7 @@ Route::get('{any?}', function () {
 Route::get('/room', [BookingController::class,'getRoom']);
 Route::get('/get-tent', [BookingController::class,'getTent']);
 Route::post('/booking_store', [BookingController::class,'store']);
+Route::get('/search_room',[BookingController::class, 'getRoomType']);
+Route::get('/search_tent',[BookingController::class, 'getTentType']);
+Route::get('/type_room',[BookingController::class, 'getTypeRoom']);
+

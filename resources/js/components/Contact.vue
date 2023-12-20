@@ -44,7 +44,7 @@
                                     padding: 10px;
                                     border: 5px solid gray;
                                     margin:2rem 2rem 2rem 4rem;">
-                                        <p><a href="https://instagram.com/socheat__som?igshid=MzMyNGUyNmU2YQ=="><i
+                                        <p><a href="https://instagram.com/campingpark_?igshid=MzMyNGUyNmU2YQ=="><i
                                                     class="fa fab fa-instagram-square"></i>Instagram</a></p>
                                     </div>
                                     <div class="" style=" width: 460px;
@@ -91,7 +91,7 @@
 
                 <div class="icon">
                     <a href="https://www.facebook.com/CampingParkKirirom"><i class="fa fab fa-facebook-square"></i></a>
-                    <a href="https://instagram.com/socheat__som?igshid=MzMyNGUyNmU2YQ=="><i
+                    <a href="https://instagram.com/campingpark_?igshid=MzMyNGUyNmU2YQ=="><i
                             class="fa fab fa-instagram-square"></i></a>
                     <a href="https://youtu.be/ojFBtjvmmEM?si=eW_e1G2R4WdSulWY"><i class="fa fab fa-youtube"></i></a>
                     <a href="https://t.me/+855965224235"><i class="fa fab fa-telegram"></i></a>

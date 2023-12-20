@@ -114,6 +114,7 @@
 								<li><a href="{{url('/rooms')}}">All Rooms </a></li>
 								<!-- <li><a href="{{url('/rooms/{rooms}/edit')}}"> Edit Rooms </a></li> -->
 								<li><a href="{{url('/room_create')}}"> Add Rooms </a></li>
+								<li><a href="{{route('room_type.index')}}">Rooms Type </a></li>
 							</ul>
 						</li>
 						<li class="submenu"> <a href="#"><i class="fas fa-key"></i> <span> Tent </span> <span class="menu-arrow"></span></a>

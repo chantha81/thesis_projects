@@ -110,5 +110,11 @@
             </div>
         </div>
     </div>
+    <div class="row d-flex justify-content-center" >
+        <div class="col-md-9" style="margin-top: 18rem">
+            <a class="btn btn-primary buttonedit" href="/all_booking">Back</a>
+        </div>
+    </div>
 </div>
+
 @endsection

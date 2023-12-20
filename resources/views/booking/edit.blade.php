@@ -94,8 +94,9 @@
                                                         <thead class="thead-room">
                                                             <tr>
                                                                 <th scope="col">#</th>
-                                                                <th scope="col">Room</th>
                                                                 <th scope="col">Name</th>
+                                                                <th scope="col">Type</th>
+                                                                <th scope="col">Bed</th>
                                                                 <th scope="col">Price</th>
                                                                 <th scope="col" style="width: 20px"><i
                                                                         class="fa-solid fa-trash"></i></th>
@@ -133,13 +134,13 @@
                                                                 <div class="card-body">
                                                                     <div class="row">
                                                                         <div class="col-md-4">
-                                                                            <h3 class="card_widget_header">{{ $place_camping->quantity }}</h3>
+                                                                            <h3 class="card_widget_header">{{ $qty_place }}</h3>
                                                                             <h6 class="text-muted">Remaining</h6>
                                                                         </div>
                                                                         <div class="col-md-8">
                                                                             <div class="row">
                                                                                 <div class="col-md-4">
-                                                                                    <input class="check_pace" type="checkbox" name="place_camping" id="">
+                                                                                    <input class="check_pace" value="{{ $place_qty }}" type="checkbox" name="place_camping" id="">
                                                                                 </div>
                                                                                 <div class="col-md-8">
                                                                                     <input type="number" min="1" class="form-control input_place" placeholder="How Many" name="place_camping">
@@ -230,22 +231,26 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Room</th>
                                 <th scope="col">Name</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Bed</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Status</th>
                             </tr>
                         </thead>
+                        {{-- {{dd($rooms)}} --}}
                         @foreach ($rooms as $room)
+                        {{-- {{dd($room)}} --}}
                             <tbody class="tbody-room-modal">
                                 <tr>
                                     <td class="text-center" id="td-check"><input type="checkbox"
                                             data-room="{{ $room->id }}" class="form-check-input clickBox"
                                             style="width:20px; height:20px"></td>
-                                    <td>{{ $room->room_number }}</td>
-                                    <td>{{ $room->room_name }}</td>
+                                    <td>{{ $room->name }}</td>
+                                    <td>{{ $room->name_type }}</td>
+                                    <td>{{ $room->bed }}</td>
                                     <td>{{ $room->price }}</td>
-                                    <td>{{ $room->status }}</td>
+                                    {{-- <td>{{ $room->status }}</td> --}}
                                 </tr>
                             </tbody>
                         @endforeach
@@ -434,11 +439,24 @@
             });   
         });
         function remove_room(room_id) {
-            var index = room_data.findIndex(function(room) { return room_id == room.id });
-            var index_room_id_arr = room_id_arr.findIndex(function(room) { return room_id == room.id });
-            room_data.splice(index, 1);
-            room_id_arr.splice(index, 1);
-            render_room_table(room_data);
+            // if (room_data.length === 1) {
+            //     Swal.fire({
+            //     icon: "error",
+            //     title: "Can't Remove all service",
+            //     text: "Something went wrong!"
+            //     });
+            // } else {
+                var index = room_data.findIndex(function(room) { return room_id == room.id });
+                var index_room_id_arr = room_id_arr.findIndex(function(room) { return room_id == room.id });
+                room_data.splice(index, 1);
+                room_id_arr.splice(index, 1);
+                render_room_table(room_data);
+            // }
+            // var index = room_data.findIndex(function(room) { return room_id == room.id });
+            // var index_room_id_arr = room_id_arr.findIndex(function(room) { return room_id == room.id });
+            // room_data.splice(index, 1);
+            // room_id_arr.splice(index, 1);
+            // render_room_table(room_data);
         }
         function render_room_table(room_data_render) {
             var tboby = $('#room tbody');
@@ -448,8 +466,9 @@
                 var tr =
                     `<tr>
                 <td>${element.id} <input type="hidden" name="room_ids[]" value="${element.id}"/></td>
-                <td> ${element.room_number}</td>
-                <td> ${element.room_name} </td>
+                <td> ${element.name}</td>
+                <td> ${element.name_type} </td>
+                <td> ${element.bed} </td>
                 <td> ${element.price} </td>
                 <td> <i class="fa-solid fa-trash remove_room_from_append" style="cursor:pointer;" onclick="remove_room(${element.id})"></i></td>
              </tr>`

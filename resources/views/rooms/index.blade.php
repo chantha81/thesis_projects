@@ -52,7 +52,7 @@
 			ajax: "{{ route('rooms.index') }}",
 			columns: [
 				{data: 'name', name: 'name'},
-				{data: 'type', name: 'type'},
+				{data: 'name_type', name: 'name_type'},
 				{data: 'bed', name: 'bed'},
 				{data: 'price', name: 'price', render: $.fn.dataTable.render.number( ',', '.', 2,'$')},
 				{data: 'image', name: 'image',

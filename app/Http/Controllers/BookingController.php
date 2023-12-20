@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use App\Models\Booked_Package;
 use App\Models\Room;
 use App\Models\Tent;
@@ -13,6 +15,7 @@ use App\Models\Accessories;
 use App\Models\CustomerInfomation;
 use App\Models\PlaceCamping;
 use App\Models\PlaceCampingDetail;
+
 use Session;
 use DataTables;
 use Carbon\Carbon;
@@ -68,31 +71,32 @@ class BookingController extends Controller
         $room_id = request()->query('room');
         $ids = (explode(",",$room_id));
         $rooms = DB::table('rooms')
-            ->whereIn('id', $ids)
+            ->leftjoin('room_type','rooms.room_type_id','room_type.id')
+            ->whereIn('rooms.id', $ids)
+            ->select('rooms.*','room_type.name_type')
             ->get();
         return response()->json($rooms);    
     }
     //=== get free room ====\\
     public function getRoom()
     {
-        // dd('test');
         $date_in = request()->query('date_in');
         $dat_out = request()->query('date_out');
-        // dd($date_in,$dat_out);
         $rooms_bcs = DB::table('rooms')
                 ->rightjoin('booked_packages_detail','booked_packages_detail.room_id','rooms.id')
                 ->whereRaw("booked_packages_detail.check_in_date <=  date('$dat_out')")
                 ->whereRaw("booked_packages_detail.check_out_date >=  date('$date_in')")
                 ->get();
-        // dd($rooms_bcs);
         $id_bc_rooms =[];
         foreach ($rooms_bcs as $rooms_bc) {
             array_push($id_bc_rooms,$rooms_bc->room_id);
         }
         $free_rooms = DB::table('rooms')
+            ->leftjoin('room_type','rooms.room_type_id','room_type.id')
+            ->select('rooms.*','room_type.name_type')
             ->whereNotIn('rooms.id',$id_bc_rooms)
             ->get();
-        // dd($free_rooms);
+            // dd($free_rooms);
         return response()->json($free_rooms);    
     }
     public function getTentByID()
@@ -170,7 +174,9 @@ class BookingController extends Controller
         }
         // dd($room_id_arr);
         $rooms = DB::table('rooms')
-            ->whereIn('id', $room_id_arr)
+            ->leftjoin('room_type','rooms.room_type_id','room_type.id')
+            ->whereIn('rooms.id', $room_id_arr)
+            ->select('rooms.*','room_type.name_type')
             ->get();
         return response()->json($rooms);
     }
@@ -240,11 +246,13 @@ class BookingController extends Controller
             $bookings->status = $status;
             $bookings->save();
         }
-        
+        // dd($request->room_ids);
         if ($request->room_ids) {
             foreach($request->room_ids as $room_id) 
             {
+                // dd($room_id);
                 $room = Room::find($room_id);
+                // dd($room);
                 BookingDetail::create([
                     "booking_id"            => $bookings->id,
                     "price"                 => $room->price,
@@ -284,6 +292,7 @@ class BookingController extends Controller
     }
     public function update(Request $request, string $id)
     { 
+        // dd($request->all());
         if ($request->room_ids) {
             $id_rooms = [];
             foreach($request->room_ids as $room_id) 
@@ -316,13 +325,18 @@ class BookingController extends Controller
             }
             $total_tent_price = array_sum($tent_price);
         }
+        $total_room_price = $request->room_ids ?  $total_room_price : 0;
+        $total_tent_price = $request->tent_ids ? $total_tent_price : 0;
         $total_price = $total_room_price + $total_tent_price;
-
+        // $total_price = $total_room_price + $total_tent_price;
+        $status = DB::table('booked__packages')
+            ->where('id',$id) -> select('status') ->get();
+    
         $bookings = Booked_Package::findOrFail($id);
         $bookings->check_in_date = $request->Input('check_in_date');
         $bookings->check_out_date = $request->Input('check_out_date');
         $bookings->total_price = $total_price;
-        $bookings->status = $request->Input('status');
+        $bookings->status = $status[0]->status;
         $bookings->save();
 
         DB::table('customer_infomations')
@@ -332,27 +346,14 @@ class BookingController extends Controller
                  'phone' => $request->Input('phone')
                 ]);
         
-        $room_id_hass = DB::table('booked_packages_detail')
-            ->select('room_id')
-            ->where('booked_packages_detail.booking_id' ,$bookings->id)
-            ->get();
-        $room_ids = [];
-        foreach ($room_id_hass as $room_id_has) {
-            array_push($room_ids,$room_id_has->room_id);
-        }
-        foreach($request->room_ids as $room_id) 
-        {
-            $old_id_room = array_search($room_id,$room_ids);
-            $room = Room::find($room_id);
+
+        if ($request->room_ids) {
             DB::table('booked_packages_detail')
                 ->where('booked_packages_detail.booking_id', $bookings->id)
-                ->update([
-                    'check_in_date'     => $request->check_in_date,
-                    'check_out_date'    => $request->check_out_date,
-            ]);
-            if ($old_id_room == false) {
+                ->delete();
+            foreach ($request->room_ids as $room_id) {
                 DB::table('booked_packages_detail')
-                ->updateOrInsert([
+                ->insert([
                     "booking_id"            => $bookings->id,
                     "price"                 => $room->price,
                     "check_in_date"         => $request->check_in_date,
@@ -360,50 +361,107 @@ class BookingController extends Controller
                     "status"                => 'sting',
                     "room_id"               => $room_id
                 ]);
-            } 
-            
+            }
+        } else {
+            DB::table('booked_packages_detail')
+                ->where('booked_packages_detail.booking_id', $bookings->id)
+                ->delete();
         }
-        $tent_id_hass = DB::table('tent_details')
-            ->select('tent_id')
-            ->where('tent_details.booking_id' ,$bookings->id)
-            ->get();
-        $tent_ids = [];
-        foreach ($tent_id_hass as $tent_id_has) {
-            array_push($tent_ids,$tent_id_has->tent_id);
-        }
-        foreach ( $request->Input('tent_ids') as $tent_id ) {
-            $old_id_tent = array_search($tent_id,$tent_ids);
-            $tent = Tent::find($tent_id);
-            if ($old_id_tent == false) {
+        if ($request->tent_ids) {
+            DB::table('tent_details')
+                ->where('tent_details.booking_id' ,$bookings->id)
+                ->delete();
+            foreach ($request->tent_ids as $tent_id) {
                 DB::table('tent_details')
-                ->updateOrInsert([
+                ->insert([
                     "booking_id"            => $bookings->id,
                     "check_in_date"         => $request->check_in_date,
                     "check_out_date"        => $request->check_out_date,
                     "tent_id"               => $tent_id
                 ]);
             }
+        } else {
+            DB::table('tent_details')
+                ->where('tent_details.booking_id' ,$bookings->id)
+                ->delete();
         }
+        if (empty($request->room_ids) && empty($request->tent_ids)) {
+            // dd($bookings->id);
+            $reject = DB::table('booked__packages')
+                ->where('id', $bookings->id)
+                ->update([
+                    'status' => 'Reject'
+                ]);
+        }
+
+        // $tent_id_hass = DB::table('tent_details')
+        //     ->select('tent_id')
+        //     ->where('tent_details.booking_id' ,$bookings->id)
+        //     ->get();
+        // $tent_ids = [];
+        // // dd($tent_ids);
+        // foreach ($tent_id_hass as $tent_id_has) {
+        //     array_push($tent_ids,$tent_id_has->tent_id);
+        // }
+        // if ($request->tent_ids) {
+        //     foreach ( $request->Input('tent_ids') as $tent_id ) {
+        //         $old_id_tent = array_search($tent_id,$tent_ids);
+        //         $tent = Tent::find($tent_id);
+        //         if ($old_id_tent == false) {
+        //             DB::table('tent_details')
+        //             ->updateOrInsert([
+        //                 "booking_id"            => $bookings->id,
+        //                 "check_in_date"         => $request->check_in_date,
+        //                 "check_out_date"        => $request->check_out_date,
+        //                 "tent_id"               => $tent_id
+        //             ]);
+        //         }
+        //     }
+        // }
+        
         Session::flash('package_updated','Your package is booked');
         return redirect('/all_booking');
     }
     public function edit ($id)
     {
         $package_booked = Booked_Package::findOrFail($id);
-        $rooms = array();
-    	foreach (Room::all() as $room) {
-    		$rooms = $room->all();
-    	}
-        $place_campings = DB::table('place_campings')
+        // $rooms = array();
+        $rooms = DB::table('rooms')
+            ->leftjoin('room_type','rooms.room_type_id','room_type.id')
+            ->select('rooms.*','room_type.name_type')
+            ->get();
+        // dd($allRoom);
+    	// foreach ($allRoom as $room) {
+        //     // dd($room);
+    	// 	$rooms = $room;
+    	// }
+        // dd($allRoom);
+        $place_campings = DB::table('place_camping_details')
+            ->where('place_camping_details.booking_id',$id)
             ->select('quantity') 
             ->get();
-        foreach ($place_campings as $place_camping) {}
+        $place_total = DB::table('place_campings')->select('total')->get();
+        // dd($place_campings);
+        if (count($place_campings)) {
+            
+            foreach ($place_campings as $place_camping) {
+                $qty = $place_total[0]->total;
+                $place_qty = $place_camping->quantity;
+                $qty_last = $qty - $place_qty;
+            }
+        } else {
+            
+            $place_qty = 0;
+            $qty_last = $place_total[0]->total;
+        }
+        
+        // dd($place_campings);
         $tents = Tent::all();
         $customer_infomations = DB::table('customer_infomations') 
             ->where('id',$package_booked->customer_info_id) 
             ->get();
         foreach ($customer_infomations as $customer_infomation) {}
-        return view('booking.edit',['rooms' => $rooms,'package_booked' => $package_booked, 'place_camping'=>$place_camping,'tents'=>$tents,'customer_infomation'=>$customer_infomation]);
+        return view('booking.edit',['rooms' => $rooms,'package_booked' => $package_booked, 'place_qty'=>$place_qty,'tents'=>$tents,'customer_infomation'=>$customer_infomation,'qty_place'=>$qty_last]);
     }
     public function destroy($id)
     {
@@ -568,39 +626,330 @@ class BookingController extends Controller
         return response()->json($room);
     }
     public function getReport (Request $request){
-        if ($request->d_from && $request->d_to) {
-            $data = DB::table('booked__packages')
-            ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
-            ->select( 'customer_infomations.*','booked__packages.*')
-            ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
-            ->whereBetween('booked__packages.created_at',[date($request->d_from),date($request->d_to)])
-            ->get();
-        } else {
-            $data = DB::table('booked__packages')
+        // if ($request->d_from && $request->d_to) {
+        //     $data = DB::table('booked__packages')
+        //     ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
+        //     ->select( 'customer_infomations.*','booked__packages.*')
+        //     ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
+        //     ->whereBetween('booked__packages.created_at',[date($request->d_from),date($request->d_to)])
+        //     ->get();
+        // } else {
+        //     $data = DB::table('booked__packages')
+        //         ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
+        //         ->select( 'customer_infomations.*','booked__packages.*')
+        //         ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
+        //         ->get();
+        // }
+        if(request()->ajax()) {
+            if ($request->d_from && $request->d_to) {
+                $data = DB::table('booked__packages')
+                ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
+                ->select( 'customer_infomations.*','booked__packages.*')
+                ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
+                ->whereBetween('booked__packages.created_at',[date($request->d_from),date($request->d_to)])
+                ->get();
+            } else {
+                $data = DB::table('booked__packages')
                 ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
                 ->select( 'customer_infomations.*','booked__packages.*')
                 ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
                 ->get();
+            }
+            return DataTables::of($data)
+            ->toJson();         
         }
-        // if(request()->ajax()) {
-        //     if ($request->d_from && $request->d_to) {
-        //         $data = DB::table('booked__packages')
-        //         ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
-        //         ->select( 'customer_infomations.*','booked__packages.*')
-        //         ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
-        //         ->whereBetween('booked__packages.created_at',[date($request->d_from),date($request->d_to)])
-        //         ->get();
-        //     } else {
-        //         $data = DB::table('booked__packages')
-        //         ->leftJoin( 'customer_infomations', 'customer_infomations.id','=', 'booked__packages.customer_info_id' )
-        //         ->select( 'customer_infomations.*','booked__packages.*')
-        //         ->selectRaw('booked__packages.total_price - booked__packages.book_advance as balance')
-        //         ->get();
+        return view('report/index');
+    }
+    public function getRoomType() {
+        $type = request()->query('type');
+        $date_in = request()->query('date_in');
+        $dat_out = request()->query('date_out');
+
+        $rooms_bcs = DB::table('rooms')
+                ->rightjoin('booked_packages_detail','booked_packages_detail.room_id','rooms.id')
+                ->whereRaw("booked_packages_detail.check_in_date <=  date('$dat_out')")
+                ->whereRaw("booked_packages_detail.check_out_date >=  date('$date_in')")
+                ->get();
+        $id_bc_rooms =[];
+        foreach ($rooms_bcs as $rooms_bc) {
+            array_push($id_bc_rooms,$rooms_bc->room_id);
+        }
+        $free_rooms = DB::table('rooms')
+            ->whereNotIn('rooms.id',$id_bc_rooms)
+            ->where(function($query) use ($type){
+                $query->where('type', 'like', '%' .$type. '%')
+                    ->orwhere('price', 'like', '%' . $type . '%')
+                    // ->orwhere('beb', 'like', '%' . $type . '%');
+                    ->orwhere('name', 'like','%' . $type . '%');
+            })
+            ->get();
+        dd($free_rooms);
+        return response()->json($free_rooms);
+       
+    }
+    public function getRoomTypeBycheck() {
+        if (request()->query('type')) {
+            // dd('type');
+            $type = request()->query('type');
+            $date_in = request()->query('date_in');
+            $dat_out = request()->query('date_out');
+
+            $rooms_bcs = DB::table('rooms')
+                    ->rightjoin('booked_packages_detail','booked_packages_detail.room_id','rooms.id')
+                    ->whereRaw("booked_packages_detail.check_in_date <=  date('$dat_out')")
+                    ->whereRaw("booked_packages_detail.check_out_date >=  date('$date_in')")
+                    ->get();
+            $id_bc_rooms =[];
+            foreach ($rooms_bcs as $rooms_bc) {
+                array_push($id_bc_rooms,$rooms_bc->room_id);
+            }
+            $free_rooms = DB::table('rooms')
+                ->leftjoin('room_type','rooms.room_type_id','room_type.id')
+                ->whereNotIn('rooms.id',$id_bc_rooms)
+                ->where('rooms.room_type_id',$type)
+                ->select('rooms.*','room_type.name_type')
+                ->get();
+            // dd($free_rooms);
+            return response()->json($free_rooms);
+        } elseif (request()->query('bed')){
+            // dd('bed');
+            $bed = request()->query('bed');
+            $date_in = request()->query('date_in');
+            $dat_out = request()->query('date_out');
+
+            $rooms_bcs = DB::table('rooms')
+                    ->rightjoin('booked_packages_detail','booked_packages_detail.room_id','rooms.id')
+                    ->whereRaw("booked_packages_detail.check_in_date <=  date('$dat_out')")
+                    ->whereRaw("booked_packages_detail.check_out_date >=  date('$date_in')")
+                    ->get();
+            $id_bc_rooms =[];
+            foreach ($rooms_bcs as $rooms_bc) {
+                array_push($id_bc_rooms,$rooms_bc->room_id);
+            }
+            $free_rooms = DB::table('rooms')
+                ->leftjoin('room_type','rooms.room_type_id','room_type.id')
+                ->whereNotIn('rooms.id',$id_bc_rooms)
+                ->where('rooms.bed',$bed)
+                ->select('rooms.*','room_type.name_type')
+                ->get();
+            // dd($free_rooms);
+            return response()->json($free_rooms);
+        } elseif (request()->query('type') && request()->query('bed')) {
+            dd('2value');
+        }
+        if (request()->query('min') && request()->query('max')) {
+            // dd('min&max');
+            $min = request()->query('min');
+            $max = request()->query('max');
+            $date_in = request()->query('date_in');
+            $dat_out = request()->query('date_out');
+
+            $rooms_bcs = DB::table('rooms')
+                    ->rightjoin('booked_packages_detail','booked_packages_detail.room_id','rooms.id')
+                    ->whereRaw("booked_packages_detail.check_in_date <=  date('$dat_out')")
+                    ->whereRaw("booked_packages_detail.check_out_date >=  date('$date_in')")
+                    ->get();
+            $id_bc_rooms =[];
+            foreach ($rooms_bcs as $rooms_bc) {
+                array_push($id_bc_rooms,$rooms_bc->room_id);
+            }
+            $free_rooms = DB::table('rooms')
+                ->leftjoin('room_type','rooms.room_type_id','room_type.id')
+                ->whereNotIn('rooms.id',$id_bc_rooms)
+                ->whereBetween('rooms.price',[$min,$max])
+                ->select('rooms.*','room_type.name_type')
+                ->get();
+            // dd($free_rooms);
+            return response()->json($free_rooms);
+        }
+        // if (request()->query('type') && request()->query('bed')) {
+        //     dd('bed');
+        //     $bed = request()->query('bed');
+        //     $type = request()->query('type');
+        //     $date_in = request()->query('date_in');
+        //     $dat_out = request()->query('date_out');
+
+        //     $rooms_bcs = DB::table('rooms')
+        //             ->rightjoin('booked_packages_detail','booked_packages_detail.room_id','rooms.id')
+        //             ->whereRaw("booked_packages_detail.check_in_date <=  date('$dat_out')")
+        //             ->whereRaw("booked_packages_detail.check_out_date >=  date('$date_in')")
+        //             ->get();
+        //     $id_bc_rooms =[];
+        //     foreach ($rooms_bcs as $rooms_bc) {
+        //         array_push($id_bc_rooms,$rooms_bc->room_id);
         //     }
-        //     return DataTables::of($data)
-        //     ->toJson();         
+        //     $free_rooms = DB::table('rooms')
+        //         ->leftjoin('room_type','rooms.room_type_id','room_type.id')
+        //         ->whereNotIn('rooms.id',$id_bc_rooms)
+        //         ->where('rooms.bed',$bed)
+        //         ->orwhere('rooms.room_type.id',$type)
+        //         ->select('rooms.*','room_type.name_type')
+        //         ->get();
+        //     dd($free_rooms);
+        //     return response()->json($free_rooms);
         // }
-        return view('report/index', compact('data'));
-    }   
+            // $type = request()->query('type');
+            // $date_in = request()->query('date_in');
+            // $dat_out = request()->query('date_out');
+
+            // $rooms_bcs = DB::table('rooms')
+            //         ->rightjoin('booked_packages_detail','booked_packages_detail.room_id','rooms.id')
+            //         ->whereRaw("booked_packages_detail.check_in_date <=  date('$dat_out')")
+            //         ->whereRaw("booked_packages_detail.check_out_date >=  date('$date_in')")
+            //         ->get();
+            // $id_bc_rooms =[];
+            // foreach ($rooms_bcs as $rooms_bc) {
+            //     array_push($id_bc_rooms,$rooms_bc->room_id);
+            // }
+            // $free_rooms = DB::table('rooms')
+            //     ->leftjoin('room_type','rooms.room_type_id','room_type.id')
+            //     ->whereNotIn('rooms.id',$id_bc_rooms)
+            //     ->where('rooms.room_type_id',$type)
+            //     ->select('rooms.*','room_type.name_type')
+            //     ->get();
+            // // dd($free_rooms);
+            // return response()->json($free_rooms);
+    } 
+    public function getRoomMulticheck() {
+        if (request()->query('type') && request()->query('bed')) {
+            $bed = request()->query('bed');
+            $type = request()->query('type');
+            $date_in = request()->query('date_in');
+            $dat_out = request()->query('date_out');
+            // dd()
+            $rooms_bcs = DB::table('rooms')
+                    ->rightjoin('booked_packages_detail','booked_packages_detail.room_id','rooms.id')
+                    ->whereRaw("booked_packages_detail.check_in_date <=  date('$dat_out')")
+                    ->whereRaw("booked_packages_detail.check_out_date >=  date('$date_in')")
+                    ->get();
+            $id_bc_rooms =[];
+            foreach ($rooms_bcs as $rooms_bc) {
+                array_push($id_bc_rooms,$rooms_bc->room_id);
+            }
+            $free_rooms = DB::table('rooms')
+                ->leftjoin('room_type','rooms.room_type_id','room_type.id')
+                ->whereNotIn('rooms.id',$id_bc_rooms)
+                ->where('rooms.bed',$bed)
+                ->where('rooms.room_type_id',$type)
+                ->select('rooms.*','room_type.name_type')
+                ->get();
+            // dd($free_rooms);
+            return response()->json($free_rooms);
+        }
+    } 
+    public function getTypeRoom(){
+        $room_type = DB::table('room_type')->get();
+        return response()->json($room_type);
+    }
+    public function getRoomPrice(){
+        if ( request()->query('min') && request()->query('max') && request()->query('type') ) {
+        //    dd('3value');
+            $type = request()->query('type');
+            $min = request()->query('min');
+            $max = request()->query('max');
+            $date_in = request()->query('date_in');
+            $dat_out = request()->query('date_out');
+
+            $rooms_bcs = DB::table('rooms')
+                    ->rightjoin('booked_packages_detail','booked_packages_detail.room_id','rooms.id')
+                    ->whereRaw("booked_packages_detail.check_in_date <=  date('$dat_out')")
+                    ->whereRaw("booked_packages_detail.check_out_date >=  date('$date_in')")
+                    ->get();
+            $id_bc_rooms =[];
+            foreach ($rooms_bcs as $rooms_bc) {
+                array_push($id_bc_rooms,$rooms_bc->room_id);
+            }
+            $free_rooms = DB::table('rooms')
+                ->leftjoin('room_type','rooms.room_type_id','room_type.id')
+                ->whereNotIn('rooms.id',$id_bc_rooms)
+                ->whereBetween('rooms.price',[$min,$max])
+                ->where('rooms.room_type_id', $type)
+                ->select('rooms.*','room_type.name_type')
+                ->get();
+            // dd($free_rooms);
+            return response()->json($free_rooms);
+        } elseif ( request()->query('min') && request()->query('max') && request()->query('bed') ) {
+            // dd('hasbed');
+            $bed = request()->query('bed');
+            $min = request()->query('min');
+            $max = request()->query('max');
+            $date_in = request()->query('date_in');
+            $dat_out = request()->query('date_out');
+
+            $rooms_bcs = DB::table('rooms')
+                    ->rightjoin('booked_packages_detail','booked_packages_detail.room_id','rooms.id')
+                    ->whereRaw("booked_packages_detail.check_in_date <=  date('$dat_out')")
+                    ->whereRaw("booked_packages_detail.check_out_date >=  date('$date_in')")
+                    ->get();
+            $id_bc_rooms =[];
+            foreach ($rooms_bcs as $rooms_bc) {
+                array_push($id_bc_rooms,$rooms_bc->room_id);
+            }
+            $free_rooms = DB::table('rooms')
+                ->leftjoin('room_type','rooms.room_type_id','room_type.id')
+                ->whereNotIn('rooms.id',$id_bc_rooms)
+                ->whereBetween('rooms.price',[$min,$max])
+                ->where('rooms.bed', $bed)
+                ->select('rooms.*','room_type.name_type')
+                ->get();
+            // dd($free_rooms);
+            return response()->json($free_rooms);
+        }
+    }
+    public function getRoomPriceMultiP(){
+        if (request()->query('min') && request()->query('max') && request()->query('type') && request()->query('bed')) {
+        //    dd('4value');
+            $bed = request()->query('bed');
+            $type = request()->query('type');
+            $min = request()->query('min');
+            $max = request()->query('max');
+            $date_in = request()->query('date_in');
+            $dat_out = request()->query('date_out');
+
+            $rooms_bcs = DB::table('rooms')
+                    ->rightjoin('booked_packages_detail','booked_packages_detail.room_id','rooms.id')
+                    ->whereRaw("booked_packages_detail.check_in_date <=  date('$dat_out')")
+                    ->whereRaw("booked_packages_detail.check_out_date >=  date('$date_in')")
+                    ->get();
+            $id_bc_rooms =[];
+            foreach ($rooms_bcs as $rooms_bc) {
+                array_push($id_bc_rooms,$rooms_bc->room_id);
+            }
+            $free_rooms = DB::table('rooms')
+                ->leftjoin('room_type','rooms.room_type_id','room_type.id')
+                ->whereNotIn('rooms.id',$id_bc_rooms)
+                ->whereBetween('rooms.price',[$min,$max])
+                ->where('rooms.bed', $bed)
+                ->where('rooms.room_type_id',$type)
+                ->select('rooms.*','room_type.name_type')
+                ->get();
+            // dd($free_rooms);
+            return response()->json($free_rooms);
+        }
+    }
+    public function getTentType() {
+        $type = request()->query('type');
+        $date_in = request()->query('date_in');
+        $dat_out = request()->query('date_out');
+
+        $tents_bc = DB::table('tents')
+            ->rightjoin('tent_details','tent_details.tent_id','tents.id')
+            ->whereRaw("tent_details.check_in_date <=  date('$dat_out')")
+            ->whereRaw("tent_details.check_out_date >=  date('$date_in')")
+            ->get();
+        $id_bc_tents =[];
+        foreach ($tents_bc as $tent_bc){
+            array_push($id_bc_tents,$tent_bc->tent_id);
+        }
+        $tents_free = DB::table('tents')
+            ->whereNotIn('id',$id_bc_tents)
+            ->where(function($query) use ($type){
+                $query->where('type', 'like', '%' .$type. '%')
+                    ->orwhere('price', 'like', '%' . $type . '%')
+                    ->orwhere('name', 'like','%' . $type . '%');
+            })
+            ->get();
+        return response()->json($tents_free);
+    }
     
 }

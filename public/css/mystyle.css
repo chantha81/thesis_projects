@@ -283,6 +283,16 @@ border-color: transparent;
 .div_form_search{
     margin-top: -20px;
 }
+.frm_room_type{
+    margin-top: 20px !important;
+    /* background-color: #282834; */
+}
+.frm_room_type button {
+    margin-top: 20px;
+}
+.boxbed input{
+    margin-left: 5px !important;
+}
 
 
 

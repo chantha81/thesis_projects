@@ -23,7 +23,7 @@
          </div>
 
       </section>
-      <section class="about" id="about">
+      <section class="about" id="about" >
          <!-- <div class="row1">
                <div class="image">
                   <img src="images/a1.jpg" alt="" width="100%">
@@ -34,12 +34,13 @@
             <div class="image">
                <img src="images/about-img-1.jpg" alt="">
             </div>
-            <div class="content">
+            <div class="content" >
                <h3>Double Suite Tree House</h3>
                <p>Featuring a king-sized bed, and private bathroom, this modern stylish accommodation is excellent for
                   couples who are looking for privacy and relaxation. Invite natural sunlight and refreshing wind blows
                   inside the room and outside lies captivating nature you’ve never seen before.</p>
-               <a href="/Booking"> <button class="primary-btn">Make Booking</button></a>
+               <!-- <a href="/Booking"> <button class="primary-btn">Make Booking</button></a> -->
+              <router-link class="primary-btn" to="/Booking">Make Booking</router-link>
             </div>
          </div>
 
@@ -51,7 +52,8 @@
                <h3>Bus Hotel</h3>
                <p>This is new hotel room in our place. Hotel Bus is the last hotel updated, and it is beauty, Health​ and
                   Suitability for you</p>
-                  <a href="/Booking"> <button class="primary-btn">Make Booking</button></a>
+                  <!-- <a href="/Booking"> <button class="primary-btn">Make Booking</button></a> -->
+                  <router-link class="primary-btn" to="/Booking">Make Booking</router-link>
             </div>
          </div>
 
@@ -65,7 +67,8 @@
                   stunning nature in modernity and comfort. Available to select from 1 King size and 1 single bed. A
                   private bathroom close to nature behind is a spacious forest with beautiful, and perfect for outdoor
                   picnics with your best favor.</p>
-               <a href="/Booking"> <button class="primary-btn">Make Booking</button></a>
+               <!-- <a href="/Booking"> <button class="primary-btn">Make Booking</button></a> -->
+               <router-link class="primary-btn" to="/Booking">Make Booking</router-link>
             </div>
          </div>
 
@@ -78,7 +81,8 @@
                <p>Opposite the Valley very fresh weather and nature with a comfortable bed, and a private bathroom facility
                   featuring hot-water showers, picnicking, and throwing bonfire parties with friends. It is just a 2-minute
                   walk from the iconic Camping Park Restaurant.</p>
-               <a href="/Booking"> <button class="primary-btn">Make Booking</button></a>
+               <!-- <a href="/Booking"> <button class="primary-btn">Make Booking</button></a> -->
+               <router-link class="primary-btn" to="/Booking">Make Booking</router-link>
             </div>
          </div>
 
@@ -91,7 +95,7 @@
 
                <div class="icon">
                   <a href="https://www.facebook.com/CampingParkKirirom"><i class="fa fab fa-facebook-square"></i></a>
-                  <a href="https://instagram.com/socheat__som?igshid=MzMyNGUyNmU2YQ=="><i
+                  <a href="https://instagram.com/campingpark_?igshid=MzMyNGUyNmU2YQ=="><i
                         class="fa fab fa-instagram-square"></i></a>
                   <a href="https://youtu.be/ojFBtjvmmEM?si=eW_e1G2R4WdSulWY"><i class="fa fab fa-youtube"></i></a>
                   <a href="https://t.me/+855965224235"><i class="fa fab fa-telegram"></i></a>

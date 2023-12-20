@@ -98,7 +98,7 @@
                                                                 <tr>
                                                                     <th scope="col">#</th>
                                                                     <th scope="col">Room</th>
-                                                                    <th scope="col">Name</th>
+                                                                    <th scope="col">Type</th>
                                                                     <th scope="col">Price</th>
                                                                     <th scope="col" style="width: 20px"><i
                                                                             class="fa-solid fa-trash"></i></th>
@@ -322,7 +322,7 @@
                                 `<tr>
                         <td id="td-check"><input type="checkbox" data-room="${element.id}" class="form-check-input clickBox" style="width:20px; height:20px"/></td>
                         <td> ${element.name}</td>
-                        <td> ${element.type} </td>
+                        <td> ${element.name_type} </td>
                         <td> ${element.bed} </td>
                         <td> ${element.price} </td>
                     </tr>`
@@ -476,7 +476,7 @@
                     `<tr>
                 <td>${element.id} <input type="hidden" name="room_ids[]" value="${element.id}"/></td>
                 <td> ${element.name}</td>
-                <td> ${element.type} </td>
+                <td> ${element.name_type} </td>
                 <td> ${element.price} </td>
                 <td> <i class="fa-solid fa-trash remove_room_from_append" style="cursor:pointer;" onclick="remove_room(${element.id})"></i></td>
              </tr>`

@@ -116,6 +116,7 @@
         height: 40px;
     }
 
+
    
 </style>
 
@@ -159,23 +160,82 @@
                             <div class="col-md-2">
                                 <button class="btn btn-success btn-search" @click="search">Update <i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
-                            
+                            <!-- <div class="col-md-6">
+                                <div class="search">
+                                    <label for="search"><i class="fa-solid fa-magnifying-glass"></i></label>
+                                    <input
+                                        type="search"
+                                        id="inputSearch"
+                                        v-model="input_search"
+                                        placeholder="Search"
+                                        aria-label="Search through site content" />
+                                    <button class="btn_search" @click="SearchRoom">Search</button>
+                                </div> 
+                            </div> -->
                         </div>
                         <div class="row items">
                             <p class="header_items"><strong>Room</strong></p>
                         </div>
                         
                         <div class="row">
-                            <div class="col-md-4" v-for="room in free_room" :key="room.id">
-                                <div class="card card_b" style="width: 90%;">
-                                    <img :src=" '/img/room/' + room.image" class="card-img-top" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Name: {{ room.name }}</h5>
-                                        <p class="card-text"><strong>Bed :</strong> {{ room.price }}</p>
-                                        <p class="card-text"><Strong>Type :</Strong> {{ room.type }}</p>
-                                        <p class="card-text"><strong>Price/Day :</strong> {{ room.price }} <strong>$</strong></p>
-                                        <p class="btn btn-success"
-                                        @click="addRoomTobooking(room)"><i class="fa-solid fa-plus"></i> Add To Booking</p>
+                                <div class="col-md-2 filter_room sticky-top">
+                                    <div class="row"><h4>Filter Room By:-</h4></div>
+                                    <!-- <div class="row" style="text-decoration-line: overline">------------------</div> -->
+                                    <div class="row">
+                                        <h4>Type:</h4>
+                                    </div>
+                                    <div class="row" v-for="room_type in allRoomType">
+                                        <div class="col-md-2 check_type">
+                                            <input type="radio"
+                                            :value="room_type.id"
+                                            v-model="type_room"
+                                            @change="checkType">
+                                        </div>
+                                        <div class="col-md-10">{{ room_type.name_type }}</div>
+                                    </div>
+                                    <div class="row">
+                                        <h4>Bed:</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 boxbed">
+                                            <input v-model="bed"
+                                            style="height: 20px;" type="text" placeholder="Bed"
+                                            @input="checkBed">
+                                          
+                                        </div>
+                                       
+                                    </div>
+                                    <div class="row">
+                                        <h4>Price:</h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <!-- <label for="">{{ price_min }}</label> -->
+                                            <input style="height: 20px;" type="text" placeholder="Min"
+                                            v-model="price_min">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input style="height: 20px;" type="text" placeholder="Max"
+                                            v-model="price_max">
+                                        </div>
+                                    </div>
+                                    <div class="row"><button type="button" class="btn btn-primary"
+                                        @click="checkPrice">Submit Price</button></div>
+                                </div>
+                            <div class="col-md-10">
+                                <div class="row">
+                                    <div class="col-md-4" v-for="room in free_room" :key="room.id">
+                                        <div class="card card_b" style="width: 90%;">
+                                            <img :src=" '/img/room/' + room.image" class="card-img-top" alt="Card image cap">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Name: {{ room.name }}</h5>
+                                                <p class="card-text"><strong>Bed :</strong> {{ room.bed }}</p>
+                                                <p class="card-text"><Strong>Type :</Strong> {{ room.name_type }}</p>
+                                                <p class="card-text"><strong>Price/Day :</strong> {{ room.price }} <strong>$</strong></p>
+                                                <p class="btn btn-success"
+                                                @click="addRoomTobooking(room)"><i class="fa-solid fa-plus"></i> Add To Booking</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -207,11 +267,11 @@
                         <div class="col-md-3 items_in_cart" v-for="room in RoomItems">
                             <div class="row">
                                 <div class="col-6">
-                                    <img class="card-img-top" src="/images//b.jpg" alt="Card image cap">
+                                    <img class="card-img-top" :src="'/img/room/' + room.image " alt="Card image cap">
                                 </div>
                                 <div class="col-6">
                                     <div class="row">Name: {{ room.name }}</div>
-                                    <div class="row">Type: {{ room.type }}</div>
+                                    <div class="row">Type: {{ room.name_type }}</div>
                                     <div class="row">Bed: {{ room.bed }}</div>
                                     <div class="row">Price/Day:{{ room.price }} $</div>
                                     <div class="row"><button class="btn btn-danger" style="width: 80px !important;" @click="removeRoomFromcart(room)"><i class="fa-solid fa-trash"></i> Remove</button></div>
@@ -224,7 +284,7 @@
                         <div class="col-md-3 items_in_cart" v-for="tent in TentItems">
                             <div class="row">
                                 <div class="col-6">
-                                    <img class="card-img-top" src="/images/camping/camping1.png" alt="Card image cap">
+                                    <img class="card-img-top" :src="'/img/tent/' + tent.image " alt="Card image cap">
                                 </div>
                                 <div class="col-6">
                                     <div class="row">Name: {{ tent.name }}</div>
@@ -261,15 +321,56 @@
                 </div>
             </div>
         </div>
-    <!-- </div> -->
+
+    <footer>
+        <div class="container grid">
+            <div class="box">
+                <img src="images/logo.png" alt="" width="140px" height="70px">
+
+                <div class="icon">
+                    <a href="https://www.facebook.com/CampingParkKirirom"><i class="fa fab fa-facebook-square"></i></a>
+                    <a href="https://instagram.com/campingpark_?igshid=MzMyNGUyNmU2YQ=="><i
+                            class="fa fab fa-instagram-square"></i></a>
+                    <a href="https://youtu.be/ojFBtjvmmEM?si=eW_e1G2R4WdSulWY"><i class="fa fab fa-youtube"></i></a>
+                    <a href="https://t.me/+855965224235"><i class="fa fab fa-telegram"></i></a>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2>Links</h2>
+                <ul>
+                    <li><router-link class="" to="/CampingPack">Home</router-link></li>
+                    <li><router-link class="" to="/Room">Room</router-link></li>
+                    <li><router-link class="" to="/ThingtoDo">Things To Do</router-link></li>
+                    <li><router-link class="" to="/Gallery">Gallery</router-link></li>
+                    <li><router-link class="" to="/Contact">Contact</router-link></li>
+                    <!-- <li><i class="fa fa-search"></i></li> -->
+                    <router-link class="" to="/Booking">Book Now</router-link>
+                </ul>
+            </div>
+
+            <div class="box">
+                <h2>Contact US</h2>
+                <p>Please contact us for more information</p>
+                <i class="fa fa-location-dot"></i>
+                <label for="">1201 Park Street, Pnom Srouch, Kampong Spue.</label>
+                <i class="fa fa-phone"></i>
+                <label for="">+855 96 522 423 5</label><br>
+                <i class="fa fa-envelope"></i>
+                <label for="">info@gmail.com</label>
+            </div>
+        </div>
+        <div class="legal">
+            <p class="container">Copyright (C) 2023 Developed by Student Technology</p>
+        </div>
+    </footer>
     
 </template>
 
 <script setup>
     import $ from 'jquery';
-    
+
     import { onMounted, ref } from 'vue';
-    // import { Swal } from 'sweetalert2';
 
     const date = ref();
     let free_room = ref([])
@@ -278,8 +379,13 @@
     let TentItems = ref([])
     let page = ref('booking')
     let cus_info = ref({name:'',phone:''})
-    console.log(free_tent, 'free tent');
-    
+    let input_search = ref();
+    const type_room = ref();
+    const allRoomType = ref([]);
+    const bed = ref();
+    const price_min = ref();
+    const price_max = ref();
+    // console.log(type_room,'type');
     
 onMounted(() => {
   const startDate = new Date();
@@ -296,6 +402,9 @@ async function search() {
     await fetch('/get-tent?date_in=' + dateformat_start + '&date_out=' + dateformat_end)
     .then((response) => response.json())
     .then((data) => { free_tent.value = data, console.log(free_tent.value,'data_tent')})
+    await fetch('/type_room')
+    .then((response) => response.json())
+    .then((data) => { allRoomType.value = data })
 }
 const format = (date) => {
     const day = date.getDate();
@@ -401,14 +510,134 @@ async function AddBooking (data_room,data_tent,info) {
                             })
                         })
                         .then(() => {
-                            this.page = "booking";                   
+                            this.page = "booking";
+                            this.RoomItems = [];                   
                         }) 
                 }
             });
    
 }
-async function add() {
+
+async function SearchRoom () {
+    const dateformat_start = format(date.value[0])
+    const dateformat_end = format(date.value[1])
+    await fetch('/search_room?type=' + input_search.value + '&date_in=' + dateformat_start + '&date_out=' + dateformat_end )
+    .then((response) => response.json())
+    .then((data) => free_room.value = data)
+    await fetch('/search_tent?type=' + input_search.value + '&date_in=' + dateformat_start + '&date_out=' + dateformat_end)
+    .then((response) => response.json())
+    .then((data) => free_tent.value = data)
 }
+
+async function checkType(){
+    // console.log(type_room);
+    if (type_room.value) {
+        const dateformat_start = format(date.value[0])
+        const dateformat_end = format(date.value[1])
+        await fetch('/search_room_bycheck?type=' + type_room.value + '&date_in=' + dateformat_start + '&date_out=' + dateformat_end )
+        .then((response) => response.json())
+        .then((data) => free_room.value = data)
+    }  else{
+        search();
+    }
+    if (bed.value) {
+        console.log('2value');
+        const dateformat_start = format(date.value[0])
+        const dateformat_end = format(date.value[1])
+        await fetch('/multi_check?type=' + type_room.value + '&bed=' + bed.value  + '&date_in=' + dateformat_start + '&date_out=' + dateformat_end )
+        .then((response) => response.json())
+        .then((data) => free_room.value = data)
+    }
+
+    // {
+    //     console.log('2value');
+    //     // const dateformat_start = format(date.value[0])
+    //     // const dateformat_end = format(date.value[1])
+    //     // await fetch('/search_room_bycheck?type=' + type_room.value[0] + '&bed=' + bed.value[0]  + '&date_in=' + dateformat_start + '&date_out=' + dateformat_end )
+    //     // .then((response) => response.json())
+    //     // .then((data) => free_room.value = data)
+    // } else{
+    //     search();
+    // }
+
+    // const dateformat_start = format(date.value[0])
+    // const dateformat_end = format(date.value[1])
+    // await fetch('/search_room?type=' + type_room.value + '&date_in=' + dateformat_start + '&date_out=' + dateformat_end )
+    // .then((response) => response.json())
+    // .then((data) => free_room.value = data)
+
+    // if (type_room === true) {
+    // console.log('checkbox');
+    // // const dateformat_start = format(date.value[0])
+    // // const dateformat_end = format(date.value[1])
+    // // await fetch('/search_room?type=' + type_room.value + '&date_in=' + dateformat_start + '&date_out=' + dateformat_end )
+    // // .then((response) => response.json())
+    // // .then((data) => free_room.value = data)
+    // } else {
+    //     console.log('nocheckbox');
+
+    // }
+    
+}
+async function checkBed(){
+    console.log(bed.value);
+    if (bed.value) {
+        const dateformat_start = format(date.value[0])
+        const dateformat_end = format(date.value[1])
+        await fetch('/search_room_bycheck?bed=' + bed.value + '&date_in=' + dateformat_start + '&date_out=' + dateformat_end )
+        .then((response) => response.json())
+        .then((data) => free_room.value = data)
+    } else {
+        search();
+    }
+    if (type_room.value) {
+        const dateformat_start = format(date.value[0])
+        const dateformat_end = format(date.value[1])
+        await fetch('/multi_check?type=' + type_room.value + '&bed=' + bed.value  + '&date_in=' + dateformat_start + '&date_out=' + dateformat_end )
+        .then((response) => response.json())
+        .then((data) => free_room.value = data)
+    }
+    if (price_min.value && price_max.value) {
+        const dateformat_start = format(date.value[0])
+        const dateformat_end = format(date.value[1])
+        await fetch('/multi_check?bed=' + bed.value + '&min=' + price_min.value + '&max=' + price_max.value  + '&date_in=' + dateformat_start + '&date_out=' + dateformat_end )
+        .then((response) => response.json())
+        .then((data) => free_room.value = data)
+    }
+}
+async function checkPrice(){
+    if (type_room.value) {
+        const dateformat_start = format(date.value[0])
+        const dateformat_end = format(date.value[1])
+        await fetch('/check_price?min=' + price_min.value + '&max=' + price_max.value + '&date_in=' + dateformat_start + '&date_out=' + dateformat_end + '&type=' + type_room.value )
+        .then((response) => response.json())
+        .then((data) => free_room.value = data)
+    }
+    else {
+        const dateformat_start = format(date.value[0])
+        const dateformat_end = format(date.value[1])
+        await fetch('/search_room_bycheck?min=' + price_min.value + '&max=' + price_max.value + '&date_in=' + dateformat_start + '&date_out=' + dateformat_end )
+        .then((response) => response.json())
+        .then((data) => free_room.value = data)
+    }
+    if (bed.value) {
+        const dateformat_start = format(date.value[0])
+        const dateformat_end = format(date.value[1])
+        await fetch('/check_price?min=' + price_min.value + '&max=' + price_max.value + '&date_in=' + dateformat_start + '&date_out=' + dateformat_end + '&bed=' + bed.value )
+        .then((response) => response.json())
+        .then((data) => free_room.value = data)
+    }
+    if (type_room.value && bed.value) {
+        const dateformat_start = format(date.value[0])
+        const dateformat_end = format(date.value[1])
+        await fetch('/check_price_multiP?min=' + price_min.value + '&max=' + price_max.value + '&date_in=' + dateformat_start + '&date_out=' + dateformat_end + '&type='+type_room.value+ '&bed=' + bed.value )
+        .then((response) => response.json())
+        .then((data) => free_room.value = data)
+    }
+    
+}
+
+
 </script>
 
 

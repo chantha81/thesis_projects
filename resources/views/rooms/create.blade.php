@@ -43,7 +43,13 @@
 								<div class="col-md-4">
 									<div class="form-group">
                                         <label for="">Type</label>
-                                        <input  type="text" name ="type" class="form-control">
+										<select class="form-control" id="type" name="type">
+											<option value="option_select" disabled selected>Select</option>
+												@foreach($room_type as $type)
+													<option value="{{ $type->id }}">{{ $type->name_type}}</option>
+												@endforeach
+										</select>
+                                        {{-- <input  type="select" name ="type" class="form-control"> --}}
 									</div>
 								</div>
                                 <div class="col-md-4">

@@ -20,7 +20,7 @@ export default {
     <section class="home">
         <div class="content">
             <div class="item">
-                <Slider />
+                <Slider></Slider>
             </div>
         </div>
     </section>
@@ -30,12 +30,11 @@ export default {
     </div>
 </section> -->
 <div class="qr">
-    <p>QR For payment</p>
+    <p>QR For payment after Booking</p>
     <div class="" style="display: flex;
     justify-content: center;
     align-items: center; text-align:center;
     margin-top:1rem;">
-   
         <img src="images/riel_qr.jpg" alt="" style="width: 150px; height:150px;d">
         <img src="images/dollar_qr.jpg" alt="" style="width: 150px; height:150px;">
     </div>
@@ -88,7 +87,7 @@ export default {
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                 </div>
-                                <p>This Cottage is popular for now</p>
+                                <p>This Deluxe is popular for now</p>
                                 <div class="button flex">
                                     <!-- <button class="primary-btn">BOOK NOW</button> -->
                                     <a href="/Booking"> <button class="primary-btn">Booking</button></a>
@@ -134,7 +133,7 @@ export default {
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                 </div>
-                                <p>This Cottage is popular for now</p>
+                                <p>This Hotel Bus is the lasttest update</p>
                                 <div class="button flex">
                                     <!-- <button class="primary-btn">BOOK NOW</button> -->
                                     <a href="/Booking"> <button class="primary-btn">Booking</button></a>
@@ -538,13 +537,13 @@ export default {
     }
 })
 </script> -->
-    <section class="newsletter mtop">
+    <!-- <section class="newsletter mtop">
         <div class="container flex_space">
             <h1>Please contact us via:</h1>
             <input type="text" placeholder="Your Email">
             <input type="text" value="Subscribe">
         </div>
-    </section>
+    </section> -->
 
     <footer>
         <div class="container grid">
@@ -553,7 +552,7 @@ export default {
 
                 <div class="icon">
                     <a href="https://www.facebook.com/CampingParkKirirom"><i class="fa fab fa-facebook-square"></i></a>
-                    <a href="https://instagram.com/socheat__som?igshid=MzMyNGUyNmU2YQ=="><i
+                    <a href="https://instagram.com/campingpark_?igshid=MzMyNGUyNmU2YQ=="><i
                             class="fa fab fa-instagram-square"></i></a>
                     <a href="https://youtu.be/ojFBtjvmmEM?si=eW_e1G2R4WdSulWY"><i class="fa fab fa-youtube"></i></a>
                     <a href="https://t.me/+855965224235"><i class="fa fab fa-telegram"></i></a>
